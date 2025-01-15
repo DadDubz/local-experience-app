@@ -1,0 +1,64 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+        mongodb-version: [4.4]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.3.0
+      with:
+        mongodb-version: ${{ matrix.mongodb-version }}
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+      env:
+        NODE_ENV: test
+        MONGODB_URI: mongodb://localhost:27017/test-db
+        JWT_SECRET: test-secret
+
+    - name: Upload coverage
+      uses: codecov/codecov-action@v2
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Deploy to Production
+      run: |
+        echo "Add your deployment commands here"
+      env:
+        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
+Would you like me to:
+1. Add production deployment configuration?
+2. Set up monitoring configuration?
+3. Add more GitHub Actions workflows?
+4. Add quality check workflows?
+
+Let me know which you'd like to see next!
