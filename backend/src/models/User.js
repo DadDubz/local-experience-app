@@ -31,21 +31,13 @@ const userSchema = new mongoose.Schema({
             defaultRadius: { type: Number, default: 50 }
         }
     },
-    licenses: [{
-        type: { type: String, required: true },
-        number: { type: String, required: true },
-        issuedDate: Date,
-        expiryDate: Date,
-        state: String,
-        status: {
-            type: String,
-            enum: ['active', 'expired', 'revoked'],
-            default: 'active'
-        }
+    favorites: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Location'
     }],
     role: {
         type: String,
-        enum: ['user', 'guide', 'admin'],
+        enum: ['user', 'admin'],
         default: 'user'
     },
     status: {
@@ -68,7 +60,7 @@ userSchema.pre('save', async function(next) {
     next();
 });
 
-// Method to compare password
+// Compare password method
 userSchema.methods.comparePassword = async function(candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
 };

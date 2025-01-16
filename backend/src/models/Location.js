@@ -9,9 +9,13 @@ const locationSchema = new mongoose.Schema({
     type: {
         type: String,
         required: true,
-        enum: ['lake', 'river', 'ocean', 'pond', 'stream']
+        enum: ['trail', 'fishing_spot', 'camping_site', 'public_land', 'viewpoint']
     },
-    coordinates: {
+    description: {
+        type: String,
+        required: true
+    },
+    location: {
         type: {
             type: String,
             enum: ['Point'],
@@ -22,60 +26,50 @@ const locationSchema = new mongoose.Schema({
             required: true
         }
     },
-    description: String,
-    features: [{
+    activities: [{
         type: String,
-        enum: ['boat_launch', 'dock', 'parking', 'restroom', 'camping']
+        enum: ['hiking', 'fishing', 'camping', 'wildlife_viewing', 'photography']
     }],
-    species: [{
-        name: String,
-        seasonality: {
-            start: Date,
-            end: Date
-        },
-        commonality: {
-            type: String,
-            enum: ['rare', 'common', 'abundant']
+    amenities: [{
+        type: String,
+        enum: ['parking', 'restrooms', 'camping', 'boat_launch', 'picnic_area']
+    }],
+    difficulty: {
+        type: String,
+        enum: ['easy', 'moderate', 'difficult', 'expert'],
+        required: function() {
+            return this.type === 'trail';
+        }
+    },
+    seasonality: {
+        bestSeasons: [String],
+        openingHours: String,
+        weatherConsiderations: String
+    },
+    images: [{
+        url: String,
+        caption: String,
+        uploadedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
         }
     }],
-    regulations: {
-        licensesRequired: [String],
-        restrictions: [String],
-        dailyLimits: [{
-            species: String,
-            limit: Number
-        }]
-    },
-    accessibility: {
-        wheelchairAccessible: Boolean,
-        roadAccess: Boolean,
-        parkingAvailable: Boolean,
-        difficulty: {
-            type: String,
-            enum: ['easy', 'moderate', 'difficult']
-        }
-    },
-    weather: {
-        lastUpdated: Date,
-        conditions: String,
-        temperature: Number,
-        windSpeed: Number,
-        precipitation: Number
-    },
-    ratings: {
-        average: {
-            type: Number,
-            default: 0
-        },
-        count: {
-            type: Number,
-            default: 0
-        }
+    reviews: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review'
+    }],
+    rating: {
+        average: { type: Number, default: 0 },
+        count: { type: Number, default: 0 }
     },
     status: {
         type: String,
-        enum: ['open', 'closed', 'warning'],
-        default: 'open'
+        enum: ['active', 'inactive', 'closed_temporarily', 'closed_permanently'],
+        default: 'active'
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     createdAt: {
         type: Date,
@@ -88,6 +82,8 @@ const locationSchema = new mongoose.Schema({
 });
 
 // Index for geospatial queries
-locationSchema.index({ coordinates: '2dsphere' });
+locationSchema.index({ location: '2dsphere' });
+// Index for text search
+locationSchema.index({ name: 'text', description: 'text' });
 
 module.exports = mongoose.model('Location', locationSchema);
