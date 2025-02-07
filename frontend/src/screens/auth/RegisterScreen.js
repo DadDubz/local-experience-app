@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,39 +8,43 @@ import {
   Alert,
   SafeAreaView,
   ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 const RegisterScreen = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigation = useNavigation();
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
+      Alert.alert("Error", "Passwords do not match");
       return;
     }
 
     try {
-      const response = await axios.post('http://your-api-url/api/auth/register', {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://your-api-url/api/auth/register",
+        {
+          name,
+          email,
+          password,
+        },
+      );
 
       if (response.data.success) {
-        Alert.alert(
-          'Success',
-          'Registration successful! Please login.',
-          [{ text: 'OK', onPress: () => navigation.navigate('Login') }]
-        );
+        Alert.alert("Success", "Registration successful! Please login.", [
+          { text: "OK", onPress: () => navigation.navigate("Login") },
+        ]);
       }
     } catch (error) {
-      Alert.alert('Registration Failed', error.response?.data?.message || 'An error occurred');
+      Alert.alert(
+        "Registration Failed",
+        error.response?.data?.message || "An error occurred",
+      );
     }
   };
 
@@ -87,8 +91,8 @@ const RegisterScreen = () => {
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            onPress={() => navigation.navigate('Login')}
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Login")}
             style={styles.loginLink}
           >
             <Text style={styles.loginText}>
@@ -104,7 +108,7 @@ const RegisterScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   scrollContent: {
     flexGrow: 1,
@@ -112,42 +116,42 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 40,
-    color: '#2c3e50',
+    color: "#2c3e50",
   },
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderRadius: 8,
     paddingHorizontal: 15,
     marginBottom: 15,
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#3498db',
+    backgroundColor: "#3498db",
     padding: 15,
     borderRadius: 8,
     marginTop: 10,
   },
   buttonText: {
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   loginLink: {
     marginTop: 20,
   },
   loginText: {
-    color: '#3498db',
-    textAlign: 'center',
+    color: "#3498db",
+    textAlign: "center",
     fontSize: 14,
   },
 });

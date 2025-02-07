@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,44 +7,44 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapView, { Marker } from 'react-native-maps';
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import MapView, { Marker } from "react-native-maps";
 
 const FishingSpotScreen = ({ route, navigation }) => {
   const [spot, setSpot] = useState({
-    name: 'Crystal Lake',
-    type: 'Lake',
-    species: ['Bass', 'Trout', 'Catfish'],
+    name: "Crystal Lake",
+    type: "Lake",
+    species: ["Bass", "Trout", "Catfish"],
     bestTimes: {
-      timeOfDay: 'Early Morning, Late Evening',
-      seasons: ['Spring', 'Summer']
+      timeOfDay: "Early Morning, Late Evening",
+      seasons: ["Spring", "Summer"],
     },
     facilities: [
-      'Boat Launch',
-      'Parking',
-      'Restrooms',
-      'Fish Cleaning Station'
+      "Boat Launch",
+      "Parking",
+      "Restrooms",
+      "Fish Cleaning Station",
     ],
     regulations: {
-      license: 'Required',
+      license: "Required",
       limits: {
         bass: 5,
         trout: 3,
-        catfish: 10
-      }
+        catfish: 10,
+      },
     },
     coordinates: {
       latitude: 37.7749,
-      longitude: -122.4194
-    }
+      longitude: -122.4194,
+    },
   });
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Image
-          source={{ uri: 'fishing-spot-image-url' }}
+          source={{ uri: "fishing-spot-image-url" }}
           style={styles.image}
         />
 
@@ -63,10 +63,7 @@ const FishingSpotScreen = ({ route, navigation }) => {
               longitudeDelta: 0.0421,
             }}
           >
-            <Marker
-              coordinate={spot.coordinates}
-              title={spot.name}
-            />
+            <Marker coordinate={spot.coordinates} title={spot.name} />
           </MapView>
         </View>
 
@@ -91,7 +88,7 @@ const FishingSpotScreen = ({ route, navigation }) => {
           <View style={styles.infoRow}>
             <Icon name="event" size={20} color="#666" />
             <Text style={styles.infoText}>
-              Best Seasons: {spot.bestTimes.seasons.join(', ')}
+              Best Seasons: {spot.bestTimes.seasons.join(", ")}
             </Text>
           </View>
         </View>
@@ -110,16 +107,21 @@ const FishingSpotScreen = ({ route, navigation }) => {
           <Text style={styles.sectionTitle}>Regulations</Text>
           <View style={styles.infoRow}>
             <Icon name="card-membership" size={20} color="#666" />
-            <Text style={styles.infoText}>License: {spot.regulations.license}</Text>
+            <Text style={styles.infoText}>
+              License: {spot.regulations.license}
+            </Text>
           </View>
           <Text style={styles.subTitle}>Catch Limits:</Text>
-          {Object.entries(spot.regulations.limits).map(([fish, limit], index) => (
-            <View key={index} style={styles.limitRow}>
-              <Text style={styles.limitText}>
-                {fish.charAt(0).toUpperCase() + fish.slice(1)}: {limit} per day
-              </Text>
-            </View>
-          ))}
+          {Object.entries(spot.regulations.limits).map(
+            ([fish, limit], index) => (
+              <View key={index} style={styles.limitRow}>
+                <Text style={styles.limitText}>
+                  {fish.charAt(0).toUpperCase() + fish.slice(1)}: {limit} per
+                  day
+                </Text>
+              </View>
+            ),
+          )}
         </View>
 
         <View style={styles.buttonContainer}>
@@ -142,30 +144,30 @@ const FishingSpotScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 250,
   },
   headerContainer: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   type: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
   },
   mapContainer: {
     margin: 15,
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   map: {
     height: 200,
@@ -173,21 +175,21 @@ const styles = StyleSheet.create({
   sectionContainer: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   speciesContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   speciesItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f8f9fa",
     padding: 10,
     borderRadius: 20,
     marginRight: 10,
@@ -198,8 +200,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   infoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   infoText: {
@@ -208,7 +210,7 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginVertical: 10,
   },
   limitRow: {
@@ -219,32 +221,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 15,
     marginBottom: 20,
   },
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#3498db',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#3498db",
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,
   },
   secondaryButton: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#3498db',
+    borderColor: "#3498db",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     marginLeft: 10,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   secondaryButtonText: {
-    color: '#3498db',
+    color: "#3498db",
   },
 });
 

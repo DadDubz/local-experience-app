@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,51 +6,51 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+  SafeAreaView,
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const UserProfileScreen = ({ route, navigation }) => {
   const [user, setUser] = useState({
-    id: '1',
-    name: 'John Doe',
-    username: '@johndoe',
-    bio: 'Outdoor enthusiast | Trail runner | Nature photographer',
-    location: 'Mountain View, CA',
-    joinDate: 'January 2024',
+    id: "1",
+    name: "John Doe",
+    username: "@johndoe",
+    bio: "Outdoor enthusiast | Trail runner | Nature photographer",
+    location: "Mountain View, CA",
+    joinDate: "January 2024",
     stats: {
       trips: 45,
       reviews: 23,
       photos: 156,
       followers: 89,
-      following: 124
+      following: 124,
     },
     recentActivities: [
       {
-        id: '1',
-        type: 'review',
-        location: 'Mountain Trail',
-        date: '2 days ago'
+        id: "1",
+        type: "review",
+        location: "Mountain Trail",
+        date: "2 days ago",
       },
       {
-        id: '2',
-        type: 'photo',
-        location: 'Crystal Lake',
-        date: '1 week ago'
-      }
+        id: "2",
+        type: "photo",
+        location: "Crystal Lake",
+        date: "1 week ago",
+      },
     ],
     badges: [
       {
-        id: '1',
-        name: 'Trail Expert',
-        icon: 'terrain'
+        id: "1",
+        name: "Trail Expert",
+        icon: "terrain",
       },
       {
-        id: '2',
-        name: 'Photo Pro',
-        icon: 'camera'
-      }
-    ]
+        id: "2",
+        name: "Photo Pro",
+        icon: "camera",
+      },
+    ],
   });
 
   const isOwnProfile = route.params?.userId === user.id;
@@ -61,13 +61,12 @@ const UserProfileScreen = ({ route, navigation }) => {
         <View style={styles.header}>
           <Image
             style={styles.profileImage}
-            source={{ uri: 'https://via.placeholder.com/150' }}
+            source={{ uri: "https://via.placeholder.com/150" }}
           />
-          
           {isOwnProfile ? (
             <TouchableOpacity
               style={styles.editButton}
-              onPress={() => navigation.navigate('EditProfile')}
+              onPress={() => navigation.navigate("EditProfile")}
             >
               <Icon name="edit" size={20} color="#fff" />
             </TouchableOpacity>
@@ -76,19 +75,14 @@ const UserProfileScreen = ({ route, navigation }) => {
               <Text style={styles.followButtonText}>Follow</Text>
             </TouchableOpacity>
           )}
-          
           <Text style={styles.name}>{user.name}</Text>
           <Text style={styles.username}>{user.username}</Text>
-          
           <View style={styles.locationContainer}>
             <Icon name="location-on" size={16} color="#666" />
             <Text style={styles.location}>{user.location}</Text>
           </View>
-          
-          // ... (previous code remains the same until the Text style={styles.location})
-
-          <Text style={styles.bio}>{user.bio}</Text>
-          
+          // ... (previous code remains the same until the Text style=
+          {styles.location})<Text style={styles.bio}>{user.bio}</Text>
           <View style={styles.joinDateContainer}>
             <Icon name="event" size={16} color="#666" />
             <Text style={styles.joinDate}>Joined {user.joinDate}</Text>
@@ -139,16 +133,19 @@ const UserProfileScreen = ({ route, navigation }) => {
             <TouchableOpacity
               key={activity.id}
               style={styles.activityItem}
-              onPress={() => navigation.navigate('ActivityDetail', { activity })}
+              onPress={() =>
+                navigation.navigate("ActivityDetail", { activity })
+              }
             >
               <Icon
-                name={activity.type === 'review' ? 'rate-review' : 'photo'}
+                name={activity.type === "review" ? "rate-review" : "photo"}
                 size={24}
                 color="#666"
               />
               <View style={styles.activityContent}>
                 <Text style={styles.activityText}>
-                  {activity.type === 'review' ? 'Reviewed' : 'Added photo to'} {activity.location}
+                  {activity.type === "review" ? "Reviewed" : "Added photo to"}{" "}
+                  {activity.location}
                 </Text>
                 <Text style={styles.activityDate}>{activity.date}</Text>
               </View>
@@ -164,13 +161,13 @@ const UserProfileScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   profileImage: {
     width: 120,
@@ -179,114 +176,114 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   editButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     right: 20,
-    backgroundColor: '#3498db',
+    backgroundColor: "#3498db",
     padding: 8,
     borderRadius: 20,
   },
   followButton: {
-    backgroundColor: '#3498db',
+    backgroundColor: "#3498db",
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 20,
     marginBottom: 15,
   },
   followButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
   name: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   username: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
     marginBottom: 10,
   },
   locationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   location: {
     marginLeft: 5,
-    color: '#666',
+    color: "#666",
   },
   bio: {
-    textAlign: 'center',
-    color: '#333',
+    textAlign: "center",
+    color: "#333",
     marginBottom: 10,
   },
   joinDateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   joinDate: {
     marginLeft: 5,
-    color: '#666',
+    color: "#666",
   },
   statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   statItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   statNumber: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   statLabel: {
-    color: '#666',
+    color: "#666",
   },
   followContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   followStats: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   followNumber: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   followLabel: {
-    color: '#666',
+    color: "#666",
   },
   section: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 15,
   },
   badgeContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginRight: 20,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: "#f8f9fa",
     padding: 10,
     borderRadius: 10,
   },
   badgeName: {
     marginTop: 5,
-    color: '#333',
+    color: "#333",
   },
   activityItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 10,
   },
   activityContent: {
@@ -297,7 +294,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   activityDate: {
-    color: '#666',
+    color: "#666",
     fontSize: 14,
   },
 });

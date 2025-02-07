@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,14 +7,14 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
-  RefreshControl
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+  RefreshControl,
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const SavedLocationsScreen = ({ navigation }) => {
   const [savedLocations, setSavedLocations] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     fetchSavedLocations();
@@ -24,25 +24,25 @@ const SavedLocationsScreen = ({ navigation }) => {
     // Mock data - replace with API call
     const mockLocations = [
       {
-        id: '1',
-        name: 'Crystal Lake Trail',
-        type: 'trail',
-        distance: '5.2 miles',
-        difficulty: 'Moderate',
+        id: "1",
+        name: "Crystal Lake Trail",
+        type: "trail",
+        distance: "5.2 miles",
+        difficulty: "Moderate",
         rating: 4.5,
-        image: 'https://via.placeholder.com/150',
-        savedDate: '2025-01-14'
+        image: "https://via.placeholder.com/150",
+        savedDate: "2025-01-14",
       },
       {
-        id: '2',
-        name: 'Mountain Peak Campground',
-        type: 'camping',
-        distance: '12 miles',
-        amenities: ['Water', 'Restrooms'],
+        id: "2",
+        name: "Mountain Peak Campground",
+        type: "camping",
+        distance: "12 miles",
+        amenities: ["Water", "Restrooms"],
         rating: 4.8,
-        image: 'https://via.placeholder.com/150',
-        savedDate: '2025-01-13'
-      }
+        image: "https://via.placeholder.com/150",
+        savedDate: "2025-01-13",
+      },
     ];
     setSavedLocations(mockLocations);
   };
@@ -56,7 +56,9 @@ const SavedLocationsScreen = ({ navigation }) => {
   const renderLocationCard = ({ item }) => (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => navigation.navigate('LocationDetail', { locationId: item.id })}
+      onPress={() =>
+        navigation.navigate("LocationDetail", { locationId: item.id })
+      }
     >
       <Image source={{ uri: item.image }} style={styles.cardImage} />
       <View style={styles.cardContent}>
@@ -85,9 +87,7 @@ const SavedLocationsScreen = ({ navigation }) => {
         {item.amenities && (
           <View style={styles.cardInfo}>
             <Icon name="hotel" size={16} color="#666" />
-            <Text style={styles.cardInfoText}>
-              {item.amenities.join(', ')}
-            </Text>
+            <Text style={styles.cardInfoText}>{item.amenities.join(", ")}</Text>
           </View>
         )}
 
@@ -103,8 +103,8 @@ const SavedLocationsScreen = ({ navigation }) => {
   );
 
   const handleRemoveSaved = (locationId) => {
-    setSavedLocations(prev => 
-      prev.filter(location => location.id !== locationId)
+    setSavedLocations((prev) =>
+      prev.filter((location) => location.id !== locationId),
     );
   };
 
@@ -112,14 +112,16 @@ const SavedLocationsScreen = ({ navigation }) => {
     <TouchableOpacity
       style={[
         styles.filterButton,
-        filter === value && styles.filterButtonActive
+        filter === value && styles.filterButtonActive,
       ]}
       onPress={() => setFilter(value)}
     >
-      <Text style={[
-        styles.filterButtonText,
-        filter === value && styles.filterButtonTextActive
-      ]}>
+      <Text
+        style={[
+          styles.filterButtonText,
+          filter === value && styles.filterButtonTextActive,
+        ]}
+      >
         {title}
       </Text>
     </TouchableOpacity>
@@ -135,24 +137,19 @@ const SavedLocationsScreen = ({ navigation }) => {
       </View>
 
       <FlatList
-        data={savedLocations.filter(location => 
-          filter === 'all' ? true : location.type === filter
+        data={savedLocations.filter((location) =>
+          filter === "all" ? true : location.type === filter,
         )}
         renderItem={renderLocationCard}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         ListEmptyComponent={() => (
           <View style={styles.emptyContainer}>
             <Icon name="bookmark-border" size={48} color="#ccc" />
-            <Text style={styles.emptyText}>
-              No saved locations found
-            </Text>
+            <Text style={styles.emptyText}>No saved locations found</Text>
           </View>
         )}
       />
@@ -163,38 +160,38 @@ const SavedLocationsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   filterContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   filterButton: {
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
     marginRight: 10,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: "#f8f9fa",
   },
   filterButtonActive: {
-    backgroundColor: '#3498db',
+    backgroundColor: "#3498db",
   },
   filterButtonText: {
-    color: '#666',
+    color: "#666",
   },
   filterButtonTextActive: {
-    color: '#fff',
+    color: "#fff",
   },
   listContainer: {
     padding: 15,
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     marginBottom: 15,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -204,7 +201,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardImage: {
-    width: '100%',
+    width: "100%",
     height: 150,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -213,55 +210,55 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
   cardTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     flex: 1,
   },
   favoriteButton: {
     padding: 5,
   },
   cardInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 5,
   },
   cardInfoText: {
     marginLeft: 5,
-    color: '#666',
+    color: "#666",
   },
   cardFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 10,
   },
   ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   rating: {
     marginLeft: 5,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   savedDate: {
-    color: '#999',
+    color: "#999",
     fontSize: 12,
   },
   emptyContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: 40,
   },
   emptyText: {
     marginTop: 10,
-    color: '#666',
+    color: "#666",
     fontSize: 16,
   },
 });

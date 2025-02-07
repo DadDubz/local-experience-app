@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
   Text,
-} from 'react-native';
-import MapView, { Marker, Callout } from 'react-native-maps';
-import * as Location from 'expo-location';
+} from "react-native";
+import MapView, { Marker, Callout } from "react-native-maps";
+import * as Location from "expo-location";
 
 const MapScreen = () => {
   const [region, setRegion] = useState({
@@ -23,8 +23,8 @@ const MapScreen = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
         return;
       }
 
@@ -44,12 +44,12 @@ const MapScreen = () => {
   const fetchNearbyLocations = async (lat, lng) => {
     try {
       const response = await fetch(
-        `YOUR_API_ENDPOINT/locations?lat=${lat}&lng=${lng}&radius=50`
+        `YOUR_API_ENDPOINT/locations?lat=${lat}&lng=${lng}&radius=50`,
       );
       const data = await response.json();
       setLocations(data);
     } catch (error) {
-      console.error('Error fetching locations:', error);
+      console.error("Error fetching locations:", error);
     }
   };
 
@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
   callout: {
     width: 200,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
   calloutTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   calloutDescription: {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   calloutDistance: {
     fontSize: 12,
-    color: '#666',
+    color: "#666",
   },
 });
 

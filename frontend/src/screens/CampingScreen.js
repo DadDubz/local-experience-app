@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,48 +7,40 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapView, { Marker } from 'react-native-maps';
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import MapView, { Marker } from "react-native-maps";
 
 const CampingScreen = ({ navigation }) => {
   const [campsite, setCampsite] = useState({
-    name: 'Pine Valley Campground',
-    type: 'Developed Campground',
-    price: '$25/night',
+    name: "Pine Valley Campground",
+    type: "Developed Campground",
+    price: "$25/night",
     amenities: [
-      'Drinking Water',
-      'Restrooms',
-      'Fire Pits',
-      'Picnic Tables',
-      'RV Hookups'
+      "Drinking Water",
+      "Restrooms",
+      "Fire Pits",
+      "Picnic Tables",
+      "RV Hookups",
     ],
-    activities: [
-      'Hiking',
-      'Fishing',
-      'Wildlife Viewing',
-      'Photography'
-    ],
+    activities: ["Hiking", "Fishing", "Wildlife Viewing", "Photography"],
     regulations: [
-      'Quiet hours: 10PM - 6AM',
-      'Pets must be leashed',
-      'Maximum stay: 14 days'
+      "Quiet hours: 10PM - 6AM",
+      "Pets must be leashed",
+      "Maximum stay: 14 days",
     ],
     coordinates: {
       latitude: 37.7749,
-      longitude: -122.4194
+      longitude: -122.4194,
     },
-    availability: 'Available',
-    reservationRequired: true
+    availability: "Available",
+    reservationRequired: true,
   });
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Image
-          source={{ uri: 'campsite-image-url' }}
-          style={styles.image}
-        />
+        <Image source={{ uri: "campsite-image-url" }} style={styles.image} />
 
         <View style={styles.infoContainer}>
           <Text style={styles.title}>{campsite.name}</Text>
@@ -63,16 +55,19 @@ const CampingScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.availabilityContainer}>
-          <Text style={[
-            styles.availability,
-            { color: campsite.availability === 'Available' ? '#4CAF50' : '#f44336' }
-          ]}>
+          <Text
+            style={[
+              styles.availability,
+              {
+                color:
+                  campsite.availability === "Available" ? "#4CAF50" : "#f44336",
+              },
+            ]}
+          >
             {campsite.availability}
           </Text>
           {campsite.reservationRequired && (
-            <Text style={styles.reservationRequired}>
-              Reservation Required
-            </Text>
+            <Text style={styles.reservationRequired}>Reservation Required</Text>
           )}
         </View>
 
@@ -86,10 +81,7 @@ const CampingScreen = ({ navigation }) => {
               longitudeDelta: 0.0421,
             }}
           >
-            <Marker
-              coordinate={campsite.coordinates}
-              title={campsite.name}
-            />
+            <Marker coordinate={campsite.coordinates} title={campsite.name} />
           </MapView>
         </View>
 
@@ -126,17 +118,21 @@ const CampingScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.button}
-            onPress={() => {/* Handle reservation */}}
+            onPress={() => {
+              /* Handle reservation */
+            }}
           >
             <Icon name="event" size={20} color="#fff" />
             <Text style={styles.buttonText}>Make Reservation</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
+
+          <TouchableOpacity
             style={[styles.button, styles.secondaryButton]}
-            onPress={() => {/* Handle directions */}}
+            onPress={() => {
+              /* Handle directions */
+            }}
           >
             <Icon name="directions" size={20} color="#3498db" />
             <Text style={[styles.buttonText, styles.secondaryButtonText]}>
@@ -152,59 +148,59 @@ const CampingScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 250,
   },
   infoContainer: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   typeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 5,
   },
   type: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
     marginLeft: 5,
   },
   priceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   price: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
     marginLeft: 5,
   },
   availabilityContainer: {
     padding: 15,
-    backgroundColor: '#f8f9fa',
-    alignItems: 'center',
+    backgroundColor: "#f8f9fa",
+    alignItems: "center",
   },
   availability: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   reservationRequired: {
     fontSize: 14,
-    color: '#666',
+    color: "#666",
     marginTop: 5,
   },
   mapContainer: {
     margin: 15,
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   map: {
     height: 200,
@@ -212,16 +208,16 @@ const styles = StyleSheet.create({
   sectionContainer: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   listItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   listItemText: {
@@ -229,13 +225,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   activitiesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   activityItem: {
-    width: '50%',
-    flexDirection: 'row',
-    alignItems: 'center',
+    width: "50%",
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 15,
   },
   activityText: {
@@ -243,32 +239,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 15,
     marginBottom: 20,
   },
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#3498db',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#3498db",
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,
   },
   secondaryButton: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#3498db',
+    borderColor: "#3498db",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     marginLeft: 10,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   secondaryButtonText: {
-    color: '#3498db',
+    color: "#3498db",
   },
 });
 

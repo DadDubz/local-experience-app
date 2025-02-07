@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -6,23 +6,23 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
 
   const categories = [
-    { id: 1, title: 'Trails', screen: 'Trails' },
-    { id: 2, title: 'Fishing Spots', screen: 'FishingSpots' },
-    { id: 3, title: 'Camping', screen: 'Camping' },
-    { id: 4, title: 'Public Lands', screen: 'PublicLands' },
+    { id: 1, title: "Trails", screen: "Trails" },
+    { id: 2, title: "Fishing Spots", screen: "FishingSpots" },
+    { id: 3, title: "Camping", screen: "Camping" },
+    { id: 4, title: "Public Lands", screen: "PublicLands" },
   ];
 
   const recentActivities = [
-    { id: 1, title: 'Mountain Trail', type: 'Trail', distance: '2.5 miles' },
-    { id: 2, title: 'Lake View', type: 'Fishing', distance: '5 miles' },
-    { id: 3, title: 'Forest Camp', type: 'Camping', distance: '8 miles' },
+    { id: 1, title: "Mountain Trail", type: "Trail", distance: "2.5 miles" },
+    { id: 2, title: "Lake View", type: "Fishing", distance: "5 miles" },
+    { id: 3, title: "Forest Camp", type: "Camping", distance: "8 miles" },
   ];
 
   return (
@@ -31,7 +31,7 @@ const HomeScreen = () => {
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Discover</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+          <TouchableOpacity onPress={() => navigation.navigate("Search")}>
             <Text style={styles.searchButton}>🔍</Text>
           </TouchableOpacity>
         </View>
@@ -59,7 +59,9 @@ const HomeScreen = () => {
             <TouchableOpacity
               key={activity.id}
               style={styles.activityCard}
-              onPress={() => navigation.navigate('ActivityDetail', { activity })}
+              onPress={() =>
+                navigation.navigate("ActivityDetail", { activity })
+              }
             >
               <View>
                 <Text style={styles.activityTitle}>{activity.title}</Text>
@@ -77,17 +79,17 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20,
   },
   headerTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   searchButton: {
     fontSize: 24,
@@ -97,43 +99,43 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 15,
   },
   categoryCard: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     padding: 20,
     marginRight: 15,
     borderRadius: 10,
     minWidth: 120,
-    alignItems: 'center',
+    alignItems: "center",
   },
   categoryTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   recentContainer: {
     padding: 20,
   },
   activityCard: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 15,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#f8f8f8",
     marginBottom: 10,
     borderRadius: 10,
   },
   activityTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   activityType: {
-    color: '#666',
+    color: "#666",
     marginTop: 5,
   },
   activityDistance: {
-    color: '#666',
+    color: "#666",
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,34 +8,34 @@ import {
   Image,
   ScrollView,
   Alert,
-  SafeAreaView
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+  SafeAreaView,
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const EditProfileScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
-    name: 'John Doe',
-    username: 'johndoe',
-    email: 'john@example.com',
-    bio: 'Outdoor enthusiast | Trail runner | Nature photographer',
-    location: 'Mountain View, CA',
-    phone: '(555) 123-4567'
+    name: "John Doe",
+    username: "johndoe",
+    email: "john@example.com",
+    bio: "Outdoor enthusiast | Trail runner | Nature photographer",
+    location: "Mountain View, CA",
+    phone: "(555) 123-4567",
   });
 
   const updateField = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleSave = async () => {
     try {
       // API call to update profile
-      Alert.alert('Success', 'Profile updated successfully');
+      Alert.alert("Success", "Profile updated successfully");
       navigation.goBack();
     } catch (error) {
-      Alert.alert('Error', 'Failed to update profile');
+      Alert.alert("Error", "Failed to update profile");
     }
   };
 
@@ -44,7 +44,7 @@ const EditProfileScreen = ({ navigation }) => {
       <ScrollView>
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/150' }}
+            source={{ uri: "https://via.placeholder.com/150" }}
             style={styles.profileImage}
           />
           <TouchableOpacity style={styles.imageEditButton}>
@@ -58,7 +58,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               value={formData.name}
-              onChangeText={(text) => updateField('name', text)}
+              onChangeText={(text) => updateField("name", text)}
               placeholder="Enter your name"
             />
           </View>
@@ -68,7 +68,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               value={formData.username}
-              onChangeText={(text) => updateField('username', text)}
+              onChangeText={(text) => updateField("username", text)}
               placeholder="Enter your username"
             />
           </View>
@@ -78,7 +78,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               value={formData.email}
-              onChangeText={(text) => updateField('email', text)}
+              onChangeText={(text) => updateField("email", text)}
               placeholder="Enter your email"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -90,7 +90,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={[styles.input, styles.bioInput]}
               value={formData.bio}
-              onChangeText={(text) => updateField('bio', text)}
+              onChangeText={(text) => updateField("bio", text)}
               placeholder="Tell us about yourself"
               multiline
               numberOfLines={4}
@@ -102,7 +102,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               value={formData.location}
-              onChangeText={(text) => updateField('location', text)}
+              onChangeText={(text) => updateField("location", text)}
               placeholder="Enter your location"
             />
           </View>
@@ -112,7 +112,7 @@ const EditProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               value={formData.phone}
-              onChangeText={(text) => updateField('phone', text)}
+              onChangeText={(text) => updateField("phone", text)}
               placeholder="Enter your phone number"
               keyboardType="phone-pad"
             />
@@ -120,10 +120,7 @@ const EditProfileScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.saveButton}
-            onPress={handleSave}
-          >
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
             <Text style={styles.saveButtonText}>Save Changes</Text>
           </TouchableOpacity>
 
@@ -142,10 +139,10 @@ const EditProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   imageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 20,
   },
   profileImage: {
@@ -154,15 +151,15 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   imageEditButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
-    right: '35%',
-    backgroundColor: '#3498db',
+    right: "35%",
+    backgroundColor: "#3498db",
     width: 36,
     height: 36,
     borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   formContainer: {
     padding: 20,
@@ -172,47 +169,47 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
     marginBottom: 5,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
   },
   bioInput: {
     height: 100,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
   buttonContainer: {
     padding: 20,
   },
   saveButton: {
-    backgroundColor: '#3498db',
+    backgroundColor: "#3498db",
     padding: 15,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 10,
   },
   saveButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   cancelButton: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 15,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: '#3498db',
+    borderColor: "#3498db",
   },
   cancelButtonText: {
-    color: '#3498db',
+    color: "#3498db",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

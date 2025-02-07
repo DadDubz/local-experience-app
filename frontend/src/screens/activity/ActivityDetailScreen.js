@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,49 +6,47 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  SafeAreaView
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapView, { Marker } from 'react-native-maps';
+  SafeAreaView,
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import MapView, { Marker } from "react-native-maps";
 
 const ActivityDetailScreen = ({ route, navigation }) => {
   const [activity, setActivity] = useState({
-    id: '1',
-    type: 'Hiking',
-    title: 'Mountain Trail Adventure',
-    date: '2025-01-14',
-    duration: '2h 30m',
-    distance: '5.2',
-    elevation: '1,200',
+    id: "1",
+    type: "Hiking",
+    title: "Mountain Trail Adventure",
+    date: "2025-01-14",
+    duration: "2h 30m",
+    distance: "5.2",
+    elevation: "1,200",
     location: {
-      name: 'Mountain Trail',
+      name: "Mountain Trail",
       coordinates: {
         latitude: 37.7749,
-        longitude: -122.4194
-      }
+        longitude: -122.4194,
+      },
     },
     stats: {
-      avgPace: '15:30',
-      maxElevation: '2,500',
-      calories: '450'
+      avgPace: "15:30",
+      maxElevation: "2,500",
+      calories: "450",
     },
-    photos: [
-      'photo1.jpg',
-      'photo2.jpg'
-    ],
-    notes: 'Great trail conditions today. Spotted some wildlife and amazing views.',
+    photos: ["photo1.jpg", "photo2.jpg"],
+    notes:
+      "Great trail conditions today. Spotted some wildlife and amazing views.",
     weather: {
-      temperature: '72°F',
-      conditions: 'Partly Cloudy',
-      humidity: '45%'
-    }
+      temperature: "72°F",
+      conditions: "Partly Cloudy",
+      humidity: "45%",
+    },
   });
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Image
-          source={{ uri: 'https://via.placeholder.com/400x200' }}
+          source={{ uri: "https://via.placeholder.com/400x200" }}
           style={styles.coverImage}
         />
 
@@ -98,19 +96,23 @@ const ActivityDetailScreen = ({ route, navigation }) => {
 
         <View style={styles.detailsContainer}>
           <Text style={styles.sectionTitle}>Details</Text>
-          
+
           <View style={styles.detailRow}>
             <Icon name="speed" size={20} color="#666" />
             <Text style={styles.detailLabel}>Average Pace:</Text>
-            <Text style={styles.detailValue}>{activity.stats.avgPace} min/mi</Text>
+            <Text style={styles.detailValue}>
+              {activity.stats.avgPace} min/mi
+            </Text>
           </View>
-          
+
           <View style={styles.detailRow}>
             <Icon name="trending-up" size={20} color="#666" />
             <Text style={styles.detailLabel}>Max Elevation:</Text>
-            <Text style={styles.detailValue}>{activity.stats.maxElevation} ft</Text>
+            <Text style={styles.detailValue}>
+              {activity.stats.maxElevation} ft
+            </Text>
           </View>
-          
+
           <View style={styles.detailRow}>
             <Icon name="local-fire-department" size={20} color="#666" />
             <Text style={styles.detailLabel}>Calories:</Text>
@@ -123,9 +125,15 @@ const ActivityDetailScreen = ({ route, navigation }) => {
           <View style={styles.weatherContent}>
             <Icon name="wb-sunny" size={48} color="#f1c40f" />
             <View style={styles.weatherDetails}>
-              <Text style={styles.temperature}>{activity.weather.temperature}</Text>
-              <Text style={styles.conditions}>{activity.weather.conditions}</Text>
-              <Text style={styles.humidity}>Humidity: {activity.weather.humidity}</Text>
+              <Text style={styles.temperature}>
+                {activity.weather.temperature}
+              </Text>
+              <Text style={styles.conditions}>
+                {activity.weather.conditions}
+              </Text>
+              <Text style={styles.humidity}>
+                Humidity: {activity.weather.humidity}
+              </Text>
             </View>
           </View>
         </View>
@@ -141,7 +149,7 @@ const ActivityDetailScreen = ({ route, navigation }) => {
             {activity.photos.map((photo, index) => (
               <TouchableOpacity key={index} style={styles.photoContainer}>
                 <Image
-                  source={{ uri: 'https://via.placeholder.com/150' }}
+                  source={{ uri: "https://via.placeholder.com/150" }}
                   style={styles.photo}
                 />
               </TouchableOpacity>
@@ -163,47 +171,47 @@ const ActivityDetailScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   coverImage: {
-    width: '100%',
+    width: "100%",
     height: 200,
   },
   header: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   date: {
     marginLeft: 5,
-    color: '#666',
+    color: "#666",
   },
   statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   statItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   statValue: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 5,
   },
   statLabel: {
-    color: '#666',
+    color: "#666",
     marginTop: 2,
   },
   mapContainer: {
@@ -211,7 +219,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   map: {
@@ -221,11 +229,11 @@ const styles = StyleSheet.create({
   detailsContainer: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   detailRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   detailLabel: {
@@ -233,41 +241,41 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   detailValue: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   weatherContainer: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   weatherContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   weatherDetails: {
     marginLeft: 15,
   },
   temperature: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   conditions: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
   },
   humidity: {
     fontSize: 14,
-    color: '#999',
+    color: "#999",
   },
   notesContainer: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   notes: {
     fontSize: 16,
     lineHeight: 24,
-    color: '#333',
+    color: "#333",
   },
   photosContainer: {
     padding: 15,
@@ -285,17 +293,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#3498db',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#3498db",
     padding: 15,
     borderRadius: 8,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginLeft: 10,
   },
 });

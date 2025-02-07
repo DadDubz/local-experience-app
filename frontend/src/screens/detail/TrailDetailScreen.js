@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,33 +7,30 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapView, { Marker, Polyline } from 'react-native-maps';
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import MapView, { Marker, Polyline } from "react-native-maps";
 
 const TrailDetailScreen = ({ route, navigation }) => {
   const [trail, setTrail] = useState({
-    name: 'Mountain Trail',
-    difficulty: 'Moderate',
-    length: '5.2',
-    elevation: '1,200',
-    type: 'Loop',
+    name: "Mountain Trail",
+    difficulty: "Moderate",
+    length: "5.2",
+    elevation: "1,200",
+    type: "Loop",
     rating: 4.5,
     reviews: 128,
-    description: 'Beautiful mountain trail with scenic views...',
+    description: "Beautiful mountain trail with scenic views...",
     coordinates: [
       { latitude: 37.7749, longitude: -122.4194 },
       // Add more coordinates for trail path
-    ]
+    ],
   });
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Image
-          source={{ uri: 'trail-image-url' }}
-          style={styles.image}
-        />
+        <Image source={{ uri: "trail-image-url" }} style={styles.image} />
 
         <View style={styles.infoContainer}>
           <Text style={styles.title}>{trail.name}</Text>
@@ -71,10 +68,7 @@ const TrailDetailScreen = ({ route, navigation }) => {
               strokeColor="#3498db"
               strokeWidth={3}
             />
-            <Marker
-              coordinate={trail.coordinates[0]}
-              title="Trail Start"
-            />
+            <Marker coordinate={trail.coordinates[0]} title="Trail Start" />
           </MapView>
         </View>
 
@@ -82,7 +76,9 @@ const TrailDetailScreen = ({ route, navigation }) => {
           <Text style={styles.sectionTitle}>Trail Details</Text>
           <View style={styles.detailRow}>
             <Icon name="terrain" size={20} color="#666" />
-            <Text style={styles.detailText}>Difficulty: {trail.difficulty}</Text>
+            <Text style={styles.detailText}>
+              Difficulty: {trail.difficulty}
+            </Text>
           </View>
           <View style={styles.detailRow}>
             <Icon name="loop" size={20} color="#666" />
@@ -90,7 +86,9 @@ const TrailDetailScreen = ({ route, navigation }) => {
           </View>
           <View style={styles.detailRow}>
             <Icon name="star" size={20} color="#666" />
-            <Text style={styles.detailText}>Rating: {trail.rating} ({trail.reviews} reviews)</Text>
+            <Text style={styles.detailText}>
+              Rating: {trail.rating} ({trail.reviews} reviews)
+            </Text>
           </View>
         </View>
 
@@ -106,7 +104,9 @@ const TrailDetailScreen = ({ route, navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.secondaryButton]}>
             <Icon name="share" size={20} color="#3498db" />
-            <Text style={[styles.buttonText, styles.secondaryButtonText]}>Share</Text>
+            <Text style={[styles.buttonText, styles.secondaryButtonText]}>
+              Share
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -117,10 +117,10 @@ const TrailDetailScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 250,
   },
   infoContainer: {
@@ -128,34 +128,34 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 15,
   },
   statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: '#f0f0f0',
+    borderColor: "#f0f0f0",
     paddingVertical: 15,
   },
   statItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   statValue: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 5,
   },
   statLabel: {
     fontSize: 12,
-    color: '#666',
+    color: "#666",
     marginTop: 2,
   },
   mapContainer: {
     margin: 15,
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   map: {
     height: 200,
@@ -165,12 +165,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   detailRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   detailText: {
@@ -183,35 +183,35 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     lineHeight: 24,
-    color: '#333',
+    color: "#333",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     padding: 15,
     marginBottom: 20,
   },
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#3498db',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#3498db",
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,
   },
   secondaryButton: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#3498db',
+    borderColor: "#3498db",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     marginLeft: 10,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   secondaryButtonText: {
-    color: '#3498db',
+    color: "#3498db",
   },
 });
 

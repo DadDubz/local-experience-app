@@ -1,8 +1,8 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import MainNavigator from './navigation/MainNavigator';
-import AuthNavigator from './navigation/AuthNavigator';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import MainNavigator from "./navigation/MainNavigator";
+import AuthNavigator from "./navigation/AuthNavigator";
 
 const Stack = createStackNavigator();
 

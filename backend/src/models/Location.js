@@ -1,89 +1,97 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const locationSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ["trail", "fishing_spot", "camping_site", "public_land", "viewpoint"],
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  location: {
     type: {
-        type: String,
-        required: true,
-        enum: ['trail', 'fishing_spot', 'camping_site', 'public_land', 'viewpoint']
+      type: String,
+      enum: ["Point"],
+      default: "Point",
     },
-    description: {
-        type: String,
-        required: true
+    coordinates: {
+      type: [Number],
+      required: true,
     },
-    location: {
-        type: {
-            type: String,
-            enum: ['Point'],
-            default: 'Point'
-        },
-        coordinates: {
-            type: [Number],
-            required: true
-        }
+  },
+  activities: [
+    {
+      type: String,
+      enum: ["hiking", "fishing", "camping", "wildlife_viewing", "photography"],
     },
-    activities: [{
-        type: String,
-        enum: ['hiking', 'fishing', 'camping', 'wildlife_viewing', 'photography']
-    }],
-    amenities: [{
-        type: String,
-        enum: ['parking', 'restrooms', 'camping', 'boat_launch', 'picnic_area']
-    }],
-    difficulty: {
-        type: String,
-        enum: ['easy', 'moderate', 'difficult', 'expert'],
-        required: function() {
-            return this.type === 'trail';
-        }
+  ],
+  amenities: [
+    {
+      type: String,
+      enum: ["parking", "restrooms", "camping", "boat_launch", "picnic_area"],
     },
-    seasonality: {
-        bestSeasons: [String],
-        openingHours: String,
-        weatherConsiderations: String
+  ],
+  difficulty: {
+    type: String,
+    enum: ["easy", "moderate", "difficult", "expert"],
+    required: function () {
+      return this.type === "trail";
     },
-    images: [{
-        url: String,
-        caption: String,
-        uploadedBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }
-    }],
-    reviews: [{
+  },
+  seasonality: {
+    bestSeasons: [String],
+    openingHours: String,
+    weatherConsiderations: String,
+  },
+  images: [
+    {
+      url: String,
+      caption: String,
+      uploadedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Review'
-    }],
-    rating: {
-        average: { type: Number, default: 0 },
-        count: { type: Number, default: 0 }
+        ref: "User",
+      },
     },
-    status: {
-        type: String,
-        enum: ['active', 'inactive', 'closed_temporarily', 'closed_permanently'],
-        default: 'active'
+  ],
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
     },
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
-    }
+  ],
+  rating: {
+    average: { type: Number, default: 0 },
+    count: { type: Number, default: 0 },
+  },
+  status: {
+    type: String,
+    enum: ["active", "inactive", "closed_temporarily", "closed_permanently"],
+    default: "active",
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 // Index for geospatial queries
-locationSchema.index({ location: '2dsphere' });
+locationSchema.index({ location: "2dsphere" });
 // Index for text search
-locationSchema.index({ name: 'text', description: 'text' });
+locationSchema.index({ name: "text", description: "text" });
 
-module.exports = mongoose.model('Location', locationSchema);
+module.exports = mongoose.model("Location", locationSchema);
