@@ -12,10 +12,16 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 18.x]
-        mongodb-version: [4.4]  # More stable in CI/CD
+        mongodb-version: [4.4]  # Stable for CI/CD
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 1  # Ensures the full repo is cloned
+
+    - name: Print Current Directory
+      run: pwd && ls -la
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -29,15 +35,13 @@ jobs:
         mongodb-version: ${{ matrix.mongodb-version }}
 
     - name: Wait for MongoDB to start
-      run: sleep 10s  # Ensures MongoDB is ready before running tests
+      run: sleep 10s
 
-    - name: Check MongoDB Status
-      run: ps aux | grep mongo
-
-    - name: Install backend dependencies
+    - name: Install dependencies (Backend)
       run: npm ci
+      working-directory: backend  # Change this if your package.json is in a different folder
 
-    - name: Install frontend dependencies (if exists)
+    - name: Install frontend dependencies (If Exists)
       run: |
         if [ -d "frontend" ]; then cd frontend && npm ci; fi
 
@@ -48,8 +52,9 @@ jobs:
         MONGODB_URI: mongodb://localhost:27017/test
         JWT_SECRET: test_secret
         NODE_ENV: test
+      working-directory: backend  # Ensure it runs in the correct directory
 
-    - name: Run frontend tests (if exists)
+    - name: Run frontend tests (If Exists)
       working-directory: ./frontend
       run: |
         if [ -d "frontend" ]; then npm test; fi
@@ -81,6 +86,7 @@ jobs:
         MONGODB_URI: mongodb://localhost:27017/test
         JWT_SECRET: test_secret
         NODE_ENV: test
+      working-directory: backend  # Adjust if needed
 
     - name: Check for npm vulnerabilities
       run: |
