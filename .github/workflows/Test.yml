@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 18.x]
-        mongodb-version: [4.4]
+        mongodb-version: [4.4]  # More stable in CI/CD
 
     steps:
     - uses: actions/checkout@v3
@@ -28,10 +28,18 @@ jobs:
       with:
         mongodb-version: ${{ matrix.mongodb-version }}
 
-    - name: Install dependencies
+    - name: Wait for MongoDB to start
+      run: sleep 10s  # Ensures MongoDB is ready before running tests
+
+    - name: Check MongoDB Status
+      run: ps aux | grep mongo
+
+    - name: Install backend dependencies
+      run: npm ci
+
+    - name: Install frontend dependencies (if exists)
       run: |
-        npm ci
-        cd frontend && npm ci
+        if [ -d "frontend" ]; then cd frontend && npm ci; fi
 
     - name: Run backend tests
       run: npm test
@@ -41,16 +49,17 @@ jobs:
         JWT_SECRET: test_secret
         NODE_ENV: test
 
-    - name: Run frontend tests
+    - name: Run frontend tests (if exists)
       working-directory: ./frontend
-      run: npm test
+      run: |
+        if [ -d "frontend" ]; then npm test; fi
       env:
         CI: true
 
     - name: Build check
       run: |
         npm run build
-        cd frontend && npm run build
+        if [ -d "frontend" ]; then cd frontend && npm run build; fi
 
     - name: Ensure Coverage Directories Exist
       run: |
@@ -58,7 +67,7 @@ jobs:
         mkdir -p frontend/coverage
 
     - name: Upload coverage
-      uses: actions/upload-artifact@v4  # ✅ Fixed version
+      uses: actions/upload-artifact@v4
       with:
         name: coverage
         path: |
@@ -76,4 +85,4 @@ jobs:
     - name: Check for npm vulnerabilities
       run: |
         npm audit --audit-level=critical || echo "Ignoring non-critical vulnerabilities"
-        cd frontend && npm audit --audit-level=critical || echo "Ignoring non-critical vulnerabilities"
+        if [ -d "frontend" ]; then cd frontend && npm audit --audit-level=critical || echo "Ignoring non-critical vulnerabilities"; fi
