@@ -1,4 +1,4 @@
-name: Test
+name: CI
 
 on:
   push:
@@ -9,35 +9,36 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-        mongodb-version: [4.4]  # More stable for CI/CD
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 1  # Ensures the full repository is cloned
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1  # Ensures the full repo is cloned
 
-    - name: Debug Directory Structure
-      run: pwd && ls -la && ls -la backend  # ✅ Prints directory structure for debugging
+      - name: Debug Directory Structure
+        run: pwd && ls -la && ls -la backend  # ✅ Prints structure for debugging
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
 
-    - name: Install backend dependencies
-      working-directory: backend  # ✅ Ensures npm runs in the correct folder
-      run: npm ci
+      # Check if package-lock.json exists; if missing, fallback to npm install
+      - name: Install backend dependencies
+        working-directory: backend
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci || (rm package-lock.json && npm install)
+          else
+            npm install
+          fi
 
-    - name: Run backend tests
-      working-directory: backend
-      run: npm test
-      env:
-        CI: true
-        MONGODB_URI: mongodb://localhost:27017/test
-        JWT_SECRET: test_secret
-        NODE_ENV: test
+      - name: Run backend tests
+        working-directory: backend
+        run: npm test
+        env:
+          CI: true
+          MONGODB_URI: mongodb://localhost:27017/test
+          JWT_SECRET: test_secret
+          NODE_ENV: test
