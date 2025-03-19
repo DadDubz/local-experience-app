@@ -13,10 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 1  # Ensures the full repo is cloned
+          fetch-depth: 1  # Ensures full repo is cloned
 
       - name: Debug Directory Structure
-        run: pwd && ls -la && ls -la backend  # ✅ Prints structure for debugging
+        run: pwd && ls -la && ls -la backend frontend  # ✅ Prints structure for debugging
 
       - name: Use Node.js 18.x
         uses: actions/setup-node@v3
@@ -24,9 +24,18 @@ jobs:
           node-version: 18
           cache: 'npm'
 
-      # Check if package-lock.json exists; if missing, fallback to npm install
+      # Ensure package-lock.json exists and install dependencies
       - name: Install backend dependencies
-        working-directory: backend  # ✅ Runs in the correct directory
+        working-directory: backend
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci || (rm package-lock.json && npm install)
+          else
+            npm install
+          fi
+
+      - name: Install frontend dependencies
+        working-directory: frontend
         run: |
           if [ -f package-lock.json ]; then
             npm ci || (rm package-lock.json && npm install)
