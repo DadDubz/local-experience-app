@@ -26,7 +26,7 @@ jobs:
 
       # Check if package-lock.json exists; if missing, fallback to npm install
       - name: Install backend dependencies
-        working-directory: backend
+        working-directory: backend  # ✅ Runs in the correct directory
         run: |
           if [ -f package-lock.json ]; then
             npm ci || (rm package-lock.json && npm install)
