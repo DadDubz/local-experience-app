@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 18.x]
-        mongodb-version: [4.4]  # More stable version for CI/CD
+        mongodb-version: [4.4]  # More stable for CI/CD
 
     steps:
       - name: Checkout Repository
@@ -29,10 +29,37 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      # Stop old MongoDB processes (if any)
+      - name: Stop old MongoDB instances (if any)
+        run: |
+          sudo systemctl stop mongod || true
+          docker stop $(docker ps -q --filter ancestor=mongo) || true
+          docker rm $(docker ps -aq --filter ancestor=mongo) || true
+
+      # Start MongoDB on a different port to avoid conflicts
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: "4.4"
+          mongodb-port: 27017  # Standard MongoDB port
+
+      - name: Wait for MongoDB to start
+        run: sleep 20s  # Increased wait time to ensure MongoDB is ready
+
+      - name: Check MongoDB Status
+        run: ps aux | grep mongo  # Debugging step
+
+      # Install backend dependencies in the correct directory
       - name: Install backend dependencies
         working-directory: backend
         run: npm ci
 
+      # Install frontend dependencies if the frontend folder exists
+      - name: Install frontend dependencies (If Exists)
+        run: |
+          if [ -d "frontend" ]; then cd frontend && npm ci; fi
+
+      # Run backend tests in the correct directory
       - name: Run backend tests
         working-directory: backend
         run: npm test
@@ -41,3 +68,26 @@ jobs:
           MONGODB_URI: mongodb://localhost:27017/test
           JWT_SECRET: test_secret
           NODE_ENV: test
+
+      # Run frontend tests only if frontend exists
+      - name: Run frontend tests (If Exists)
+        working-directory: frontend
+        run: |
+          if [ -d "frontend" ]; then npm test; fi
+        env:
+          CI: true
+
+      # Run build process
+      - name: Build check
+        run: |
+          npm run build
+          if [ -d "frontend" ]; then cd frontend && npm run build; fi
+
+      # Upload test coverage
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            backend/coverage/
+            frontend/coverage/
