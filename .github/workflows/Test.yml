@@ -12,10 +12,16 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 18.x]
-        mongodb-version: [4.4]  # More stable in CI/CD
+        mongodb-version: [4.4]  # More stable version for CI/CD
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 1  # Ensures full repo is cloned
+
+    - name: Debug Working Directory
+      run: pwd && ls -la  # Prints the current directory to check if package.json is present
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -23,49 +29,67 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
+    # Stop any old MongoDB processes (if running)
+    - name: Stop old MongoDB instances (if any)
+      run: |
+        sudo systemctl stop mongod || true
+        docker stop $(docker ps -q --filter ancestor=mongo) || true
+        docker rm $(docker ps -aq --filter ancestor=mongo) || true
+
+    # Start MongoDB on a different port to avoid conflicts
     - name: Start MongoDB
       uses: supercharge/mongodb-github-action@1.10.0
       with:
-        mongodb-version: ${{ matrix.mongodb-version }}
+        mongodb-version: "4.4"
+        mongodb-port: 27018  # Updated port
 
     - name: Wait for MongoDB to start
-      run: sleep 10s  # Ensures MongoDB is ready before running tests
+      run: sleep 20s  # Increased wait time to ensure MongoDB is ready
 
     - name: Check MongoDB Status
-      run: ps aux | grep mongo
+      run: ps aux | grep mongo  # Debugging step
 
+    # Install backend dependencies in the correct directory
     - name: Install backend dependencies
+      working-directory: backend  # ✅ Ensure we're inside the backend folder
       run: npm ci
 
-    - name: Install frontend dependencies (if exists)
+    # Install frontend dependencies if the frontend folder exists
+    - name: Install frontend dependencies (If Exists)
       run: |
         if [ -d "frontend" ]; then cd frontend && npm ci; fi
 
+    # Run backend tests in the correct directory
     - name: Run backend tests
+      working-directory: backend  # ✅ Runs in the correct location
       run: npm test
       env:
         CI: true
-        MONGODB_URI: mongodb://localhost:27017/test
+        MONGODB_URI: mongodb://localhost:27018/test  # Updated port
         JWT_SECRET: test_secret
         NODE_ENV: test
 
-    - name: Run frontend tests (if exists)
-      working-directory: ./frontend
+    # Run frontend tests only if frontend exists
+    - name: Run frontend tests (If Exists)
+      working-directory: frontend
       run: |
         if [ -d "frontend" ]; then npm test; fi
       env:
         CI: true
 
+    # Run build process
     - name: Build check
       run: |
         npm run build
         if [ -d "frontend" ]; then cd frontend && npm run build; fi
 
+    # Ensure coverage directories exist before uploading
     - name: Ensure Coverage Directories Exist
       run: |
         mkdir -p coverage
         mkdir -p frontend/coverage
 
+    # Upload test coverage
     - name: Upload coverage
       uses: actions/upload-artifact@v4
       with:
@@ -74,14 +98,17 @@ jobs:
           coverage/
           frontend/coverage/
 
+    # Run integration tests
     - name: Run integration tests
+      working-directory: backend  # ✅ Ensure tests run in the correct directory
       run: npm run test:integration
       env:
         CI: true
-        MONGODB_URI: mongodb://localhost:27017/test
+        MONGODB_URI: mongodb://localhost:27018/test
         JWT_SECRET: test_secret
         NODE_ENV: test
 
+    # Check for npm vulnerabilities
     - name: Check for npm vulnerabilities
       run: |
         npm audit --audit-level=critical || echo "Ignoring non-critical vulnerabilities"
