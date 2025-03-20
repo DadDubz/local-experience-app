@@ -24,3 +24,13 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+node_modules
+
+# Sentry Config File
+.sentryclirc
