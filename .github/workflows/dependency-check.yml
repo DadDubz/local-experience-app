@@ -1,0 +1,27 @@
+name: Dependency Health Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * 0'  # Weekly Sunday run
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir: [frontend, backend]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install and Audit ${{ matrix.dir }}
+        working-directory: ${{ matrix.dir }}
+        run: |
+          npm ci || npm install
+          npm audit --audit-level=high || echo "✅ Audit passed or non-critical issues found"

@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-  "start": "react-native start",
-  "android": "react-native run-android",
-  "ios": "react-native run-ios",
-  "build": "expo build",
-  "test": "jest"
-},
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "build": "expo build",
+    "test": "jest",
+    "preinstall": "npx npm-force-resolutions"
+  },
   "dependencies": {
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
@@ -28,5 +29,9 @@
     "@babel/runtime": "^7.20.0",
     "@react-native/metro-config": "^0.72.11",
     "metro-react-native-babel-preset": "0.76.8"
+  },
+  "resolutions": {
+    "ip": "2.0.0"
   }
 }
+
