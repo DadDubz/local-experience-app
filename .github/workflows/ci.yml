@@ -13,10 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 1  # Ensures the full repo is cloned
+          fetch-depth: 1  # Ensures full repo is cloned
 
       - name: Debug Directory Structure
-        run: pwd && ls -la && ls -la backend  # ✅ Prints structure for debugging
+        run: pwd && ls -la && ls -la backend frontend  # ✅ Prints structure for debugging
 
       - name: Use Node.js 18.x
         uses: actions/setup-node@v3
@@ -33,11 +33,20 @@ jobs:
             npm install
           fi
 
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
       - name: Run backend tests
-        working-directory: backend  # ✅ Ensures tests run in the correct folder
+        working-directory: backend
         run: npm test
         env:
           CI: true
           MONGODB_URI: mongodb://localhost:27017/test
-          JWT_SECRET: test_secret
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
           NODE_ENV: test
