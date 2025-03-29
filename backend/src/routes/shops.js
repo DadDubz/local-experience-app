@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const BaitShopService = require("../services/baitShopService");
-const authMiddleware = require("../middleware/authMiddleware");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Get nearby shops
 router.get("/", async (req, res) => {
