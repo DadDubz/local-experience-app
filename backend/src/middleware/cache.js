@@ -1,16 +1,12 @@
-// src/middleware/cache.js
 const Redis = require("ioredis");
-const config = require("../config/config");
 
-// Initialize Redis client with enhanced error handling
+// Initialize Redis client with Redis Cloud credentials
 const redis = new Redis({
   host: process.env.REDIS_HOST,
   port: process.env.REDIS_PORT,
+  username: process.env.REDIS_USERNAME || 'default',
   password: process.env.REDIS_PASSWORD,
-  retryStrategy: (times) => {
-    const delay = Math.min(times * 50, 2000);
-    return delay;
-  },
+  retryStrategy: (times) => Math.min(times * 50, 2000),
   maxRetriesPerRequest: 3,
   enableReadyCheck: true,
   showFriendlyErrorStack: process.env.NODE_ENV !== 'production'
@@ -22,9 +18,10 @@ redis.on('error', (error) => {
 });
 
 redis.on('connect', () => {
-  console.log('Redis connected');
+  console.log('✅ Redis connected');
 });
 
+// Cache types
 const CACHE_TYPES = {
   WEATHER: 'weather',
   TRAILS: 'trails',
@@ -34,34 +31,20 @@ const CACHE_TYPES = {
 };
 
 const cacheMiddleware = {
-  // Enhanced cache middleware with type-specific durations
+  // Cache middleware
   cache: (type = null, customDuration = null) => {
     return async (req, res, next) => {
-      if (req.method !== "GET") {
-        return next();
-      }
+      if (req.method !== "GET") return next();
 
-      // Set cache duration based on data type
       let duration = customDuration;
       if (!duration) {
         switch (type) {
-          case CACHE_TYPES.WEATHER:
-            duration = 1800; // 30 minutes for weather
-            break;
-          case CACHE_TYPES.TRAILS:
-            duration = 86400; // 24 hours for trails
-            break;
-          case CACHE_TYPES.FISHING:
-            duration = 3600; // 1 hour for fishing spots
-            break;
-          case CACHE_TYPES.GUIDES:
-            duration = 43200; // 12 hours for guides
-            break;
-          case CACHE_TYPES.USER:
-            duration = 300; // 5 minutes for user data
-            break;
-          default:
-            duration = 3600; // 1 hour default
+          case CACHE_TYPES.WEATHER: duration = 1800; break;
+          case CACHE_TYPES.TRAILS: duration = 86400; break;
+          case CACHE_TYPES.FISHING: duration = 3600; break;
+          case CACHE_TYPES.GUIDES: duration = 43200; break;
+          case CACHE_TYPES.USER: duration = 300; break;
+          default: duration = 3600;
         }
       }
 
@@ -70,18 +53,14 @@ const cacheMiddleware = {
       try {
         const cachedData = await redis.get(key);
         if (cachedData) {
-          // Add cache hit monitoring
           await redis.hincrby('cache:metrics', 'hits', 1);
           return res.json(JSON.parse(cachedData));
         }
 
-        // Add cache miss monitoring
         await redis.hincrby('cache:metrics', 'misses', 1);
 
-        // Modify response to store cache
         const originalJson = res.json;
         res.json = function (data) {
-          // Don't cache error responses
           if (res.statusCode === 200) {
             redis.setex(key, duration, JSON.stringify(data));
           }
@@ -96,19 +75,20 @@ const cacheMiddleware = {
     };
   },
 
-  // Clear cache with more specific patterns
+  // Clear cache by type or pattern
   clearCache: (type = null, pattern = '*') => {
     return async (req, res, next) => {
       try {
-        const searchPattern = type ? 
-          `cache:${type}:${pattern}` : 
-          `cache:${pattern}`;
+        const searchPattern = type
+          ? `cache:${type}:${pattern}`
+          : `cache:${pattern}`;
 
         const keys = await redis.keys(searchPattern);
         if (keys.length > 0) {
           await redis.del(keys);
-          console.log(`Cleared ${keys.length} cache entries for pattern: ${searchPattern}`);
+          console.log(`🧹 Cleared ${keys.length} keys for pattern: ${searchPattern}`);
         }
+
         next();
       } catch (error) {
         console.error("Cache clear error:", error);
@@ -117,11 +97,11 @@ const cacheMiddleware = {
     };
   },
 
-  // Batch cache operations
+  // Batch insert data into cache
   batchCacheData: async (items) => {
     try {
       const pipeline = redis.pipeline();
-      
+
       items.forEach(({ key, data, duration = 3600, type = null }) => {
         const cacheKey = type ? `cache:${type}:${key}` : `cache:${key}`;
         pipeline.setex(cacheKey, duration, JSON.stringify(data));
@@ -135,30 +115,30 @@ const cacheMiddleware = {
     }
   },
 
-  // Get multiple cached items
+  // Batch get cached data
   getBatchCachedData: async (keys, type = null) => {
     try {
-      const cacheKeys = keys.map(key => 
+      const cacheKeys = keys.map(key =>
         type ? `cache:${type}:${key}` : `cache:${key}`
       );
-      
+
       const results = await redis.mget(cacheKeys);
-      return results.map(item => item ? JSON.parse(item) : null);
+      return results.map(item => (item ? JSON.parse(item) : null));
     } catch (error) {
       console.error("Batch cache get error:", error);
       return keys.map(() => null);
     }
   },
 
-  // Cache with geospatial support
+  // Add geospatial data to cache
   cacheGeoData: async (key, longitude, latitude, data, duration = 3600) => {
     try {
       const pipeline = redis.pipeline();
       const dataKey = `cache:geo:${key}:data`;
-      
+
       pipeline.setex(dataKey, duration, JSON.stringify(data));
-      pipeline.geoadd(`cache:geo:locations`, longitude, latitude, key);
-      
+      pipeline.geoadd('cache:geo:locations', longitude, latitude, key);
+
       await pipeline.exec();
       return true;
     } catch (error) {
@@ -167,7 +147,7 @@ const cacheMiddleware = {
     }
   },
 
-  // Get cached data by radius search
+  // Retrieve geospatial data by radius
   getGeoDataByRadius: async (longitude, latitude, radius, unit = 'km') => {
     try {
       const locations = await redis.georadius(
@@ -196,20 +176,21 @@ const cacheMiddleware = {
     }
   },
 
-  // Cache metrics
+  // Cache performance metrics
   getCacheMetrics: async () => {
     try {
       const metrics = await redis.hgetall('cache:metrics');
+      const hits = parseInt(metrics.hits || 0);
+      const misses = parseInt(metrics.misses || 0);
+      const total = hits + misses;
       return {
-        hits: parseInt(metrics.hits || 0),
-        misses: parseInt(metrics.misses || 0),
-        ratio: metrics.hits ? 
-          (parseInt(metrics.hits) / (parseInt(metrics.hits) + parseInt(metrics.misses))) * 100 : 
-          0
+        hits,
+        misses,
+        ratio: total ? (hits / total * 100).toFixed(2) : '0.00'
       };
     } catch (error) {
       console.error("Metrics error:", error);
-      return { hits: 0, misses: 0, ratio: 0 };
+      return { hits: 0, misses: 0, ratio: '0.00' };
     }
   }
 };
