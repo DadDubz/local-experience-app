@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
 });
 
 // Get user licenses
-router.get("/licenses", authMiddleware, async (req, res) => {
+router.get("/licenses", authMiddleware.verifyToken, async (req, res) => {
   try {
     const licenses = await AuthService.getUserLicenses(req.user.id);
     res.json(licenses);
