@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const WeatherAlertService = require("../services/weatherAlertService");
-const authMiddleware = require("../middleware/authMiddleware");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Get current weather alerts
 router.get("/alerts", async (req, res) => {
