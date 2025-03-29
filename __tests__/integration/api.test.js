@@ -88,12 +88,13 @@ describe('API Tests', () => {
                 });
 
             token = res.body.token;
+            expect(token).toBeDefined(); // Ensure token is defined
         });
 
         it('should access protected route with token', async () => {
             const res = await request(app)
                 .get('/api/user/profile')
-                .set('Authorization', `Bearer ${token}`);
+                .set('Authorization', 'Bearer ' + token);
 
             expect(res.statusCode).toBe(200);
             expect(res.body.user._id).toBe(userId.toString());
@@ -135,7 +136,7 @@ describe('API Tests', () => {
                     lng: -74.0060,
                     radius: 50
                 })
-                .set('Authorization', `Bearer ${token}`);
+                .set('Authorization', 'Bearer ' + token);
 
             expect(res.statusCode).toBe(200);
             expect(res.body).toHaveProperty('national');
@@ -151,7 +152,7 @@ describe('API Tests', () => {
                     lat: 47.6062,
                     lng: -122.3321
                 })
-                .set('Authorization', `Bearer ${token}`);
+                .set('Authorization', 'Bearer ' + token);
 
             expect(res.statusCode).toBe(200);
             expect(Array.isArray(res.body.locations)).toBeTruthy();
@@ -166,7 +167,7 @@ describe('API Tests', () => {
                     lat: 47.6062,
                     lng: -122.3321
                 })
-                .set('Authorization', `Bearer ${token}`);
+                .set('Authorization', 'Bearer ' + token);
 
             expect(res.statusCode).toBe(200);
             expect(Array.isArray(res.body.areas)).toBeTruthy();
@@ -201,7 +202,7 @@ describe('API Tests', () => {
                     lat: 47.6062,
                     lng: -122.3321
                 })
-                .set('Authorization', `Bearer ${token}`);
+                .set('Authorization', 'Bearer ' + token);
 
             expect(res.statusCode).toBe(200);
             expect(res.body).toHaveProperty('forecast');

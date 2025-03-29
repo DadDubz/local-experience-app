@@ -1,4 +1,4 @@
-const Location = require("../../models/Location");
+const Location = require("../models/Location"); // 
 const Review = require("../../models/Review");
 const Visit = require("../../models/Visit");
 

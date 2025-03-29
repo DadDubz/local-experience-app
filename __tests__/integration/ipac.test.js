@@ -1,4 +1,5 @@
 // __tests__/integration/ipac.test.js
+/* eslint-env jest */
 const request = require('supertest');
 const app = require('../../src/server');
 
