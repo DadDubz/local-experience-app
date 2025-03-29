@@ -1,5 +1,3 @@
-const axios = require("axios");
-const mongoose = require("mongoose");
 const Location = require("../../models/Location");
 const Review = require("../../models/Review");
 const Visit = require("../../models/Visit");
