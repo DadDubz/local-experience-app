@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const GuideService = require("../services/guideService");
-const authMiddleware = require("../middleware/authMiddleware");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Get available guides
 router.get("/", async (req, res) => {
