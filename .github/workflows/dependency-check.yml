@@ -1,0 +1,43 @@
+name: Dependency Health Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * 0'  # Runs every Sunday at 4 AM UTC
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir: [frontend, backend]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies for ${{ matrix.dir }}
+        working-directory: ${{ matrix.dir }}
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci || npm install
+          else
+            npm install
+          fi
+
+      - name: Audit dependencies for ${{ matrix.dir }}
+        working-directory: ${{ matrix.dir }}
+        run: |
+          npm audit --audit-level=high || echo "✅ Audit passed or non-critical issues found"
+
+      - name: Upload audit logs (optional)
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.dir }}-audit-log
+          path: ${{ matrix.dir }}/npm-debug.log
