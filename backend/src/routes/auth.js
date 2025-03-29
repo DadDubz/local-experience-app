@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const AuthService = require("../services/authService");
-const authMiddleware = require("../middleware/authMiddleware");
+const { authMiddleware } = require("../middleware/authMiddleware"); // ✅ Destructured correctly
 
 // Register new user
 router.post("/register", async (req, res) => {
@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
 });
 
 // Get user licenses
-router.get("/licenses", authMiddleware.verifyToken, async (req, res) => {
+router.get("/licenses", authMiddleware, async (req, res) => {
   try {
     const licenses = await AuthService.getUserLicenses(req.user.id);
     res.json(licenses);
