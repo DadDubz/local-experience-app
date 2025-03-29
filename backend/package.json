@@ -1,8 +1,9 @@
 {
   "name": "local-experience-backend",
   "version": "1.0.0",
-  "private": true,
-  "main": "index.js",
+  "main": "src/server.js",
+  ...
+}
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
