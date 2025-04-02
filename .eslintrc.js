@@ -1,16 +1,21 @@
 module.exports = {
   env: {
-    node: true,
+    browser: false,
+    commonjs: true,
     es2021: true,
-    jest: true,
+    node: true,
+    jest: true, // ✅ Jest support
   },
-  extends: "eslint:recommended",
+  extends: [
+    'eslint:recommended',
+    // 'plugin:prettier/recommended', // uncomment if using Prettier
+  ],
   parserOptions: {
-    ecmaVersion: 12,
-    sourceType: "module",
+    ecmaVersion: 'latest',
   },
   rules: {
-    "no-console": ["error", { allow: ["warn", "error", "info"] }],
-    "no-unused-vars": ["error", { argsIgnorePattern: "next" }],
+    // Customize your rules here
+    'no-unused-vars': ['warn'],
+    'no-console': 'off',
   },
 };

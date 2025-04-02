@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@sentry/node": "^9.10.1",
     "dotenv": "^16.4.7",
     "expo": "^52.0.41",
     "express": "^4.21.2",
