@@ -1,10 +1,14 @@
-# Set default behavior
+# Auto-detect text files and normalize line endings to LF
 * text=auto
 
-# Force LF line endings for common code/text files
+# Explicitly normalize for known file types
 *.js text eol=lf
-*.jsx text eol=lf
 *.ts text eol=lf
 *.tsx text eol=lf
 *.json text eol=lf
+*.css text eol=lf
+*.html text eol=lf
 *.md text eol=lf
+*.yml text eol=lf
+*.sh text eol=lf
+*.env text eol=lf
