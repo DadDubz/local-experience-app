@@ -1,5 +1,6 @@
 # Auto-detect text files and normalize line endings to LF
-* text=auto
+* text=auto eol=lf
+
 
 # Explicitly normalize for known file types
 *.js text eol=lf
