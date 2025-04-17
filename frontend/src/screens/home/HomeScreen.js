@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -70,6 +71,17 @@ const HomeScreen = () => {
               <Text style={styles.activityDistance}>{activity.distance}</Text>
             </TouchableOpacity>
           ))}
+        </View>
+
+        {/* Sentry Test Button */}
+        <View style={styles.testButtonContainer}>
+          <Button
+            title="Trigger Sentry Test Error"
+            color="#D9534F"
+            onPress={() => {
+              throw new Error("This is your first Sentry test error!");
+            }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -136,6 +148,10 @@ const styles = StyleSheet.create({
   },
   activityDistance: {
     color: "#666",
+  },
+  testButtonContainer: {
+    padding: 20,
+    alignItems: "center",
   },
 });
 
