@@ -1,4 +1,5 @@
-const Redis = require("ioredis");
+const redis = require('../utils/redisClient'); // Replace inline new Redis() with this
+
 
 // Initialize Redis client with Redis Cloud credentials
 const redis = new Redis({
