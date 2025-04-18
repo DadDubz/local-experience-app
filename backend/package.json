@@ -30,6 +30,7 @@
     "prom-client": "^15.1.3",
     "rate-limit": "^0.1.1",
     "react-leaflet": "^5.0.0",
+    "redis": "^4.7.0",
     "response-time": "^2.3.3",
     "winston": "^3.17.0",
     "ws": "^8.18.1",
