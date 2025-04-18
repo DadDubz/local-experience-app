@@ -1,5 +1,6 @@
 // src/server.js
 require('./instrument');
+
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
@@ -13,10 +14,10 @@ const compression = require("compression");
 const morgan = require("morgan");
 
 const WebSocketService = require("./services/websocketService");
-const ErrorHandler = require("./middleware/ErrorHandler");
+const ErrorHandler = require("./middleware/errorhandler");
 const { logger, morganMiddleware } = require("./middleware/logger");
 const securityMiddleware = require("./middleware/security");
-const cacheMiddleware = require("./middleware/cache");
+const { redis } = require("./middleware/cache"); // redis instance from ioredis
 const monitoringMiddleware = require("./middleware/monitor");
 
 // Load environment variables
@@ -57,6 +58,15 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use(monitoringMiddleware.responseTime);
 app.use(monitoringMiddleware.trackRequests);
 
+// Redis Ping Check
+redis.ping()
+  .then((res) => {
+    if (res === 'PONG') console.log("✅ Redis connected and ready");
+  })
+  .catch((err) => {
+    console.error("❌ Redis connection failed:", err);
+  });
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -64,8 +74,8 @@ mongoose.connect(process.env.MONGODB_URI, {
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 45000,
 })
-.then(() => console.log("Connected to MongoDB"))
-.catch((err) => console.error("MongoDB connection error:", err));
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 mongoose.connection.on("error", err => logger.error("MongoDB error:", err));
 mongoose.connection.on("disconnected", () => logger.warn("MongoDB disconnected"));
@@ -81,7 +91,9 @@ app.use("/api/reports", require("./routes/reports"));
 // Health & Docs
 app.get("/metrics", monitoringMiddleware.metricsEndpoint);
 app.get("/health", monitoringMiddleware.healthCheck);
-app.get("/api-docs", (req, res) => res.sendFile(path.join(__dirname, "../docs", "api-documentation.html")));
+app.get("/api-docs", (req, res) =>
+  res.sendFile(path.join(__dirname, "../docs", "api-documentation.html"))
+);
 
 // Error Handling
 app.use(ErrorHandler.handleNotFound);
@@ -95,12 +107,14 @@ process.on("uncaughtException", err => {
 });
 process.on("SIGTERM", () => {
   logger.info("SIGTERM received");
-  server.close(() => mongoose.connection.close(false, () => process.exit(0)));
+  server.close(() =>
+    mongoose.connection.close(false, () => process.exit(0))
+  );
 });
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
   logger.info(`Server started on port ${PORT}`);
 });
 
