@@ -1,8 +1,6 @@
-const redis = require('../utils/redisClient'); // Replace inline new Redis() with this
-
-
 // Initialize Redis client with Redis Cloud credentials
-const redis = new Redis({
+const { redis: redisConfig } = require("../config/config");
+const redis = new Redis(redisConfig);
   host: process.env.REDIS_HOST,
   port: process.env.REDIS_PORT,
   username: process.env.REDIS_USERNAME || 'default',
