@@ -1,4 +1,5 @@
 // Initialize Redis client with Redis Cloud credentials
+const Redis = require("ioredis");
 const { redis: redisConfig } = require("../config/config");
 const redis = new Redis({
   host: process.env.REDIS_HOST,
