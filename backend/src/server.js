@@ -1,5 +1,6 @@
 // src/server.js
 require('./instrument');
+require("dotenv").config();
 
 const express = require("express");
 const http = require("http");
