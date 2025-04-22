@@ -1,5 +1,3 @@
-// frontend/src/components/index.js
-
 // Re-export all components from common
 export * from './common';
 
