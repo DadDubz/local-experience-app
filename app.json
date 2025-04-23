@@ -1,9 +1,8 @@
 {
   "expo": {
-    "name": "LocalExperienceApp",
+    "name": "Local Experience App",
     "slug": "local-experience-app",
-    "scheme": "localexperienceapp",
-    "platforms": ["ios", "android", "web"],
+    "owner": "your-expo-username",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,12 +11,25 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "YOUR_PROJECT_ID"
+        "projectId": "8bf1a98c-4463-4f1a-9f1b-a744800e4719"
       }
     }
   }
