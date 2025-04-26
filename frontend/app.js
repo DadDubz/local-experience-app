@@ -4,7 +4,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MainNavigator from "./src/navigation/MainNavigator";
 import AuthNavigator from "./src/navigation/AuthNavigator";
 
-
 const Stack = createStackNavigator();
 
 import * as Sentry from "@sentry/react-native";
@@ -25,4 +24,3 @@ const App = () => {
 };
 
 export default App;
-
