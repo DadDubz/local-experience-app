@@ -40,10 +40,10 @@ const ForgotPasswordScreen = ({ navigation }) => {
   };
 
   return (
-  <KeyboardAvoidingView
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    style={styles.container}
-  >
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
       <View style={styles.content}>
         <MaterialCommunityIcons name="lock-reset" size={80} color="#007AFF" />
         <Text style={styles.title}>Reset Password</Text>
@@ -127,5 +127,29 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#007AFF',
-    paddingVertical: 15, // Added a valid value
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+    marginTop: 20,
+    width: '100%',
+    maxWidth: 400,
+    alignItems: 'center',
   },
+  buttonDisabled: {
+    backgroundColor: '#999',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  backButton: {
+    marginTop: 20,
+  },
+  backButtonText: {
+    color: '#007AFF',
+    fontSize: 16,
+  },
+});
+
+export default ForgotPasswordScreen;
