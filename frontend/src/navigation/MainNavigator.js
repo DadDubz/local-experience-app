@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // Main feature screens
 import MapScreen from '../screens/MapScreen';
 import WeatherScreen from '../screens/WeatherScreen';
-import GuidesScreen from '../screens/GuidesScreen';
+import GuideScreen from '../screens/GuideScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ShopsScreen from '../screens/ShopsScreen';
 import LocationDetailScreen from '../screens/LocationDetailScreen';
