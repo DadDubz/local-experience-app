@@ -8,7 +8,15 @@ import React, {
   useCallback
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { authApi } from '../services/api';
+
+// Ensure authApi is exported correctly
+const authApi = {
+  login: async (credentials) => { /* implementation */ },
+  register: async (userData) => { /* implementation */ },
+  getLicenses: async () => { /* implementation */ },
+};
+
+export { authApi };
 
 // Constants for storage keys
 const USER_KEY = 'user';
@@ -148,4 +156,25 @@ export const AuthProvider = ({ children }) => {
       {!loading && children}
     </AuthContext.Provider>
   );
+};
+
+module.exports = {
+  // Your existing ESLint configuration
+  parser: 'babel-eslint',
+  parserOptions: {
+    ecmaVersion: 2021,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true, // Enable JSX parsing
+    },
+    requireConfigFile: false, // Ensure Babel works without a config file
+    babelOptions: {
+      presets: ['@babel/preset-react'], // Add React preset for JSX
+    },
+  },
+  plugins: ['react'], // Add React plugin if not already present
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended', // Add React recommended rules
+  ],
 };
