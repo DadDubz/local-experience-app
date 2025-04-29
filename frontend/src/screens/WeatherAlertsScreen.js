@@ -1,4 +1,4 @@
-// frontend/src/screens/WeatherAlertsScreen.js
+// frontend/src/screens/WeatherAlertsScreen.jsx
 import React, { useState, useEffect } from 'react';
 import {
   View,
