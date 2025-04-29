@@ -1,4 +1,4 @@
 import { registerRootComponent } from 'expo';
-import App from './App';  // (make sure App.js exists)
+import App from './frontend/App';  // Updated path
 
 registerRootComponent(App);
