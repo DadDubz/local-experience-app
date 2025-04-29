@@ -1,3 +1,4 @@
+// src/screens/auth/WelcomeScreen.js
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
@@ -17,7 +18,7 @@ const WelcomeScreen = ({ navigation }) => {
         style={[styles.button, styles.registerButton]}
         onPress={() => navigation.navigate('Register')}
       >
-        <Text style={styles.buttonText}>Register</Text>
+        <Text style={[styles.buttonText, { color: '#000' }]}>Register</Text>
       </TouchableOpacity>
     </View>
   );
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#000000', // black
+    backgroundColor: '#000', // black
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 8,
