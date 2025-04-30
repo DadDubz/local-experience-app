@@ -1,17 +1,25 @@
 // frontend/src/components/ReviewsList.js
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  Alert
+  Image,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
-
-const ReviewsList = ({ locationId, reviews, onReviewAdded }) => {
+const ReviewsList = ({ reviews }) => {
+  const handleDeleteReview = (reviewId) => {
+    console.log(`Deleted review ${reviewId}`);
+    // Add logic to delete the review or notify the backend
+  };
+  const handleHelpful = (reviewId) => {
+    console.log(`Marked review ${reviewId} as helpful`);
+    // Add logic to update the helpful count or notify the backend
+  };
   const { user } = useAuth();
   const [sortBy, setSortBy] = useState('recent'); // 'recent' or 'rating'
 
@@ -216,5 +224,21 @@ const styles = StyleSheet.create({
     color: '#FF3B30',
   },
 });
+ReviewsList.propTypes = {
+  locationId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  reviews: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      userName: PropTypes.string.isRequired,
+      createdAt: PropTypes.string.isRequired,
+      rating: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+      photos: PropTypes.arrayOf(PropTypes.string),
+      helpfulCount: PropTypes.number.isRequired,
+      userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    })
+  ).isRequired,
+  onReviewAdded: PropTypes.func,
+};
 
 export default ReviewsList;

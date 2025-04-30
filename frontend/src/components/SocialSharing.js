@@ -1,5 +1,6 @@
 import React from "react";
-import { Share, View, TouchableOpacity, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
+import { Share, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const SocialSharing = ({ experience }) => {
@@ -13,6 +14,16 @@ const SocialSharing = ({ experience }) => {
       console.error("Error sharing:", error);
     }
   };
+  
+    SocialSharing.propTypes = {
+      experience: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,
+      }).isRequired,
+    };
+  };
+  
+  export default SocialSharing;
 
   return (
     <TouchableOpacity onPress={shareExperience} style={styles.shareButton}>

@@ -1,5 +1,6 @@
 // frontend/src/components/PhotoUpload.js
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { View, Image, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -118,5 +119,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+PhotoUpload.propTypes = {
+  onPhotoUploaded: PropTypes.func,
+  folder: PropTypes.string,
+};
 
 export default PhotoUpload;

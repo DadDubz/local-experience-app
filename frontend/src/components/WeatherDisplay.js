@@ -2,19 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import {
   View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   ScrollView,
   RefreshControl,
   ActivityIndicator,
   Alert
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import WeatherService from '../services/weatherService';
+import PropTypes from 'prop-types';
+import WeatherService from '../services/WeatherService';
 import { useLocationContext } from '../context/LocationContext';
-
-const WeatherDisplay = ({ onAlertPress }) => {
+const WeatherDisplay = () => {
   const { location } = useLocationContext();
   const [weather, setWeather] = useState(null);
   const [alerts, setAlerts] = useState([]);
@@ -45,6 +42,20 @@ const WeatherDisplay = ({ onAlertPress }) => {
     }
   };
 
+  const styles = StyleSheet.create({
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    container: {
+      flex: 1,
+    },
+    currentWeather: {
+      alignItems: 'center',
+      marginVertical: 20,
+    },
+  });
   const onRefresh = async () => {
     setRefreshing(true);
     await fetchWeatherData();
@@ -76,4 +87,11 @@ const WeatherDisplay = ({ onAlertPress }) => {
       <View style={styles.currentWeather}>
         <MaterialCommunityIcons
           name={WeatherService.getWeatherIcon(weather.current.condition, isNight)}
-          size={64
+          size={64}
+        />
+          </View>
+        </ScrollView>
+      );
+    };
+    
+    WeatherDisplay.propTypes = {};
