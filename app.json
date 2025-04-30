@@ -24,7 +24,7 @@
     "web": {
       "favicon": "./assets/favicon.jpeg"
     },
-    "entryPoint": "./frontend/src/App.js",   // <--- ✅ Add this line!
+    "entryPoint": "./frontend/src/App.js",
     "extra": {
       "eas": {
         "projectId": "8bf1a98c-4463-4f1a-9f1b-a744800e4719"
