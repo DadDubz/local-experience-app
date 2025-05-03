@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Backend for Local Experience App",
   "main": "src/server.js",
-  {
-    "scripts": {
+  "scripts": {
       "start": "node src/server.js",
       "dev": "nodemon src/server.js",
       "test": "jest",
@@ -12,9 +11,8 @@
       "test:integration": "jest --testMatch=\"**/__tests__/integration/**/*.test.js\"",
       "test:unit": "jest --testMatch=\"**/__tests__/unit/**/*.test.js\"",
       "lint": "eslint .",
-      "format": "prettier --write ."
-    }
-  }
+    "format": "prettier --write ."
+  },
   "dependencies": {
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",

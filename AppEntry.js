@@ -1,6 +1,6 @@
 // AppEntry.js
 import { registerRootComponent } from 'expo';
-import App from './frontend/App';
+import App from './frontend/App.tsx';
 
 registerRootComponent(App);
 // The entry point for the Expo app. This file is used to register the root component of the app.

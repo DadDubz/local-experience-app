@@ -1,5 +1,6 @@
 import React, { createContext, useContext } from 'react';
-import { useLocation } from '../hooks/useLocation';
+import PropTypes from 'prop-types';
+import { useLocation } from '../hooks/uselocation';
 
 const LocationContext = createContext(null);
 
@@ -8,7 +9,12 @@ export const useLocationContext = () => {
   if (!context) {
     throw new Error('useLocationContext must be used within a LocationProvider');
   }
-  return context;
+};
+
+// Removed duplicate declaration of LocationProvider
+
+LocationProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const LocationProvider = ({ children }) => {
