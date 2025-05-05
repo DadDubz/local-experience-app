@@ -2,7 +2,8 @@
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "jsx": "react"
+    "jsx": "react",
+    "module": "ESNext"
   },
   "extends": "expo/tsconfig.base"
 }
