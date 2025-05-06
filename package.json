@@ -14,15 +14,17 @@
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-navigation/bottom-tabs": "^6.5.16",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.24",
-    "@react-navigation/bottom-tabs": "^6.5.16",
     "@sentry/react-native": "^5.19.0",
     "axios": "^1.8.4",
     "expo": "^52.0.46",
     "expo-status-bar": "~2.0.1",
+    "leaflet": "^1.9.4",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-leaflet": "^5.0.0",
     "react-native": "0.76.9",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-maps": "1.18.0",
@@ -32,11 +34,13 @@
     "react-native-web": "~0.19.13",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
-    "redux-thunk": "^2.4.1"
+    "redux-thunk": "^2.4.1",
+    "sentry-expo": "^7.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@babel/runtime": "^7.24.0",
+    "@types/react": "^18.3.0",
     "babel-preset-expo": "^9.6.0",
     "eslint": "^9.23.0",
     "eslint-plugin-react": "^7.37.4",

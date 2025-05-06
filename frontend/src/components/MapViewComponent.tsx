@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
 
 interface Props {
   latitude: number;

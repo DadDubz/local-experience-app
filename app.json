@@ -1,5 +1,11 @@
 {
   "expo": {
+    "jsEngine": "hermes",
+    "ios": {
+      "jsEngine": "jsc",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.localexperience.app"
+    },
     "name": "Local Experience App",
     "slug": "local-experience-app",
     "version": "1.0.0",
@@ -17,10 +23,6 @@
       },
       "package": "com.localexperience.app"
     },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.localexperience.app"
-    },
     "web": {
       "favicon": "./assets/favicon.jpeg"
     },
@@ -29,6 +31,9 @@
       "eas": {
         "projectId": "8bf1a98c-4463-4f1a-9f1b-a744800e4719"
       }
-    }
+    },
+    "plugins": [
+      "sentry-expo"
+    ]
   }
 }

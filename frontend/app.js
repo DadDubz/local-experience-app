@@ -1,20 +1,10 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import MainNavigator from "./src/navigation/MainNavigator";
-import AuthNavigator from "./src/navigation/AuthNavigator";
+import MainNavigator from "./navigation/MainNavigator";
+import AuthNavigator from "./navigation/AuthNavigator";
 
 const Stack = createStackNavigator();
-
-import * as Sentry from "@sentry/react-native";
-import 'leaflet/dist/leaflet.css';
-// Remove or comment this line if it exists:
-// import './src/components/WebMapView.css';
-
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-});
 
 const App = () => {
   return (
