@@ -5,21 +5,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Main feature screens
-import MapScreen from '../screens/MapScreen';
-import WeatherScreen from '../screens/WeatherScreen';
-import GuideScreen from '../screens/GuideScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import MapScreen from '@screens/MapScreen';
+import WeatherScreen from '@screens/WeatherScreen';
+import ProfileScreen from '@screens/ProfileScreen';
 import ShopsScreen from '@screens/ShopsScreen';
 
-import LocationDetailScreen from '../screens/LocationDetailScreen.web';
-import TrailDetailScreen from '../screens/TrailDetailScreen.native';
-import FishingSpotDetailScreen from '../screens/FishingSpotDetailScreen';
-import WeatherAlertsScreen from '../screens/WeatherAlertsScreen';
-import MarineConditionsScreen from '../screens/MarineConditionsScreen';
-import GuideDetailScreen from '../screens/GuideDetailScreen';
-import GuideBookingScreen from '../screens/GuideBookingScreen';
-import ShopDetailScreen from '../screens/ShopDetailScreen';
-import ShopInventoryScreen from '../screens/ShopInventoryScreen';
+import LocationDetailScreen from '@screens/LocationDetailScreen.web';
+import TrailDetailScreen from '@screens/TrailDetailScreen.native';
+import FishingSpotDetailScreen from '@FishingSpotDetailScreen';
+import WeatherAlertsScreen from '@screens/WeatherAlertsScreen';
+import MarineConditionsScreen from '@screens/MarineConditionsScreen';
+import GuideScreen from '@screens/GuideScreen';
+import GuideBookingScreen from '@screens/GuideBookingScreen';
+import ShopDetailScreen from '@screens/ShopDetailScreen';
+import ShopInventoryScreen from '@screens/ShopInventoryScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

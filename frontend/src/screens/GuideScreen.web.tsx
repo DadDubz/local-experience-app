@@ -1,6 +1,6 @@
 // GuideScreen.web.tsx
 import React from 'react';
-import NativeMap from '@components/NativeMap';
+import NativeMap from '../NativeMap'; // Adjusted the path to the correct location of NativeMap
 
 const guideArea = {
   name: 'Chippewa River Guide Zone',

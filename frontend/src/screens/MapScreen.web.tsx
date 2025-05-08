@@ -1,7 +1,5 @@
-// MapScreen.web.tsx
 import React from 'react';
-import './MapScreen.web.css';
-import NativeMap from '../components/NativeMap';
+import NativeMap from '@components/NativeMap';
 
 const region = {
   name: 'Explore Area',
@@ -10,7 +8,7 @@ const region = {
   description: 'Interactive view of fishing and hiking spots.'
 };
 
-  <div className="map-screen-container">
+const MapScreen: React.FC = () => (
   <div style={{ padding: '1rem' }}>
     <h2>{region.name}</h2>
     <p>{region.description}</p>
