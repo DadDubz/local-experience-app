@@ -9,7 +9,8 @@ import MapScreen from '../screens/MapScreen';
 import WeatherScreen from '../screens/WeatherScreen';
 import GuideScreen from '../screens/GuideScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import ShopsScreen from '../screens/ShopsScreen';
+import ShopsScreen from '@screens/ShopsScreen';
+
 import LocationDetailScreen from '../screens/LocationDetailScreen.web';
 import TrailDetailScreen from '../screens/TrailDetailScreen.native';
 import FishingSpotDetailScreen from '../screens/FishingSpotDetailScreen';
