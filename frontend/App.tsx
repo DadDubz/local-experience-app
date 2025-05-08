@@ -7,9 +7,12 @@ import AuthNavigator from "./src/navigation/AuthNavigator";
 const Stack = createStackNavigator();
 
 import * as Sentry from "@sentry/react-native";
-import 'leaflet/dist/leaflet.css';
-// Remove or comment this line if it exists:
-// import './src/components/WebMapView.css';
+import { Platform } from 'react-native';
+
+if (Platform.OS === 'web') {
+  require('leaflet/dist/leaflet.css');
+}
+
 
 
 Sentry.init({
