@@ -13,7 +13,11 @@ const AddReviewScreen: React.FC = () => {
   return (
     <div style={{ padding: '1rem' }}>
       <label><strong>Your Name</strong></label><br />
-      <input value={name} onChange={(e) => setName(e.target.value)} /><br /><br />
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Enter your name"
+      /><br /><br />
       <label><strong>Review</strong></label><br />
       <textarea
         value={review}

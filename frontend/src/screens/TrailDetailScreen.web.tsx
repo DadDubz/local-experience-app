@@ -10,7 +10,7 @@ const trail = {
 };
 
 const TrailDetailScreen: React.FC = () => (
-  <div style={{ padding: '1rem' }}>
+  <div className="trail-detail-container">
     <h2>{trail.name}</h2>
     <p>{trail.description}</p>
     <NativeMap spot={trail} />
