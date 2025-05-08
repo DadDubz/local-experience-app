@@ -1,7 +1,7 @@
 // TrailDetailScreen.native.tsx
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import NativeMap from '../../components/NativeMap';
+import NativeMap from '@components/NativeMap';
 
 const trail = {
   name: 'Eagle Ridge Trail',
