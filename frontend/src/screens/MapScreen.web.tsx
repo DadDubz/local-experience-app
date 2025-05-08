@@ -1,6 +1,8 @@
 // MapScreen.web.tsx
 import React from 'react';
-import NativeMap from '../../components/NativeMap';
+import NativeMap from '@components/NativeMap';
+
+
 
 const region = {
   name: 'Explore Area',
