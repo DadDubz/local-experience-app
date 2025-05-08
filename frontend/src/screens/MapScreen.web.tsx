@@ -2,8 +2,6 @@
 import React from 'react';
 import NativeMap from '@components/NativeMap';
 
-
-
 const region = {
   name: 'Explore Area',
   latitude: 44.938,

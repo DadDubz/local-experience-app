@@ -1,6 +1,6 @@
 // CampingScreen.web.tsx
 import React from 'react';
-import NativeMap from '@components/NativeMap';
+import NativeMap from '@components/NativeMap.native';
 
 const campingSpot = {
   name: 'Whispering Pines Campground',
