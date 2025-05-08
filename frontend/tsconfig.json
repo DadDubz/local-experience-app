@@ -5,7 +5,7 @@
 "paths": {
   "@components/*": ["components/*"],
   "@screens/*": ["screens/*"],
-      "@context/*": ["context/*"]
+  "@context/*": ["context/*"]
     },
     "jsx": "react",
     "module": "ESNext",
