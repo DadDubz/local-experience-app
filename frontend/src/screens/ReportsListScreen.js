@@ -11,7 +11,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { reportsApi } from '../services/api';
+import { reportsApi } from '@services/api';
 
 const ReportsListScreen = ({ navigation }) => {
   const [reports, setReports] = useState([]);

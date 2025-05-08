@@ -1,7 +1,7 @@
 // MapScreen.native.tsx
 import React from 'react';
 import { ScrollView, Text, StyleSheet } from 'react-native';
-import NativeMap from '../../components/NativeMap';
+import NativeMap from '@components/NativeMap';
 
 const region = {
   name: 'Explore Area',

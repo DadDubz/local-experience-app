@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LineChart, BarChart } from 'recharts';
-import { useAuth } from '../context/AuthContext';
-import { reportsApi } from '../services/api';
+import { useAuth } from '@context/AuthContext';
+import { reportsApi } from '@services/api';
 
 const ReportsAnalyticsScreen = () => {
   const [loading, setLoading] = useState(true);

@@ -1,7 +1,8 @@
 // GuideScreen.native.tsx
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import NativeMap from '../../components/NativeMap';
+import NativeMap from "@components/NativeMap";
+
 
 const guideArea = {
   name: 'Chippewa River Guide Zone',

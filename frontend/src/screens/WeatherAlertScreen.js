@@ -10,8 +10,8 @@ import {
   Alert
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useLocationContext } from '../context/LocationContext';
-import { weatherApi } from '../services/api';
+import { useLocationContext } from '@context/LocationContext';
+import { weatherApi } from '@services/api';
 
 const WeatherAlertsScreen = () => {
   const [alerts, setAlerts] = useState([]);

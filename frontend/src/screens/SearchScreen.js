@@ -11,8 +11,8 @@ import {
   Animated
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useLocationContext } from '../context/LocationContext';
-import { landsApi } from '../services/api';
+import { useLocationContext } from '@context/LocationContext';
+import { landsApi } from '@services/api';
 
 const SearchScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');

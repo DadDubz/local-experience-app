@@ -10,8 +10,8 @@ import {
   Alert
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuth } from '../context/AuthContext';
-import NotificationService from '../services/notificationService';
+import { useAuth } from '@context/AuthContext';
+import NotificationService from '@services/notificationService';
 
 const NotificationPreferencesScreen = () => {
   const { user } = useAuth();
