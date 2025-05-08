@@ -1,5 +1,5 @@
 // src/components/MarkerPopup.native.tsx
-import React from 'react';
+import ReactNative from 'react';
 import { Marker, Callout } from 'react-native-maps';
 import { View, Text } from 'react-native';
 
@@ -9,7 +9,7 @@ interface MarkerPopupProps {
   description?: string;
 }
 
-const MarkerPopup: React.FC<MarkerPopupProps> = ({ coordinate, title, description }) => (
+const MarkerPopup: ReactNative.FC<MarkerPopupProps> = ({ coordinate, title, description }) => (
   <Marker coordinate={coordinate}>
     <Callout>
       <View>
