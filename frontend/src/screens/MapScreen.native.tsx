@@ -1,26 +1,18 @@
-// MapScreen.native.tsx
 import React from 'react';
-import { ScrollView, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import NativeMap from '@components/NativeMap';
 
-const region = {
-  name: 'Explore Area',
-  latitude: 44.938,
-  longitude: -91.395,
-  description: 'Interactive view of fishing and hiking spots.'
+const spot = {
+  name: 'Hidden Creek',
+  latitude: 44.93,
+  longitude: -91.39,
 };
 
-const MapScreen: React.FC = () => (
-  <ScrollView contentContainerStyle={styles.container}>
-    <Text style={styles.header}>{region.name}</Text>
-    <Text>{region.description}</Text>
-    <NativeMap spot={region} />
-  </ScrollView>
+const MapScreen = () => (
+  <View style={{ flex: 1 }}>
+    <Text style={{ fontSize: 18 }}>{spot.name}</Text>
+    <NativeMap spot={spot} />
+  </View>
 );
-
-const styles = StyleSheet.create({
-  container: { padding: 16 },
-  header: { fontSize: 22, fontWeight: 'bold', marginBottom: 8 },
-});
 
 export default MapScreen;
