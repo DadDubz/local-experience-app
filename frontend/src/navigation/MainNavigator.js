@@ -15,7 +15,7 @@ import FishingSpotDetailScreen from '@screens/FishingSpotDetailScreen';
 import WeatherAlertsScreen from '@screens/WeatherAlertsScreen';
 import MarineConditionsScreen from '@screens/MarineConditionsScreen';
 import GuideScreen from '@screens/GuideScreen';
-import GuideBookingScreen from '@screens/GuideBookingScreen';
+import GuideBookingScreen from '@screens/GuideBookingScreen'; // ✅ Correct
 import GuideDetailScreen from '@screens/GuideDetailScreen'; // ✅ newly added
 import ShopDetailScreen from '@screens/ShopDetailScreen';
 import ShopInventoryScreen from '@screens/ShopInventoryScreen';
