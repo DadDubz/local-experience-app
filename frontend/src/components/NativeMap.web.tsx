@@ -1,3 +1,4 @@
+// src/components/NativeMap.web.tsx
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -28,9 +29,9 @@ const NativeMap = ({ spot }: { spot: Spot }) => {
     return () => {
       map.remove();
     };
-  }, [spot]);
+  }, [spot.latitude, spot.longitude, spot.name]);
 
-  return <div ref={mapRef} style={{ height: '100%', width: '100%' }} />;
+  return <div ref={mapRef} style={{ height: '300px', width: '100%' }} />;
 };
 
 export default NativeMap;

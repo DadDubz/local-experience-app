@@ -1,5 +1,6 @@
 // GuideScreen.web.tsx
 import React from 'react';
+import NativeMap from '../components/NativeMap.web';
 
 
 
@@ -18,4 +19,5 @@ const GuideScreen: React.FC = () => (
   </div>
 );
 
-export default GuideScreen;
+export default NativeMap;
+// Removed duplicate default export for NativeMap
