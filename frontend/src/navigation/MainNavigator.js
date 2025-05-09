@@ -76,7 +76,7 @@ const MainNavigator = () => (
         let iconName;
         switch (route.name) {
           case 'Map': iconName = focused ? 'map' : 'map-outline'; break;
-          case 'Weather': iconName = focused ? 'weather-sunny' : 'weather-sunny-outline'; break;
+          case 'Weather': iconName = focused ? 'weather-sunny' : 'weather-cloudy'; break;
           case 'Guides': iconName = focused ? 'account-group' : 'account-group-outline'; break;
           case 'Shops': iconName = focused ? 'store' : 'store-outline'; break;
           case 'Profile': iconName = focused ? 'account' : 'account-outline'; break;

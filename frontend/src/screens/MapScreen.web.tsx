@@ -1,4 +1,6 @@
 import React from 'react';
+import NativeMap from '@components/NativeMap.web';
+
 
 const region = {
   name: 'Explore Area',
@@ -16,3 +18,5 @@ const MapScreen: React.FC = () => (
 );
 
 export default MapScreen;
+export default NativeMap;
+
