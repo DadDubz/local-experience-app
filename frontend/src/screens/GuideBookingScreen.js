@@ -1,11 +1,11 @@
-// src/screens/GuidesBookingScreen.js
+// src/screens/GuideBookingScreen.js
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const GuidesScreen = () => (
+const GuideBookingScreen = () => (
   <View>
-    <Text>Guides Screen</Text>
+    <Text>Guide Booking Screen</Text>
   </View>
 );
 
-export default GuidesBookingScreen;
+export default GuideBookingScreen;
