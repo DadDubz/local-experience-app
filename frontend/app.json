@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "8bf1a98c-4463-4f1a-9f1b-a744800e4719"
+      }
+    },
+    "owner": "localexperienceapp",
+    "ios": {
+      "bundleIdentifier": "com.localexperienceapp.localexperienceapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    }
+  }
+}

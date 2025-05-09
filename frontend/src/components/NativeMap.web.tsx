@@ -9,29 +9,27 @@ interface Spot {
   name: string;
 }
 
-const NativeMap = ({ spot }: { spot: Spot }) => {
-  const mapRef = useRef<HTMLDivElement>(null);
+const NativeMap: React.FC<{ spot: Spot }> = ({ spot }) => {
+  const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!mapRef.current) return;
 
-    const map = L.map(mapRef.current).setView([spot.latitude, spot.longitude], 13);
+    const map = L.map(mapRef.current).setView(
+      [spot.latitude, spot.longitude],
+      13
+    );
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(map);
 
     L.marker([spot.latitude, spot.longitude])
-      .addTo(map)
-      .bindPopup(`<b>${spot.name}</b>`) 
-      .openPopup();
-
-    return () => {
-      map.remove();
+    .addTo(map)
+        .bindPopup(`<b>${spot.name}</b>`)
+        .openPopup();
+      }, [spot]);
+    
+      return <div ref={mapRef} style={{ height: '100%', width: '100%' }} />;
     };
-  }, [spot.latitude, spot.longitude, spot.name]);
-
-  return <div ref={mapRef} style={{ height: '300px', width: '100%' }} />;
-};
-
-export default NativeMap;
+  
