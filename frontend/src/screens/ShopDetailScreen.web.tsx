@@ -1,6 +1,5 @@
 // ShopDetailScreen.web.tsx
 import React from 'react';
-import NativeMap from '../components/NativeMap'; // Corrected the path to the NativeMap component
 
 const shop = {
   name: 'Bait & Tackle Pro',

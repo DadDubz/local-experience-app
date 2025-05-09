@@ -1,6 +1,5 @@
 // LocationDetailScreen.web.tsx
 import React from 'react';
-import NativeMap from '@components/NativeMap.native';
 
 const location = {
   name: 'Old Mill Park',
