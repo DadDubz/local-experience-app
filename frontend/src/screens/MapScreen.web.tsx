@@ -1,22 +1,26 @@
 import React from 'react';
-import NativeMap from '@components/NativeMap.web';
+import { View, StyleSheet } from 'react-native';
+import NativeMap from '../components/NativeMap.web';
 
+const MapScreen = () => {
+  const spot = {
+    latitude: 44.9362,
+    longitude: -91.3925,
+    name: 'Chippewa Falls',
+  };
 
-const region = {
-  name: 'Explore Area',
-  latitude: 44.938,
-  longitude: -91.395,
-  description: 'Interactive view of fishing and hiking spots.'
+  return (
+    <View style={styles.container}>
+      <NativeMap spot={spot} />
+    </View>
+  );
 };
 
-const MapScreen: React.FC = () => (
-  <div style={{ padding: '1rem' }}>
-    <h2>{region.name}</h2>
-    <p>{region.description}</p>
-    <NativeMap spot={region} />
-  </div>
-);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+});
 
 export default MapScreen;
-export default NativeMap;
-

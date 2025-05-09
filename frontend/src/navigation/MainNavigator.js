@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Main feature screens
-import MapScreen from '@screens/MapScreen';
+import MapScreen from '@screens/MapScreen'; // This should resolve to MapScreen.web.tsx on web
 import WeatherScreen from '@screens/WeatherScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import ShopsScreen from '@screens/ShopsScreen';

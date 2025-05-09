@@ -1,4 +1,3 @@
-// src/components/NativeMap.web.tsx
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -9,27 +8,29 @@ interface Spot {
   name: string;
 }
 
-const NativeMap: React.FC<{ spot: Spot }> = ({ spot }) => {
-  const mapRef = useRef<HTMLDivElement | null>(null);
+const NativeMap = ({ spot }: { spot: Spot }) => {
+  const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!mapRef.current) return;
 
-    const map = L.map(mapRef.current).setView(
-      [spot.latitude, spot.longitude],
-      13
-    );
+    const map = L.map(mapRef.current).setView([spot.latitude, spot.longitude], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(map);
 
     L.marker([spot.latitude, spot.longitude])
-    .addTo(map)
-        .bindPopup(`<b>${spot.name}</b>`)
-        .openPopup();
-      }, [spot]);
-    
-      return <div ref={mapRef} style={{ height: '100%', width: '100%' }} />;
+      .addTo(map)
+      .bindPopup(`<b>${spot.name}</b>`)
+      .openPopup();
+
+    return () => {
+      map.remove();
     };
-  
+  }, [spot]);
+
+  return <div ref={mapRef} style={{ height: '100%', width: '100%' }} />;
+};
+
+export default NativeMap;
