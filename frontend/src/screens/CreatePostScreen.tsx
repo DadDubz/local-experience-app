@@ -13,10 +13,14 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 
-const CreatePostScreen = ({ navigation }) => {
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type CreatePostScreenNavigationProp = StackNavigationProp<any>;
+
+const CreatePostScreen = ({ navigation }: { navigation: CreatePostScreenNavigationProp }) => {
   const [caption, setCaption] = useState('');
   const [location, setLocation] = useState('');
-  const [imageUri, setImageUri] = useState(null);
+  const [imageUri, setImageUri] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handlePickImage = async () => {
@@ -50,11 +54,13 @@ const CreatePostScreen = ({ navigation }) => {
       const formData = new FormData();
       formData.append("caption", caption);
       formData.append("location", location);
-      formData.append("image", {
+      const imageFile = {
         uri: imageUri,
         name: 'photo.jpg',
-        type: 'image/jpeg'
-      });
+        type: 'image/jpeg',
+      } as any;
+
+      formData.append("image", imageFile);
 
       await axios.post("http://your-api-url/api/posts", formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
