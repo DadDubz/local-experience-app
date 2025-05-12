@@ -4,12 +4,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Main feature screens
-import MapScreen from '@screens/MapScreen'; // This should resolve to MapScreen.web.tsx on web
+import MapScreen from '@screens/MapScreen';
 import WeatherScreen from '@screens/WeatherScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import ShopsScreen from '@screens/ShopsScreen';
 import SocialFeedScreen from '@screens/SocialFeedScreen';
 
+// Detail screens
 import LocationDetailScreen from '@screens/LocationDetailScreen';
 import TrailDetailScreen from '@screens/TrailDetailScreen';
 import FishingSpotDetailScreen from '@screens/FishingSpotDetailScreen';
@@ -76,11 +77,11 @@ const MainNavigator = () => (
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
         switch (route.name) {
-          case 'Feed': iconName = focused ? 'home' : 'home-outline'; break;
           case 'Map': iconName = focused ? 'map' : 'map-outline'; break;
           case 'Weather': iconName = focused ? 'weather-sunny' : 'weather-cloudy'; break;
           case 'Guides': iconName = focused ? 'account-group' : 'account-group-outline'; break;
           case 'Shops': iconName = focused ? 'store' : 'store-outline'; break;
+          case 'Social': iconName = focused ? 'fish' : 'fish-outline'; break;
           case 'Profile': iconName = focused ? 'account' : 'account-outline'; break;
         }
         return <Icon name={iconName} size={size} color={color} />;
@@ -90,11 +91,11 @@ const MainNavigator = () => (
       tabBarInactiveTintColor: 'gray',
     })}
   >
-    <Tab.Screen name="Feed" component={SocialFeedScreen} />
     <Tab.Screen name="Map" component={MapStack} />
     <Tab.Screen name="Weather" component={WeatherStack} />
     <Tab.Screen name="Guides" component={GuidesStack} />
     <Tab.Screen name="Shops" component={ShopsStack} />
+    <Tab.Screen name="Social" component={SocialFeedScreen} />
     <Tab.Screen name="Profile" component={ProfileScreen} />
   </Tab.Navigator>
 );
