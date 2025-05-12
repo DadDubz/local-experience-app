@@ -1,37 +1,56 @@
 // App.tsx
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import * as Sentry from '@sentry/react-native';
 
+import { AuthProvider, useAuth } from './src/context/AuthContext';
 import MainNavigator from './src/navigation/MainNavigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
-import { AuthProvider, useAuth } from './src/context/AuthContext';
 
+const Stack = createStackNavigator();
+
+// Load Leaflet CSS for web
 if (Platform.OS === 'web') {
   require('leaflet/dist/leaflet.css');
 }
 
+// Initialize Sentry
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
 });
 
-const AppInner = () => {
+// Root component to manage auth state
+const RootNavigation = () => {
   const { user, loading } = useAuth();
 
-  if (loading) return null; // Or show a splash/loading screen
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
-      {user ? <MainNavigator /> : <AuthNavigator />}
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {user ? (
+          <Stack.Screen name="Main" component={MainNavigator} />
+        ) : (
+          <Stack.Screen name="Auth" component={AuthNavigator} />
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
+// Wrap everything with AuthProvider
 const App = () => {
   return (
     <AuthProvider>
-      <AppInner />
+      <RootNavigation />
     </AuthProvider>
   );
 };
