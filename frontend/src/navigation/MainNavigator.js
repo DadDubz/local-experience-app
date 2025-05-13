@@ -9,6 +9,7 @@ import WeatherScreen from '@screens/WeatherScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import ShopsScreen from '@screens/ShopsScreen';
 import SocialFeedScreen from '@screens/SocialFeedScreen';
+import CreatePostScreen from '@screens/CreatePostScreen';
 
 // Detail screens
 import LocationDetailScreen from '@screens/LocationDetailScreen';
@@ -71,6 +72,13 @@ const ShopsStack = () => (
   </Stack.Navigator>
 );
 
+const SocialStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="SocialFeed" component={SocialFeedScreen} options={{ title: 'Community Feed' }} />
+    <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ title: 'Create Post' }} />
+  </Stack.Navigator>
+);
+
 const MainNavigator = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -95,7 +103,7 @@ const MainNavigator = () => (
     <Tab.Screen name="Weather" component={WeatherStack} />
     <Tab.Screen name="Guides" component={GuidesStack} />
     <Tab.Screen name="Shops" component={ShopsStack} />
-    <Tab.Screen name="Social" component={SocialFeedScreen} />
+    <Tab.Screen name="Social" component={SocialStack} />
     <Tab.Screen name="Profile" component={ProfileScreen} />
   </Tab.Navigator>
 );
