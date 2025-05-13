@@ -10,10 +10,21 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
+// Define the type for a post
+interface Post {
+  _id: string;
+  image?: string;
+  caption: string;
+  location: string;
+  createdAt: string;
+}
+
+// Removed duplicate styles declaration
+
 const SocialFeedScreen = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const fetchPosts = async () => {
     try {
@@ -27,16 +38,14 @@ const SocialFeedScreen = () => {
     }
   };
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  // Removed duplicate renderPost function
 
   const onRefresh = () => {
     setRefreshing(true);
     fetchPosts();
   };
 
-  const renderPost = ({ item }) => (
+  const renderPost = ({ item }: { item: Post }) => (
     <View style={styles.postContainer}>
       {item.image && (
         <Image source={{ uri: item.image }} style={styles.postImage} resizeMode="cover" />
