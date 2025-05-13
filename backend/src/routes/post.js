@@ -1,7 +1,7 @@
 // backend/routes/posts.js
 const express = require('express');
 const router = express.Router();
-const Post = require('../models/Post');
+const Post = require('../models/post');
 const { authenticate } = require('../middleware/authMiddleware');
 
 // @route   POST /api/posts

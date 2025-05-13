@@ -5,6 +5,8 @@ import MainNavigator from "./navigation/MainNavigator";
 import AuthNavigator from "./navigation/AuthNavigator";
 
 const Stack = createStackNavigator();
+const protectedRoutes = require('./routes/protectedRoutes');
+app.use('/api', protectedRoutes);
 
 const App = () => {
   return (
