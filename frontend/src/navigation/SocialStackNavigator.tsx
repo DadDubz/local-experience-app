@@ -11,15 +11,27 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
-type RootStackParamList = {
+import CreatePostScreen from './CreatePostScreen';
+
+import PostDetailScreen from '@screens/social/PostDetailScreen';
+
+type SocialStackParamList = {
+  SocialFeed: undefined;
   CreatePost: undefined;
   PostDetail: { post: any };
-  const navigation = useNavigation<SocialFeedScreenNavigationProp>();
+};
 
-type SocialFeedScreenNavigationProp = StackNavigationProp<RootStackParamList, 'CreatePost'>;
+const Stack = createStackNavigator<SocialStackParamList>();
+
+<Stack.Navigator>
+  <Stack.Screen name="SocialFeed" getComponent={SocialFeedScreen} options={{ title: 'Social Feed' }} />
+  <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ title: 'Create Post' }} />
+  <Stack.Screen name="PostDetail" component={PostDetailScreen} options={{ title: 'Post Detail' }} />
+</Stack.Navigator>
+
 
 const SocialFeedScreen = () => {
   const [posts, setPosts] = useState([]);
@@ -43,13 +55,12 @@ const SocialFeedScreen = () => {
     fetchPosts();
   }, []);
 
-  const onRefresh = () => {
     setRefreshing(true);
     fetchPosts();
   };
 
   const renderPost = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('PostDetail', { post: item })}>
+    <TouchableOpacity onPress={() => useNavigation.navigate('PostDetail', { post: item })}>
       <View style={styles.postContainer}>
         {item.image && (
           <Image source={{ uri: item.image }} style={styles.postImage} resizeMode="cover" />
@@ -60,7 +71,6 @@ const SocialFeedScreen = () => {
       </View>
     </TouchableOpacity>
   );
-
 
   if (loading) {
     return (
@@ -88,6 +98,20 @@ const SocialFeedScreen = () => {
     </View>
   );
 };
+
+const SocialStackNavigator = () => (
+  <NavigationContainer independent={true}>
+    <Stack.Navigator>
+      <Stack.Screen name="SocialFeed" getComponent={SocialFeedScreen} options={{ title: 'Social Feed' }} />
+      <Stack.Screen name="CreatePost" component={CreatePostScreen} options={{ title: 'Create Post' }} />
+      <Stack.Screen
+        name="PostDetail"
+        component={() => <View><Text>Post Detail Screen</Text></View>}
+        options={{ title: 'Post Detail' }}
+      />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 
 const styles = StyleSheet.create({
   feedContainer: {
@@ -147,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SocialFeedScreen;
+export default SocialStackNavigator;
