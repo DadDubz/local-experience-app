@@ -15,17 +15,30 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type RootStackParamList = {
+  SocialFeed: undefined;
   CreatePost: undefined;
-  PostDetail: { post: any };
-  const navigation = useNavigation<SocialFeedScreenNavigationProp>();
+};
 
-type SocialFeedScreenNavigationProp = StackNavigationProp<RootStackParamList, 'CreatePost'>;
+const navigation = useNavigation<SocialFeedScreenNavigationProp>();
+
+type SocialFeedScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SocialFeed'>;
+
+type Post = {
+  _id: string;
+  image?: string;
+  caption: string;
+  location: string;
+  createdAt: string;
+  likes?: number;
+};
+
+// Removed duplicate styles declaration
 
 const SocialFeedScreen = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<SocialFeedScreenNavigationProp>();
 
   const fetchPosts = async () => {
     try {
@@ -48,19 +61,29 @@ const SocialFeedScreen = () => {
     fetchPosts();
   };
 
-  const renderPost = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('PostDetail', { post: item })}>
-      <View style={styles.postContainer}>
-        {item.image && (
-          <Image source={{ uri: item.image }} style={styles.postImage} resizeMode="cover" />
-        )}
-        <Text style={styles.caption}>{item.caption}</Text>
-        <Text style={styles.location}>{item.location}</Text>
-        <Text style={styles.meta}>{new Date(item.createdAt).toLocaleString()}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  const handleLike = async (postId: string) => {
+    try {
+      await axios.post(`http://your-api-url/api/posts/${postId}/like`);
+      fetchPosts();
+    } catch (error) {
+      console.error('Failed to like post:', error);
+    }
+  };
 
+  const renderPost = ({ item }: { item: Post }) => (
+    <View style={styles.postContainer}>
+      {item.image && (
+        <Image source={{ uri: item.image }} style={styles.postImage} resizeMode="cover" />
+      )}
+      <Text style={styles.caption}>{item.caption}</Text>
+      <Text style={styles.location}>{item.location}</Text>
+      <Text style={styles.meta}>{new Date(item.createdAt).toLocaleString()}</Text>
+      <TouchableOpacity style={styles.likeButton} onPress={() => handleLike(item._id)}>
+        <Icon name="thumb-up" size={20} color="#007AFF" />
+        <Text style={styles.likeText}>Like ({item.likes || 0})</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   if (loading) {
     return (
@@ -123,6 +146,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'gray',
     marginTop: 4,
+  },
+  likeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  likeText: {
+    marginLeft: 5,
+    color: '#007AFF',
+    fontSize: 14,
   },
   loaderContainer: {
     flex: 1,
