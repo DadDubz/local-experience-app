@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
 import {
   View,
   Text,
@@ -8,42 +9,40 @@ import {
   ActivityIndicator,
   RefreshControl,
   TouchableOpacity,
+  Picker,
 } from 'react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-
-type RootStackParamList = {
-  SocialFeed: undefined;
-  CreatePost: undefined;
-};
-
-const navigation = useNavigation<SocialFeedScreenNavigationProp>();
-
-type SocialFeedScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SocialFeed'>;
-
-type Post = {
-  _id: string;
-  image?: string;
-  caption: string;
-  location: string;
-  createdAt: string;
-  likes?: number;
-};
-
-// Removed duplicate styles declaration
 
 const SocialFeedScreen = () => {
+  interface Post {
+    _id: string;
+    caption?: string;
+    location?: string;
+    image?: string;
+    createdAt: string;
+    likes?: number;
+  }
+
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const navigation = useNavigation<SocialFeedScreenNavigationProp>();
+  const [filter, setFilter] = useState('all');
 
   const fetchPosts = async () => {
     try {
       const response = await axios.get('http://your-api-url/api/posts');
-      setPosts(response.data.posts || []);
+      let data = response.data.posts || [];
+
+      // Filter logic
+      if (filter === 'catch') {
+        data = data.filter((post: Post) => post.caption?.toLowerCase().includes('catch'));
+      } else if (filter === 'liked') {
+        data = data.sort((a: Post, b: Post) => (b.likes || 0) - (a.likes || 0));
+      }
+
+      setPosts(data);
     } catch (error) {
       console.error('Failed to load posts:', error);
     } finally {
@@ -54,7 +53,7 @@ const SocialFeedScreen = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [filter]);
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -95,6 +94,19 @@ const SocialFeedScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
+      <View style={styles.filterContainer}>
+        <Text style={styles.filterLabel}>Filter:</Text>
+        <Picker
+          selectedValue={filter}
+          style={styles.picker}
+          onValueChange={(value) => setFilter(value)}
+        >
+          <Picker.Item label="All Posts" value="all" />
+          <Picker.Item label="Catches Only" value="catch" />
+          <Picker.Item label="Most Liked" value="liked" />
+        </Picker>
+      </View>
+
       <FlatList
         data={posts}
         keyExtractor={(item) => item._id.toString()}
@@ -102,6 +114,7 @@ const SocialFeedScreen = () => {
         contentContainerStyle={styles.feedContainer}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
+
       <TouchableOpacity
         style={styles.fab}
         onPress={() => navigation.navigate('CreatePost')}
@@ -177,6 +190,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
+  },
+  filterContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    marginTop: 10,
+  },
+  filterLabel: {
+    marginRight: 10,
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  picker: {
+    flex: 1,
+    height: 40,
   },
 });
 
