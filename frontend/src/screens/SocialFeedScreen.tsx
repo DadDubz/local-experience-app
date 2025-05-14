@@ -9,13 +9,18 @@ import {
   ActivityIndicator,
   RefreshControl,
   TouchableOpacity,
-  Picker,
 } from 'react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 
 const SocialFeedScreen = () => {
+  type RootStackParamList = {
+    CreatePost: undefined;
+    // Add other routes here if needed
+  };
+
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   interface Post {
     _id: string;
     caption?: string;
