@@ -1,11 +1,17 @@
-// ProfileScreen.web.tsx
 import React from 'react';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import AccountInfoScreen from './AccountInfoScreen';
+import MyPostsScreen from './MyPostsScreen';
 
-const ProfileScreen: React.FC = () => (
-  <div style={{ padding: '1rem' }}>
-    <h2>John Doe</h2>
-    <p>johndoe@example.com</p>
-  </div>
-);
+const Tab = createMaterialTopTabNavigator();
+
+const ProfileScreen = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Account Info" component={AccountInfoScreen} />
+      <Tab.Screen name="My Posts" component={MyPostsScreen} />
+    </Tab.Navigator>
+  );
+};
 
 export default ProfileScreen;

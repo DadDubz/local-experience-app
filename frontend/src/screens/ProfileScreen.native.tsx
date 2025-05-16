@@ -1,18 +1,17 @@
-// ProfileScreen.native.tsx
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import AccountInfoScreen from './AccountInfoScreen';
+import MyPostsScreen from './MyPostsScreen';
 
-const ProfileScreen: React.FC = () => (
-  <View style={styles.container}>
-    <Text style={styles.name}>John Doe</Text>
-    <Text style={styles.email}>johndoe@example.com</Text>
-  </View>
-);
+const Tab = createMaterialTopTabNavigator();
 
-const styles = StyleSheet.create({
-  container: { padding: 16 },
-  name: { fontSize: 24, fontWeight: 'bold' },
-  email: { fontSize: 16, color: '#666' },
-});
+const ProfileScreen = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Account Info" component={AccountInfoScreen} />
+      <Tab.Screen name="My Posts" component={MyPostsScreen} />
+    </Tab.Navigator>
+  );
+};
 
 export default ProfileScreen;
