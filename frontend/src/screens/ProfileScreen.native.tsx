@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import AccountInfoScreen from './AccountInfoScreen';
+import AccountInfoScreen from './AccountInfoScreen.native';
 import MyPostsScreen from './MyPostsScreen';
 
 const Tab = createMaterialTopTabNavigator();
