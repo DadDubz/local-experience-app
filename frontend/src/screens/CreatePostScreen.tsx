@@ -6,28 +6,33 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  Platform,
   SafeAreaView,
   ScrollView,
+  Alert,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-
+import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-type CreatePostScreenNavigationProp = StackNavigationProp<any>;
+type RootStackParamList = {
+  CreatePost: undefined;
+  SocialFeed: undefined;
+};
 
-const CreatePostScreen = ({ navigation }: { navigation: CreatePostScreenNavigationProp }) => {
+const CreatePostScreen = () => {
   const [caption, setCaption] = useState('');
   const [location, setLocation] = useState('');
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   const handlePickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (!permissionResult.granted) {
-      alert("Permission to access media library is required!");
+      Alert.alert('Permission required', 'You need to allow access to your media library.');
       return;
     }
 
@@ -44,7 +49,14 @@ const CreatePostScreen = ({ navigation }: { navigation: CreatePostScreenNavigati
 
   const handleSubmit = async () => {
     if (!caption || !imageUri) {
-      alert("Please add a caption and image.");
+      Alert.alert('Missing fields', 'Please add a caption and image.');
+      return;
+    }
+
+    // Enforce location if it's a catch post
+    const isCatchPost = /catch|fish|fishing/i.test(caption);
+    if (isCatchPost && !location.trim()) {
+      Alert.alert('Location required', 'Please add a location for catch posts.');
       return;
     }
 
@@ -52,25 +64,24 @@ const CreatePostScreen = ({ navigation }: { navigation: CreatePostScreenNavigati
       setIsSubmitting(true);
 
       const formData = new FormData();
-      formData.append("caption", caption);
-      formData.append("location", location);
-      const imageFile = {
+      formData.append('caption', caption);
+      formData.append('location', location);
+
+      formData.append('image', {
         uri: imageUri,
         name: 'photo.jpg',
         type: 'image/jpeg',
-      } as any;
+      } as any);
 
-      formData.append("image", imageFile);
-
-      await axios.post("http://your-api-url/api/posts", formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      await axios.post('http://your-api-url/api/posts', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      alert("Post created successfully!");
-      navigation.goBack();
-    } catch (err) {
-      console.error(err);
-      alert("Error creating post.");
+      Alert.alert('Post created!', 'Your post has been added.');
+      navigation.navigate('SocialFeed');
+    } catch (error) {
+      console.error('Post creation error:', error);
+      Alert.alert('Error', 'Failed to create post.');
     } finally {
       setIsSubmitting(false);
     }
@@ -91,7 +102,7 @@ const CreatePostScreen = ({ navigation }: { navigation: CreatePostScreenNavigati
 
         <TextInput
           style={styles.input}
-          placeholder="Location (optional)"
+          placeholder="Location (for catches)"
           value={location}
           onChangeText={setLocation}
         />
@@ -117,19 +128,9 @@ const CreatePostScreen = ({ navigation }: { navigation: CreatePostScreenNavigati
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  inner: {
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
+  container: { flex: 1, backgroundColor: '#fff' },
+  inner: { padding: 20 },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
   input: {
     borderColor: '#ccc',
     borderWidth: 1,
@@ -146,28 +147,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
   },
-  imageText: {
-    color: '#888',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
-  },
+  imageText: { color: '#888' },
+  image: { width: '100%', height: '100%', borderRadius: 10 },
   button: {
     backgroundColor: '#3498db',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
   },
-  disabledButton: {
-    opacity: 0.7,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+  disabledButton: { opacity: 0.7 },
+  buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 });
 
 export default CreatePostScreen;
