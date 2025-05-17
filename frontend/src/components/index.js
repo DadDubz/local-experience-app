@@ -1,4 +1,5 @@
-import App from './frontend/app';
+import App from "./src/App"; 
+
 
 // Re-export all components from common
 export * from './common';
