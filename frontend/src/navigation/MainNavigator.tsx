@@ -9,6 +9,7 @@ import WeatherScreen from '@screens/WeatherScreen';
 import ShopsScreen from '@screens/ShopsScreen';
 import SocialFeedScreen from '@screens/SocialFeedScreen';
 import ProfileScreen from '@screens/ProfileScreen';
+import ProfileStack from '@navigation/ProfileStack';
 
 // Detail screens...
 import LocationDetailScreen from '@screens/LocationDetailScreen';
@@ -37,7 +38,7 @@ const MapStack = () => (
       title: route.params?.trail?.name || 'Trail Details',
       headerShown: true,
     })} />
-    <Stack.Screen name="FishingSpotDetail" component={FishingSpotDetailScreen} options={({ route }) => ({
+    <Stack.Screen name="FishingSpotDetail" component={FishingSpotDetailScreen} options={({ route }: { route: { params: { spot?: { name?: string } } } }) => ({
       title: route.params?.spot?.name || 'Fishing Spot Details',
       headerShown: true,
     })} />
@@ -98,6 +99,7 @@ const MainNavigator = () => (
     <Tab.Screen name="Shops" component={ShopsStack} />
     <Tab.Screen name="Social" component={SocialFeedScreen} />
     <Tab.Screen name="Profile" component={ProfileScreen} /> {/* <-- Updated profile */}
+    <Tab.Screen name="Profile" component={ProfileStack} />
   </Tab.Navigator>
 );
 
