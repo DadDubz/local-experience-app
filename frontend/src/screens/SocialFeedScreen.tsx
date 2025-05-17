@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Picker } from '@react-native-picker/picker';
 import {
   View,
   Text,
@@ -9,42 +8,50 @@ import {
   ActivityIndicator,
   RefreshControl,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import type { StackNavigationProp } from '@react-navigation/stack';
+import { useAuth } from '../context/AuthContext';
+import { Picker } from '@react-native-picker/picker';
+
+type Post = {
+  _id: string;
+  caption?: string;
+  image?: string;
+  location?: string;
+  coordinates?: { lat: number; lng: number };
+  createdAt: string;
+  likes?: number;
+  user?: string;
+};
+type RootStackParamList = {
+  SocialFeed: undefined;
+  CreatePost: undefined;
+  // add other routes here if needed
+};
 
 const SocialFeedScreen = () => {
-  type RootStackParamList = {
-    CreatePost: undefined;
-    // Add other routes here if needed
-  };
-
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  interface Post {
-    _id: string;
-    caption?: string;
-    location?: string;
-    image?: string;
-    createdAt: string;
-    likes?: number;
-  }
-
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState('all');
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const { user } = useAuth();
 
   const fetchPosts = async () => {
     try {
       const response = await axios.get('http://your-api-url/api/posts');
-      let data = response.data.posts || [];
+      let data: Post[] = response.data.posts || [];
 
-      // Filter logic
       if (filter === 'catch') {
         data = data.filter((post: Post) => post.caption?.toLowerCase().includes('catch'));
       } else if (filter === 'liked') {
         data = data.sort((a: Post, b: Post) => (b.likes || 0) - (a.likes || 0));
+      } else if (filter === 'mine') {
+        data = data.filter((post: Post) => post.user === user._id);
       }
 
       setPosts(data);
@@ -81,6 +88,11 @@ const SocialFeedScreen = () => {
       )}
       <Text style={styles.caption}>{item.caption}</Text>
       <Text style={styles.location}>{item.location}</Text>
+      {item.coordinates && (
+        <Text style={styles.coordinates}>
+          Lat: {item.coordinates.lat}, Lng: {item.coordinates.lng}
+        </Text>
+      )}
       <Text style={styles.meta}>{new Date(item.createdAt).toLocaleString()}</Text>
       <TouchableOpacity style={styles.likeButton} onPress={() => handleLike(item._id)}>
         <Icon name="thumb-up" size={20} color="#007AFF" />
@@ -104,11 +116,12 @@ const SocialFeedScreen = () => {
         <Picker
           selectedValue={filter}
           style={styles.picker}
-          onValueChange={(value) => setFilter(value)}
+          onValueChange={(value: string) => setFilter(value)}
         >
           <Picker.Item label="All Posts" value="all" />
           <Picker.Item label="Catches Only" value="catch" />
           <Picker.Item label="Most Liked" value="liked" />
+          <Picker.Item label="My Posts" value="mine" />
         </Picker>
       </View>
 
@@ -159,6 +172,11 @@ const styles = StyleSheet.create({
   location: {
     fontSize: 14,
     color: 'gray',
+  },
+  coordinates: {
+    fontSize: 13,
+    color: '#555',
+    marginTop: 2,
   },
   meta: {
     fontSize: 12,

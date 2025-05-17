@@ -1,4 +1,3 @@
-// backend/models/Post.js
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema(
@@ -14,6 +13,17 @@ const postSchema = new mongoose.Schema(
     },
     image: {
       type: String,
+    },
+    location: {
+      type: String,
+    },
+    coordinates: {
+      lat: { type: Number },
+      lng: { type: Number },
+    },
+    likes: {
+      type: Number,
+      default: 0,
     },
     createdAt: {
       type: Date,

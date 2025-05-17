@@ -4,16 +4,16 @@ import MapView, { Marker } from 'react-native-maps';
 import axios from 'axios';
 import { useAuth } from '@context/AuthContext';
 
+type CatchPost = {
+  _id: string;
+  user: { _id: string };
+  location: string;
+  coordinates: { lat: number; lng: number };
+  caption: string;
+};
+
 const MyCatchesMapScreen = () => {
-  interface Catch {
-    _id: string;
-    coordinates: { lat: number; lng: number };
-    caption: string;
-    location: string;
-    user: { _id: string };
-  }
-  
-  const [catches, setCatches] = useState<Catch[]>([]);
+  const [catches, setCatches] = useState<CatchPost[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
@@ -21,7 +21,7 @@ const MyCatchesMapScreen = () => {
     try {
       const response = await axios.get('http://your-api-url/api/posts');
       const myCatches = response.data.posts.filter(
-        (p: Catch) => p.user._id === user._id && p.location && p.coordinates
+        (p: CatchPost) => p.user._id === user._id && p.location && p.coordinates
       );
       setCatches(myCatches);
     } catch (error) {
