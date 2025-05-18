@@ -1,4 +1,4 @@
-import App from "./src/App"; 
+import App from "./App";
 
 
 // Re-export all components from common
@@ -12,6 +12,6 @@ export * from './layout';
 
 // Export standalone components
 export { default as PublicLandsMap } from './PublicLandsMap';
-export { default as ReportingSystem } from './ReportingSystem';
-export { default as SocialSharing } from './SocialSharing';
-export { default as SpeciesGuide } from './SpeciesGuide';
+export { default as ReportingSystem } from './src/components/ReportingSystem';
+export { default as SocialSharing } from './src/components/SocialSharing';
+export { default as SpeciesGuide } from './src/components/SpeciesGuide';

@@ -1,4 +1,4 @@
 import { registerRootComponent } from 'expo';
-import App from './frontend/src/App';  // Updated path
+import App from './src/App'; // ✅ must point correctly
 
 registerRootComponent(App);
