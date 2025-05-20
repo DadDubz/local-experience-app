@@ -36,7 +36,7 @@
     "react-native-screens": "^3.29.0",
     "react-native-tab-view": "^4.1.0",
     "react-native-web": "0.19.13",
-    "react-native-web-maps": "^0.1.0",
+    "react-native-web-maps": "^0.3.0",
     "sentry-expo": "^5.0.3"
   },
   "devDependencies": {
