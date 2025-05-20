@@ -5,6 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Sentry from '@sentry/react-native';
 
+if (Platform.OS === 'web') {
+  require('leaflet/dist/leaflet.css');
+}
+
 import { AuthProvider, useAuth } from './src/context/AuthContext';
 import MainNavigator from './src/navigation/MainNavigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
