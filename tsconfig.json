@@ -2,11 +2,21 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@App": ["./App"],
-      "@screens/*": ["frontend/src/screens/*"],
-      "@components/*": ["frontend/src/components/*"],
-      "@navigation/*": ["frontend/src/navigation/*"],
-      "@context/*": ["frontend/src/context/*"]
+      "@App": [
+        "./App"
+      ],
+      "@screens/*": [
+        "frontend/src/screens/*"
+      ],
+      "@components/*": [
+        "frontend/src/components/*"
+      ],
+      "@navigation/*": [
+        "frontend/src/navigation/*"
+      ],
+      "@context/*": [
+        "frontend/src/context/*"
+      ]
     },
     "jsx": "react-native",
     "allowJs": true,
@@ -15,5 +25,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ],
+  "extends": "expo/tsconfig.base"
 }
