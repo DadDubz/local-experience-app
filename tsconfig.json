@@ -1,7 +1,19 @@
 {
   "compilerOptions": {
-    "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "baseUrl": ".",
+    "paths": {
+      "@App": ["./App"],
+      "@screens/*": ["frontend/src/screens/*"],
+      "@components/*": ["frontend/src/components/*"],
+      "@navigation/*": ["frontend/src/navigation/*"],
+      "@context/*": ["frontend/src/context/*"]
+    },
+    "jsx": "react-native",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "extends": "./node_modules/expo/tsconfig.base"
+  "exclude": ["node_modules"]
 }

@@ -1,12 +1,3 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@App": ["./App"],
-      "@screens/*": ["src/screens/*"],
-      "@components/*": ["src/components/*"],
-      "@navigation/*": ["src/navigation/*"],
-      "@context/*": ["src/context/*"]
-    }
-  }
+  "presets": ["babel-preset-expo"]
 }
