@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
+
 interface Spot {
   latitude: number;
   longitude: number;
@@ -21,7 +22,7 @@ const NativeMap = ({ spot }: { spot: Spot }) => (
   }}
 >
   <Marker coordinate={{ latitude: spot.latitude, longitude: spot.longitude }} title={spot.name} />
-</MapView>  
+</MapView>
   </View>
 );
 

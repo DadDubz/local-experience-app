@@ -1,6 +1,10 @@
+import NativeMap from '@components/NativeMap.web';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import NativeMap from '../components/NativeMap.web';
+import { View, StyleSheet, Platform } from 'react-native';
+
+if (Platform.OS === 'web') {
+  require('leaflet/dist/leaflet.css');
+}
 
 const MapScreen = () => {
   const spot = {

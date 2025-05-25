@@ -17,5 +17,14 @@ config.transformer.getTransformOptions = async () => ({
     inlineRequires: true,
   },
 });
+// metro.config.js
+// Removed redundant import of getDefaultConfig
+
+const config = getDefaultConfig(__dirname);
+config.resolver.assetExts.push('db'); // Example extension fix
+
+config.resolver.extraNodeModules = {
+  'react-native-maps': require.resolve('./shim/react-native-maps.js'),
+};
 
 module.exports = config;
