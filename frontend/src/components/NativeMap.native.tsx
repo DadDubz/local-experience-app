@@ -1,7 +1,6 @@
-// src/components/NativeMap.web.tsx
-import React, { useEffect } from 'react';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 
 interface Spot {
   latitude: number;
@@ -9,23 +8,36 @@ interface Spot {
   name: string;
 }
 
-const NativeMap = ({ spot }: { spot: Spot }) => {
-  useEffect(() => {
-    const map = L.map('leaflet-map').setView([spot.latitude, spot.longitude], 13);
+const NativeMap = ({ spot }: { spot: Spot }) => (
+  <View style={styles.mapContainer}>
+    <MapView
+      style={styles.map}
+      initialRegion={{
+        latitude: spot.latitude,
+        longitude: spot.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      }}
+    >
+      <Marker
+        coordinate={{
+          latitude: spot.latitude,
+          longitude: spot.longitude,
+        }}
+        title={spot.name}
+      />
+    </MapView>
+  </View>
+);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(map);
-
-    L.marker([spot.latitude, spot.longitude]).addTo(map).bindPopup(spot.name).openPopup();
-
-    return () => {
-      map.remove(); // Clean up
-    };
-  }, [spot]);
-
-  return <div id="leaflet-map" style={{ height: '300px', width: '100%' }} />;
-};
+const styles = StyleSheet.create({
+  mapContainer: {
+    height: '100%',
+    width: '100%',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
 
 export default NativeMap;

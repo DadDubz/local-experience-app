@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+// Update the import path to the correct relative path
+import NativeMap from '../components/NativeMap'; // Adjust the path as needed based on your folder structure
 
-if (Platform.OS === 'web') {
-  require('leaflet/dist/leaflet.css');
-  const L = require('leaflet');
+// ✅ Apply Leaflet CSS and fix icon issues
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
-  delete L.Icon.Default.prototype._getIconUrl;
-  L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-  });
-}
+// Fix broken Leaflet icon URLs in Expo Web
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
 
 const MapScreen = () => {
   const spot = {
@@ -24,15 +26,6 @@ const MapScreen = () => {
     <View style={styles.container}>
       <NativeMap spot={spot} />
     </View>
-  );
-};
-
-// Dummy NativeMap component for web (replace with actual implementation if available)
-const NativeMap = ({ spot }: { spot: { latitude: number; longitude: number; name: string } }) => {
-  return (
-    <div>
-      <p>Map placeholder for {spot.name} ({spot.latitude}, {spot.longitude})</p>
-    </div>
   );
 };
 
