@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import NativeMap from '../components/NativeMap'; // Adjust the path as needed
 
 if (Platform.OS === 'web') {
   require('leaflet/dist/leaflet.css');
@@ -25,6 +24,15 @@ const MapScreen = () => {
     <View style={styles.container}>
       <NativeMap spot={spot} />
     </View>
+  );
+};
+
+// Dummy NativeMap component for web (replace with actual implementation if available)
+const NativeMap = ({ spot }: { spot: { latitude: number; longitude: number; name: string } }) => {
+  return (
+    <div>
+      <p>Map placeholder for {spot.name} ({spot.latitude}, {spot.longitude})</p>
+    </div>
   );
 };
 
