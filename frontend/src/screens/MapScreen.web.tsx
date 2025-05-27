@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import NativeMap from '@components/NativeMap'; // Automatically resolves platform
+import NativeMap from '../components/NativeMap'; // Adjust the path as needed
 
 if (Platform.OS === 'web') {
   require('leaflet/dist/leaflet.css');
