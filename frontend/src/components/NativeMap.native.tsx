@@ -1,5 +1,5 @@
 // src/components/NativeMap.native.tsx
-import React from 'react';
+import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
