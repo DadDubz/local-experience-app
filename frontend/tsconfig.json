@@ -1,5 +1,4 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
@@ -10,6 +9,8 @@
     "jsx": "react",
     "module": "ESNext",
     "strict": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["./types", "./node_modules/@types"]
+  },
+  "include": ["src", "types"]
 }

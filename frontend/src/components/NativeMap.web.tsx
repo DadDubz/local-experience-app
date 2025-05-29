@@ -1,8 +1,7 @@
 // src/components/NativeMap.web.tsx
-import React from 'react';
+import * as React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
 
 // Fix missing Leaflet marker icons on web
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -12,9 +11,20 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 // Patch Leaflet default icon paths
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x.src ?? markerIcon2x,
-  iconUrl: markerIcon.src ?? markerIcon,
-  shadowUrl: markerShadow.src ?? markerShadow,
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+import * as L from 'leaflet';
+
+// @ts-ignore
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
 interface Spot {
