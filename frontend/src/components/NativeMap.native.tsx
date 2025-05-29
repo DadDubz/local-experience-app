@@ -1,5 +1,6 @@
+// src/components/NativeMap.native.tsx
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 interface Spot {
@@ -9,34 +10,26 @@ interface Spot {
 }
 
 const NativeMap = ({ spot }: { spot: Spot }) => (
-  <View style={styles.mapContainer}>
+  <View style={styles.container}>
     <MapView
-      style={styles.map}
+      style={StyleSheet.absoluteFillObject}
       initialRegion={{
         latitude: spot.latitude,
         longitude: spot.longitude,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
       }}
     >
-      <Marker
-        coordinate={{
-          latitude: spot.latitude,
-          longitude: spot.longitude,
-        }}
-        title={spot.name}
-      />
+      <Marker coordinate={{ latitude: spot.latitude, longitude: spot.longitude }} title={spot.name} />
     </MapView>
   </View>
 );
 
 const styles = StyleSheet.create({
-  mapContainer: {
-    height: '100%',
+  container: {
+    flex: 1,
+    height: 300,
     width: '100%',
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
   },
 });
 
