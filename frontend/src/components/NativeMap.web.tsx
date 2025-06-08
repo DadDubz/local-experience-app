@@ -1,21 +1,23 @@
 // src/components/NativeMap.web.tsx
-import * as React from 'react';
-import { useEffect } from 'react';
+
+import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
-// 👇 THIS IS THE ICON FIX SECTION — insert this right after the imports
-// It ensures the correct icons load instead of broken default URLs.
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+// These imports require the image type declaration fix mentioned above
+import iconUrl from 'leaflet/dist/images/marker-icon.png';
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+const icon = L.icon({
+  iconUrl,
+  iconRetinaUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
 });
 
-// 👇 Your component code follows as usual
 interface Spot {
   latitude: number;
   longitude: number;
@@ -24,19 +26,20 @@ interface Spot {
 
 const NativeMap = ({ spot }: { spot: Spot }) => {
   useEffect(() => {
-    // Any map cleanup logic if needed
+    // Fix for default marker icon path
+    L.Marker.prototype.options.icon = icon;
   }, []);
 
   return (
-    <div style={{ height: '300px', width: '100%' }}>
+    <div style={{ height: '400px', width: '100%' }}>
       <MapContainer
         center={[spot.latitude, spot.longitude]}
         zoom={13}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
         style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
-          attribution='&copy; OpenStreetMap contributors'
+          attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Marker position={[spot.latitude, spot.longitude]}>
