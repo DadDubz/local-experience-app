@@ -1,14 +1,20 @@
 // src/components/NativeMap.web.tsx
 
-import React, { useEffect } from 'react';
+import * as React from 'react';
+import { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import * as L from 'leaflet';
 
 // These imports require the image type declaration fix mentioned above
 import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+// Ensure the images are treated as URLs
+declare module '*.png' {
+  const value: string;
+  export default value;
+}
 
 const icon = L.icon({
   iconUrl,

@@ -18,6 +18,10 @@
         "frontend/src/context/*"
       ]
     },
+    "lib": [
+      "dom",
+      "es2015"
+    ],
     "jsx": "react-native",
     "allowJs": true,
     "esModuleInterop": true,
