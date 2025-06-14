@@ -13,7 +13,7 @@ const AddReviewScreen: React.FC = () => {
 
   return (
     <div style={{ padding: '1rem' }}>
-      <>
+      <React.Fragment>
         <label><strong>Your Name</strong></label><br />
         <input
           value={name}
@@ -27,7 +27,7 @@ const AddReviewScreen: React.FC = () => {
           rows={4}
         /><br /><br />
         <button onClick={submitReview}>Submit Review</button>
-      </>
+      </React.Fragment>
     </div>
   );
 };
