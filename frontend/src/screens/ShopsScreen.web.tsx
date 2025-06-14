@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 const ShopsScreen: React.FC = () => (
   <div style={{ padding: '1rem', textAlign: 'center' }}>

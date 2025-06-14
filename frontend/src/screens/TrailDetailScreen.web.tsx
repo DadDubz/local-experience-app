@@ -1,4 +1,6 @@
 // TrailDetailScreen.web.tsx
+import LeafletMap from '@components/LeafletMap.web';
+import leaflet from '@components/NativeMap.web';
 import React from 'react';
 
 const trail = {
@@ -12,7 +14,7 @@ const TrailDetailScreen: React.FC = () => (
   <div className="trail-detail-container">
     <h2>{trail.name}</h2>
     <p>{trail.description}</p>
-    <NativeMap spot={trail} />
+    <LeafletMap spot={trail} />
   </div>
 );
 
