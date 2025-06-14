@@ -3,18 +3,18 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 import * as L from 'leaflet';
-
-// These imports require the image type declaration fix mentioned above
-import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
+import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
-// Ensure the images are treated as URLs
-declare module '*.png' {
-  const value: string;
-  export default value;
-}
+
+// Fix Leaflet marker icons
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+});
 
 const icon = L.icon({
   iconUrl,
@@ -32,7 +32,7 @@ interface Spot {
 
 const NativeMap = ({ spot }: { spot: Spot }) => {
   useEffect(() => {
-    // Fix for default marker icon path
+    // Ensure the marker uses the custom icon globally
     L.Marker.prototype.options.icon = icon;
   }, []);
 

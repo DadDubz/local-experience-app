@@ -1,5 +1,6 @@
 // CampingScreen.web.tsx
-import React from 'react';
+import NativeMap from '@components/NativeMap.web';
+import * as React from 'react';
 
 const campingSpot = {
   name: 'Whispering Pines Campground',
@@ -10,9 +11,11 @@ const campingSpot = {
 
 const CampingScreen: React.FC = () => (
   <div style={{ padding: '1rem' }}>
-    <h1>{campingSpot.name}</h1>
-    <p>{campingSpot.description}</p>
-    <NativeMap spot={campingSpot} />
+      <>
+        <h1>{campingSpot.name}</h1>
+        <p>{campingSpot.description}</p>
+        <NativeMap spot={campingSpot} />
+      </>
   </div>
 );
 

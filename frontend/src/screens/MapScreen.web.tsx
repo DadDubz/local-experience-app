@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 // Update the import path to the correct relative path
-import NativeMap from '../components/NativeMap'; // Adjust the path as needed based on your folder structure
+
 
 // ✅ Apply Leaflet CSS and fix icon issues
 import 'leaflet/dist/leaflet.css';

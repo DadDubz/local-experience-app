@@ -1,5 +1,6 @@
 // AddReviewScreen.web.tsx
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 
 const AddReviewScreen: React.FC = () => {
   const [name, setName] = useState('');
@@ -12,19 +13,21 @@ const AddReviewScreen: React.FC = () => {
 
   return (
     <div style={{ padding: '1rem' }}>
-      <label><strong>Your Name</strong></label><br />
-      <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Enter your name"
-      /><br /><br />
-      <label><strong>Review</strong></label><br />
-      <textarea
-        value={review}
-        onChange={(e) => setReview(e.target.value)}
-        rows={4}
-      /><br /><br />
-      <button onClick={submitReview}>Submit Review</button>
+      <>
+        <label><strong>Your Name</strong></label><br />
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Enter your name"
+        /><br /><br />
+        <label><strong>Review</strong></label><br />
+        <textarea
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
+          rows={4}
+        /><br /><br />
+        <button onClick={submitReview}>Submit Review</button>
+      </>
     </div>
   );
 };
