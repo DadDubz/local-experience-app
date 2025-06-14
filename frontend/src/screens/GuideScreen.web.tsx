@@ -15,9 +15,11 @@ const GuideScreen: React.FC = () => (
   <div style={{ padding: '1rem' }}>
     <h2>{guideArea.name}</h2>
     <p>{guideArea.description}</p>
-    <NativeMap spot={guideArea} />
+    <LeafletMap spot={guideArea} />
   </div>
 );
 
-export default NativeMap;
+export default GuideScreen;
+import LeafletMap from '@components/LeafletMap.web';
+import NativeMap from '@components/NativeMap.web'; // Importing NativeMap for consistency, but not used here
 // Removed duplicate default export for NativeMap

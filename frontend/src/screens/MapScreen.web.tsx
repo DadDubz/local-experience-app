@@ -6,6 +6,7 @@ import { View, StyleSheet } from 'react-native';
 // ✅ Apply Leaflet CSS and fix icon issues
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import LeafletMap from '@components/LeafletMap.web';
 
 // Fix broken Leaflet icon URLs in Expo Web
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -24,7 +25,7 @@ const MapScreen = () => {
 
   return (
     <View style={styles.container}>
-      <NativeMap spot={spot} />
+      <LeafletMap spot={spot} />
     </View>
   );
 };

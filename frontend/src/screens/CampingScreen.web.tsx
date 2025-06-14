@@ -1,4 +1,5 @@
 // CampingScreen.web.tsx
+import LeafletMap from '@components/LeafletMap.web';
 import NativeMap from '@components/NativeMap.web';
 import * as React from 'react';
 
@@ -14,7 +15,7 @@ const CampingScreen: React.FC = () => (
       <>
         <h1>{campingSpot.name}</h1>
         <p>{campingSpot.description}</p>
-        <NativeMap spot={campingSpot} />
+        <LeafletMap spot={campingSpot} />
       </>
   </div>
 );

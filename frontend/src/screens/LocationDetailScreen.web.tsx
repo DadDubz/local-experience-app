@@ -1,4 +1,5 @@
 // LocationDetailScreen.web.tsx
+import LeafletMap from '@components/LeafletMap.web';
 import React from 'react';
 
 const location = {
@@ -12,7 +13,7 @@ const LocationDetailScreen: React.FC = () => (
   <div style={{ padding: '1rem' }}>
     <h2>{location.name}</h2>
     <p>{location.description}</p>
-    <NativeMap spot={location} />
+    <LeafletMap spot={location} />
   </div>
 );
 

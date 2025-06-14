@@ -1,4 +1,5 @@
 // src/screens/FishingSpotDetailScreen.web.tsx
+import LeafletMap from '@components/LeafletMap.web';
 import React from 'react';
 
 interface Spot {
@@ -20,7 +21,7 @@ const FishingSpotDetailScreen: React.FC = () => {
     <div style={{ padding: '1rem' }}>
       <h1>{spot.name}</h1>
       <p>{spot.description}</p>
-      <NativeMap spot={spot} />
+      <LeafletMap spot={spot} />
     </div>
   );
 };
