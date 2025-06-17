@@ -1,6 +1,6 @@
 // src/screens/FishingSpotDetailScreen.web.tsx
 import LeafletMap from '@components/LeafletMap.web';
-import React from 'react';
+import * as React from 'react';
 
 interface Spot {
   name: string;

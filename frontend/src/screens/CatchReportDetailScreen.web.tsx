@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 interface CatchReport {
   species: string;
@@ -17,7 +17,9 @@ const CatchReportDetailScreen: React.FC = () => {
     <div style={{ padding: '1.5rem', fontFamily: 'sans-serif' }}>
       <h2 style={{ marginBottom: '1rem' }}>Catch Report</h2>
       <div>
-        <p><strong>Species:</strong> {report.species}</p>
+        <p>
+          <strong>Species:</strong> {report.species}
+        </p>
         <p><strong>Location:</strong> {report.location}</p>
         <p><strong>Notes:</strong> {report.notes}</p>
       </div>

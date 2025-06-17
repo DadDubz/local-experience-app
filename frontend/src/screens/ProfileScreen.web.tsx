@@ -1,26 +1,53 @@
-import React from 'react';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-// Make sure the file exists as AccountInfoScreen.tsx or AccountInfoScreen/index.tsx in the same directory
-// Update the import path below to the correct relative path where AccountInfoScreen actually exists.
-// For example, if AccountInfoScreen.tsx is in the same folder as ProfileScreen.web.tsx:
-// Update the import path below to the correct relative path where AccountInfoScreen actually exists.
-// For example, if AccountInfoScreen.tsx is in the same folder as ProfileScreen.web.tsx:
-// import AccountInfoScreen from './AccountInfoScreen';
-// Or, if it is in a parent folder:
-import AccountInfoScreen from './AccontInfoScreen';
-// Or, if it is in a parent folder:
-// import AccountInfoScreen from '../AccountInfoScreen';
+// frontend/src/screens/ProfileScreen.web.tsx
+import * as React from 'react';
+import { View, useWindowDimensions, StyleSheet, Text } from 'react-native';
+import { TabView, SceneMap, TabBar, TabBarProps } from 'react-native-tab-view';
+
+import AccountInfoScreen from './AccountInfoScreen';
 import MyPostsScreen from './MyPostsScreen';
 
-const Tab = createMaterialTopTabNavigator();
+const renderScene = SceneMap({
+  accountInfo: AccountInfoScreen,
+  myPosts: MyPostsScreen,
+});
 
 const ProfileScreen = () => {
+  const layout = useWindowDimensions();
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'accountInfo', title: 'Account Info' },
+    { key: 'myPosts', title: 'My Posts' },
+  ]);
+
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Account Info" component={AccountInfoScreen} />
-      <Tab.Screen name="My Posts" component={MyPostsScreen} />
-    </Tab.Navigator>
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: layout.width }}
+      renderTabBar={(props: TabBarProps<any>) => (
+        <TabBar
+          {...props}
+          indicatorStyle={styles.indicator}
+          style={styles.tabbar}
+          labelStyle={styles.label}
+        />
+      )}
+    />
   );
 };
+
+const styles = StyleSheet.create({
+  tabbar: {
+    backgroundColor: '#fff',
+  },
+  indicator: {
+    backgroundColor: '#007AFF',
+  },
+  label: {
+    color: '#000',
+    fontWeight: '600',
+  },
+});
 
 export default ProfileScreen;
