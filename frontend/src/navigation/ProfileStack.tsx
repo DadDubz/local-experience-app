@@ -1,8 +1,8 @@
 // frontend/src/navigation/ProfileStack.tsx
 
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import ProfileScreen from '@screens/ProfileScreen';
+import { createStackNavigator } from '../react-navigation/stack';
+import ProfileScreen from '../screens/ProfileScreen';
 import AccountInfoScreen from '../screens/AccountInfoScreen';
 
 const Stack = createStackNavigator();
