@@ -1,53 +1,24 @@
-// frontend/src/screens/ProfileScreen.web.tsx
-import * as React from 'react';
-import { View, useWindowDimensions, StyleSheet, Text } from 'react-native';
-import { TabView, SceneMap, TabBar, TabBarProps } from 'react-native-tab-view';
+import React from 'react';
+import { View, Text, Button, StyleSheet, useWindowDimensions } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import AccountInfoScreen from './AccountInfoScreen';
-import MyPostsScreen from './MyPostsScreen';
+import MyPostsScreen from './MyPostsScreen'; // Create this if needed
 
-const renderScene = SceneMap({
-  accountInfo: AccountInfoScreen,
-  myPosts: MyPostsScreen,
-});
+const Stack = createStackNavigator();
 
 const ProfileScreen = () => {
-  const layout = useWindowDimensions();
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'accountInfo', title: 'Account Info' },
-    { key: 'myPosts', title: 'My Posts' },
-  ]);
+  const dimensions = useWindowDimensions();
 
   return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
-      renderTabBar={(props: TabBarProps<any>) => (
-        <TabBar
-          {...props}
-          indicatorStyle={styles.indicator}
-          style={styles.tabbar}
-          labelStyle={styles.label}
-        />
-      )}
-    />
+    <NavigationContainer independent>
+      <Stack.Navigator>
+        <Stack.Screen name="Account Info" component={AccountInfoScreen} />
+        <Stack.Screen name="My Posts" component={MyPostsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  tabbar: {
-    backgroundColor: '#fff',
-  },
-  indicator: {
-    backgroundColor: '#007AFF',
-  },
-  label: {
-    color: '#000',
-    fontWeight: '600',
-  },
-});
 
 export default ProfileScreen;
