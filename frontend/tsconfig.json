@@ -1,3 +1,4 @@
+// tsconfig.json (root level)
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
@@ -14,11 +15,11 @@
     "baseUrl": ".",
     "paths": {
       "@App": ["./App"],
-      "@screens/*": ["src/screens/*"],
-      "@components/*": ["src/components/*"],
-      "@navigation/*": ["src/navigation/*"],
-      "@context/*": ["src/context/*"],
-      "@services/*": ["src/services/*"]
+      "@screens/*": ["frontend/src/screens/*"],
+      "@components/*": ["frontend/src/components/*"],
+      "@navigation/*": ["frontend/src/navigation/*"],
+      "@context/*": ["frontend/src/context/*"],
+      "@services/*": ["frontend/src/services/*"]
     }
   },
   "exclude": ["node_modules"]
