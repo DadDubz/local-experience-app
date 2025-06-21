@@ -1,7 +1,26 @@
+// tsconfig.json (root level)
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "target": "es2017",
+    "lib": ["dom", "es2015"],
+    "jsx": "react-native",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@App": ["./App"],
+      "@screens/*": ["frontend/src/screens/*"],
+      "@components/*": ["frontend/src/components/*"],
+      "@navigation/*": ["frontend/src/navigation/*"],
+      "@context/*": ["frontend/src/context/*"],
+      "@services/*": ["frontend/src/services/*"]
+    }
   },
-  "extends": "expo/tsconfig.base"
+  "exclude": ["node_modules"]
 }
