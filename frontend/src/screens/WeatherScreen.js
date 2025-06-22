@@ -1,1 +1,1 @@
-
+export default WeatherScreen;

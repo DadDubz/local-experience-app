@@ -1,18 +1,15 @@
-// main navigation: src/navigation/MainNavigator.tsx
+// frontend/src/navigation/MainNavigator.tsx
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-// Screens
 import MapScreen from '@screens/MapScreen';
-// Update the path below if WeatherScreen.tsx is located elsewhere
-import WeatherScreen from '../screens/WeatherScreen';
+import WeatherScreen from '@screens/WeatherScreen';
 import ShopsScreen from '@screens/ShopsScreen';
-import SocialFeedScreen from '../screens/SocialFeedScreen';
+import SocialFeedScreen from '@screens/SocialFeedScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 
-// Detail Screens
 import LocationDetailScreen from '@screens/LocationDetailScreen';
 import TrailDetailScreen from '@screens/TrailDetailScreen';
 import FishingSpotDetailScreen from '@screens/FishingSpotDetailScreen';
@@ -34,11 +31,11 @@ const MapStack = () => (
       title: route.params?.location?.FacilityName || 'Location Details',
       headerShown: true,
     })} />
-    <Stack.Screen name="TrailDetail" component={TrailDetailScreen} options={({ route }) => ({
+    <Stack.Screen name="TrailDetail" component={TrailDetailScreen} options={({ route }: { route: { params: { trail?: { name?: string } } } }) => ({
       title: route.params?.trail?.name || 'Trail Details',
       headerShown: true,
     })} />
-    <Stack.Screen name="FishingSpotDetail" component={FishingSpotDetailScreen} options={({ route }) => ({
+    <Stack.Screen name="FishingSpotDetail" component={FishingSpotDetailScreen} options={({ route }: { route: { params: { spot?: { name?: string } } } }) => ({
       title: route.params?.spot?.name || 'Fishing Spot Details',
       headerShown: true,
     })} />
@@ -85,12 +82,14 @@ const MainNavigator = () => (
           case 'Shops': iconName = focused ? 'store' : 'store-outline'; break;
           case 'Social': iconName = focused ? 'fish' : 'fish-outline'; break;
           case 'Profile': iconName = focused ? 'account' : 'account-outline'; break;
+          default: iconName = 'circle';
         }
-        return <Icon name={iconName || 'alert-circle'} size={size} color={color} />;
+        return <Icon name={iconName} size={size} color={color} />;
       },
       tabBarStyle: { paddingBottom: 5, height: 60 },
       tabBarActiveTintColor: '#007AFF',
       tabBarInactiveTintColor: 'gray',
+      headerShown: false,
     })}
   >
     <Tab.Screen name="Map" component={MapStack} />

@@ -1,4 +1,4 @@
-// tsconfig.json (root level)
+// tsconfig.json (root-level)
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
