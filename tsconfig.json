@@ -1,4 +1,3 @@
-// tsconfig.json (root-level)
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
@@ -12,14 +11,14 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "baseUrl": "./frontend",
     "paths": {
-      "@App": ["./App"],
-      "@screens/*": ["frontend/src/screens/*"],
-      "@components/*": ["frontend/src/components/*"],
-      "@navigation/*": ["frontend/src/navigation/*"],
-      "@context/*": ["frontend/src/context/*"],
-      "@services/*": ["frontend/src/services/*"]
+      "@App": ["src/App"],
+      "@screens/*": ["src/screens/*"],
+      "@components/*": ["src/components/*"],
+      "@navigation/*": ["src/navigation/*"],
+      "@context/*": ["src/context/*"],
+      "@services/*": ["src/services/*"]
     }
   },
   "exclude": ["node_modules"]

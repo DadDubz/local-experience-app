@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import AccountInfoScreen from '@screens/AccountInfoScreen';
+
 
 const AccountInfoScreen = () => {
   return (
