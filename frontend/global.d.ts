@@ -1,4 +1,4 @@
-// frontend/global.d.ts
+// src/global.d.ts
 declare module '*.png' {
   const value: string;
   export default value;

@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "baseUrl": "./frontend",
+    "baseUrl": "./",
     "paths": {
       "@App": ["src/App"],
       "@screens/*": ["src/screens/*"],
