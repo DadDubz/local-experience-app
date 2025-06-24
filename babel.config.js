@@ -6,14 +6,13 @@ module.exports = function (api) {
       [
         'module-resolver',
         {
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+          root: ['./src'],
           alias: {
-            '@App': './frontend/src/App',
-            '@screens': './frontend/src/screens',
-            '@components': './frontend/src/components',
-            '@navigation': './frontend/src/navigation',
-            '@context': './frontend/src/context',
-            '@services': './frontend/src/services',
+            '@screens': './src/screens',
+            '@components': './src/components',
+            '@context': './src/context',
+            '@navigation': './src/navigation',
+            '@services': './src/services',
           },
         },
       ],
