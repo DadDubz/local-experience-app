@@ -27,15 +27,24 @@ const Stack = createStackNavigator();
 const MapStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="MapMain" component={MapScreen} options={{ headerShown: false }} />
-    <Stack.Screen name="LocationDetail" component={LocationDetailScreen} options={({ route }) => ({
-      title: route.params?.location?.FacilityName || 'Location Details',
-      headerShown: true,
-    })} />
-    <Stack.Screen name="TrailDetail" component={TrailDetailScreen} options={({ route }: { route: { params: { trail?: { name?: string } } } }) => ({
-      title: route.params?.trail?.name || 'Trail Details',
-      headerShown: true,
-    })} />
-    <Stack.Screen name="FishingSpotDetail" component={FishingSpotDetailScreen} options={({ route }: { route: { params: { spot?: { name?: string } } } }) => ({
+    <Stack.Screen
+      name="LocationDetail"
+      component={LocationDetailScreen}
+      options={({
+        route,
+      }: {
+        route: { params?: { location?: { FacilityName?: string } } };
+      }) => ({
+        title: route.params?.location?.FacilityName || 'Location Details',
+        headerShown: true,
+      })}
+    />
+<Stack.Screen name="TrailDetail" component={TrailDetailScreen} options={({ route }) => ({
+  title: (route.params as { trail?: { name?: string } })?.trail?.name || 'Trail Details',
+  headerShown: true,
+})} />
+
+    <Stack.Screen name="FishingSpotDetail" component={FishingSpotDetailScreen} options={({ route }) => ({
       title: route.params?.spot?.name || 'Fishing Spot Details',
       headerShown: true,
     })} />
