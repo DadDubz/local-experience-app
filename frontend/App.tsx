@@ -1,6 +1,6 @@
-// App.tsx
+// ✅ App.tsx
 import React from 'react';
-import { Platform, View, ActivityIndicator } from 'react-native';
+import { Platform, View, ActivityIndicator, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Sentry from '@sentry/react-native';
@@ -15,20 +15,10 @@ import AuthNavigator from './src/navigation/AuthNavigator';
 
 const Stack = createStackNavigator();
 
-// Load Leaflet CSS for web
-if (Platform.OS === 'web') {
-  require('leaflet/dist/leaflet.css');
-}
+Sentry.init({ dsn: process.env.SENTRY_DSN });
 
-// Initialize Sentry
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-});
-
-// Root component to manage auth state
 const RootNavigation = () => {
   const { user, loading } = useAuth();
-
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -50,13 +40,11 @@ const RootNavigation = () => {
   );
 };
 
-// Wrap everything with AuthProvider
-const App = () => {
-  return (
-    <AuthProvider>
-      <RootNavigation />
-    </AuthProvider>
-  );
-};
+const App = () => (
+  <AuthProvider>
+    <RootNavigation />
+  </AuthProvider>
+);
 
 export default App;
+

@@ -9,12 +9,7 @@ export const useLocationContext = () => {
   if (!context) {
     throw new Error('useLocationContext must be used within a LocationProvider');
   }
-};
-
-// Removed duplicate declaration of LocationProvider
-
-LocationProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  return context; // 🛠 FIXED: added return
 };
 
 export const LocationProvider = ({ children }) => {
@@ -25,4 +20,8 @@ export const LocationProvider = ({ children }) => {
       {children}
     </LocationContext.Provider>
   );
+};
+
+LocationProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
