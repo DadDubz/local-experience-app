@@ -9,8 +9,9 @@ export const useLocationContext = () => {
   if (!context) {
     throw new Error('useLocationContext must be used within a LocationProvider');
   }
-  return context; // 🛠 FIXED: added return
+  return context; // ✅ ADD THIS
 };
+
 
 export const LocationProvider = ({ children }) => {
   const locationData = useLocation({ startWatching: true });
