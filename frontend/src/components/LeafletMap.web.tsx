@@ -1,8 +1,18 @@
 // frontend/src/components/LeafletMap.web.tsx
 import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+
+// Manually set icon paths for Leaflet on web
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
+
+import 'leaflet/dist/leaflet.css';
 import { Platform } from 'react-native';
 
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
