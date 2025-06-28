@@ -5,11 +5,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Update the import path below if '@screens' alias is not configured correctly
-import MapScreen from '../src/screens/MapScreen';
-import WeatherScreen from '../src/screens/WeatherScreen';
-import ShopsScreen from '../src/screens/ShopsScreen';
+import MapScreen from '../screens/MapScreen';
+import WeatherScreen from '../screens/WeatherScreen';
+import ShopsScreen from '../screens/ShopsScreen';
 import SocialFeedScreen from '../screens/SocialFeedScreen';
-import ProfileScreen from '../src/screens/ProfileScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 import LocationDetailScreen from '@screens/LocationDetailScreen';
 import TrailDetailScreen from '@screens/TrailDetailScreen';
