@@ -1,25 +1,8 @@
 {
-  "extends": "expo/tsconfig.base",
+  "extends": "./frontend/tsconfig.json",
   "compilerOptions": {
-    "target": "es2017",
-    "lib": ["dom", "es2015"],
-    "jsx": "react-native",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
-    "baseUrl": "./",
-    "paths": {
-      "@App": ["src/App"],
-      "@screens/*": ["src/screens/*"],
-      "@components/*": ["src/components/*"],
-      "@navigation/*": ["src/navigation/*"],
-      "@context/*": ["src/context/*"],
-      "@services/*": ["src/services/*"]
-    }
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "backend", "dist", "build"]
 }
