@@ -5,21 +5,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Update the import path below if '@screens' alias is not configured correctly
-import MapScreen from '../screens/MapScreen';
+import MapScreen from '../screens/MapScreen.web';
 import WeatherScreen from '../screens/WeatherScreen';
-import ShopsScreen from '../screens/ShopsScreen';
+import ShopsScreen from '../screens/ShopsScreen.web';
 import SocialFeedScreen from '../screens/SocialFeedScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import ProfileScreen from '../screens/ProfileScreen.web';
 
-import LocationDetailScreen from '@screens/LocationDetailScreen';
-import TrailDetailScreen from '@screens/TrailDetailScreen';
-import FishingSpotDetailScreen from '@screens/FishingSpotDetailScreen';
-import WeatherAlertsScreen from '@screens/WeatherAlertsScreen';
+import LocationDetailScreen from '@screens/LocationDetailScreen.web';
+import TrailDetailScreen from '@screens/TrailDetailScreen.web';
+import FishingSpotDetailScreen from '@screens/FishingSpotDetailScreen.web';
+import WeatherAlertsScreen from '../screens/WeatherAlertsScreen';
 import MarineConditionsScreen from '@screens/MarineConditionsScreen';
-import GuideScreen from '@screens/GuideScreen';
+import GuideScreen from '@screens/GuideScreen.web';
 import GuideBookingScreen from '@screens/GuideBookingScreen';
 import GuideDetailScreen from '@screens/GuideDetailScreen';
-import ShopDetailScreen from '@screens/ShopDetailScreen';
+import ShopDetailScreen from '@screens/ShopDetailScreen.web';
 import ShopInventoryScreen from '@screens/ShopInventoryScreen';
 
 const Tab = createBottomTabNavigator();
@@ -45,10 +45,18 @@ const MapStack = () => (
   headerShown: true,
 })} />
 
-    <Stack.Screen name="FishingSpotDetail" component={FishingSpotDetailScreen} options={({ route }) => ({
-      title: route.params?.spot?.name || 'Fishing Spot Details',
-      headerShown: true,
-    })} />
+    <Stack.Screen
+      name="FishingSpotDetail"
+      component={FishingSpotDetailScreen}
+      options={({
+        route,
+      }: {
+        route: { params?: { spot?: { name?: string } } };
+      }) => ({
+        title: route.params?.spot?.name || 'Fishing Spot Details',
+        headerShown: true,
+      })}
+    />
   </Stack.Navigator>
 );
 
@@ -63,9 +71,17 @@ const WeatherStack = () => (
 const GuidesStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="GuidesMain" component={GuideScreen} options={{ title: 'Guides' }} />
-    <Stack.Screen name="GuideDetail" component={GuideDetailScreen} options={({ route }) => ({
-      title: route.params?.guide?.name || 'Guide Details',
-    })} />
+    <Stack.Screen
+      name="GuideDetail"
+      component={GuideDetailScreen}
+      options={({
+        route,
+      }: {
+        route: { params?: { guide?: { name?: string } } };
+      }) => ({
+        title: route.params?.guide?.name || 'Guide Details',
+      })}
+    />
     <Stack.Screen name="GuideBooking" component={GuideBookingScreen} options={{ title: 'Book Guide' }} />
   </Stack.Navigator>
 );
@@ -73,9 +89,17 @@ const GuidesStack = () => (
 const ShopsStack = () => (
   <Stack.Navigator>
     <Stack.Screen name="ShopsMain" component={ShopsScreen} options={{ title: 'Shops' }} />
-    <Stack.Screen name="ShopDetail" component={ShopDetailScreen} options={({ route }) => ({
-      title: route.params?.shop?.name || 'Shop Details',
-    })} />
+    <Stack.Screen
+      name="ShopDetail"
+      component={ShopDetailScreen}
+      options={({
+        route,
+      }: {
+        route: { params?: { shop?: { name?: string } } };
+      }) => ({
+        title: route.params?.shop?.name || 'Shop Details',
+      })}
+    />
     <Stack.Screen name="ShopInventory" component={ShopInventoryScreen} options={{ title: 'Inventory' }} />
   </Stack.Navigator>
 );
