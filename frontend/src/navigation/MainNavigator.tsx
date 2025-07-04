@@ -5,22 +5,26 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Update the import path below if '@screens' alias is not configured correctly
-import MapScreen from '../screens/MapScreen.web';
-import WeatherScreen from '../screens/WeatherScreen';
-import ShopsScreen from '../screens/ShopsScreen.web';
-import SocialFeedScreen from '../screens/SocialFeedScreen';
-import ProfileScreen from '../screens/ProfileScreen.web';
+import MapScreen from '@screens/MapScreen';
+import WeatherScreen from '@screens/WeatherScreen';
+import ShopsScreen from '@screens/ShopsScreen';
+import SocialFeedScreen from '@screens/SocialFeedScreen';
+import ProfileScreen from '@screens/ProfileScreen';
 
-import LocationDetailScreen from '@screens/LocationDetailScreen.web';
-import TrailDetailScreen from '@screens/TrailDetailScreen.web';
-import FishingSpotDetailScreen from '@screens/FishingSpotDetailScreen.web';
+import LocationDetailScreen from '@screens/LocationDetailScreen';
+import TrailDetailScreen from '@screens/TrailDetailScreen';
+import FishingSpotDetailScreen from '@screens/FishingSpotDetailScreen';
 import WeatherAlertsScreen from '../screens/WeatherAlertsScreen';
 import MarineConditionsScreen from '@screens/MarineConditionsScreen';
-import GuideScreen from '@screens/GuideScreen.web';
+// Update the path below to the correct relative path if GuideScreen exists elsewhere
+// import GuideScreen from '@screens/GuideScreen';
+// TODO: Update the path below to the correct relative path if GuideScreen exists elsewhere
+// import GuideScreen from '../screens/GuideScreen';
 import GuideBookingScreen from '@screens/GuideBookingScreen';
 import GuideDetailScreen from '@screens/GuideDetailScreen';
-import ShopDetailScreen from '@screens/ShopDetailScreen.web';
+import ShopDetailScreen from '@screens/ShopDetailScreen';
 import ShopInventoryScreen from '@screens/ShopInventoryScreen';
+import GuideScreen from '@screens/GuideScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
