@@ -6,7 +6,8 @@ import AuthNavigator from "./navigation/AuthNavigator";
 
 const Stack = createStackNavigator();
 const protectedRoutes = require('./routes/protectedRoutes');
-app.use('/api', protectedRoutes);
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
 
 const App = () => {
   return (

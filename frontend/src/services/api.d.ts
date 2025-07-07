@@ -2,10 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 
 declare const API_URL: string;
 
-export const api: AxiosInstance = axios.create({
-  baseURL: API_URL,
-  timeout: 10000,
-});
+export declare const api: AxiosInstance;
 
 export interface Credentials {
   email: string;
@@ -18,10 +15,12 @@ export interface UserData {
   password: string;
 }
 
-export const authApi = {
-  login: (credentials: Credentials) => api.post('/auth/login', credentials),
-  register: (userData: UserData) => api.post('/auth/register', userData),
-  getLicenses: () => api.get('/auth/licenses'),
-};
+export interface AuthApi {
+  login: (credentials: Credentials) => Promise<any>;
+  register: (userData: UserData) => Promise<any>;
+  getLicenses: () => Promise<any>;
+}
+
+export declare const authApi: AuthApi;
 
 export default api;
