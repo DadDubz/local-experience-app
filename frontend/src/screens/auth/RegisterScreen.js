@@ -1,3 +1,4 @@
+// src/screens/auth/RegisterScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -7,100 +8,69 @@ import {
   StyleSheet,
   Alert,
   SafeAreaView,
-  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
+import axios from "../../utils/api";
 
 const RegisterScreen = () => {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const navigation = useNavigation();
 
-const handleRegister = async () => {
-  if (password !== confirmPassword) {
-    Alert.alert("Error", "Passwords do not match");
-    return;
-  }
-
-  try {
-    const response = await axios.post(
-      `${apiConfig.baseURL}/auth/register`,
-      {
-        name,
+  const handleRegister = async () => {
+    try {
+      const response = await axios.post("/auth/register", {
         email,
         password,
-      }
-    );
+      });
 
-    if (response.data.success) {
-      Alert.alert("Success", "Registration successful! Please login.", [
-        { text: "OK", onPress: () => navigation.navigate("Login") },
-      ]);
+      if (response.data.success) {
+        Alert.alert("Success", "Account created. Please log in.");
+        navigation.navigate("Login");
+      }
+    } catch (error) {
+      Alert.alert(
+        "Registration Failed",
+        error.response?.data?.message || "An error occurred"
+      );
     }
-  } catch (error) {
-    Alert.alert(
-      "Registration Failed",
-      error.response?.data?.message || "An error occurred",
-    );
-  }
-};
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.formContainer}>
-          <Text style={styles.title}>Create Account</Text>
+      <View style={styles.formContainer}>
+        <Text style={styles.title}>Register</Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Full Name"
-            value={name}
-            onChangeText={setName}
-            autoCapitalize="words"
-          />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
+        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-          />
-
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate("Login")}
-            style={styles.loginLink}
-          >
-            <Text style={styles.loginText}>
-              Already have an account? Login here
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Login")}
+          style={styles.registerLink}
+        >
+          <Text style={styles.registerText}>
+            Already have an account? Log in here
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -109,9 +79,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  scrollContent: {
-    flexGrow: 1,
   },
   formContainer: {
     flex: 1,
@@ -135,7 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: "#3498db",
+    backgroundColor: "#27ae60",
     padding: 15,
     borderRadius: 8,
     marginTop: 10,
@@ -146,10 +113,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  loginLink: {
+  registerLink: {
     marginTop: 20,
   },
-  loginText: {
+  registerText: {
     color: "#3498db",
     textAlign: "center",
     fontSize: 14,

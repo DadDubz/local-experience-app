@@ -1,8 +1,11 @@
 // src/screens/auth/WelcomeScreen.js
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const WelcomeScreen = ({ navigation }) => {
+const WelcomeScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Local Experience App!</Text>
@@ -29,7 +32,7 @@ export default WelcomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#800000', // maroon
+    backgroundColor: '#800000',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -37,12 +40,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFD700', // gold
+    color: '#FFD700',
     marginBottom: 40,
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#000', // black
+    backgroundColor: '#000',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 8,
@@ -51,10 +54,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   registerButton: {
-    backgroundColor: '#FFD700', // gold
+    backgroundColor: '#FFD700',
   },
   buttonText: {
-    color: '#FFFFFF', // white
+    color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '600',
   },

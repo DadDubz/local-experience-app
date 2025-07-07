@@ -1,3 +1,4 @@
+// src/screens/auth/LoginScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -10,8 +11,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import apiConfig from "../../config/api";
+import axios from "../../utils/api"; // centralized API instance
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -20,13 +20,10 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        `${apiConfig.baseURL}/auth/login`,
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("/auth/login", {
+        email,
+        password,
+      });
 
       if (response.data.token) {
         await AsyncStorage.setItem("userToken", response.data.token);
@@ -35,7 +32,7 @@ const LoginScreen = () => {
     } catch (error) {
       Alert.alert(
         "Login Failed",
-        error.response?.data?.message || "An error occurred",
+        error.response?.data?.message || "An error occurred"
       );
     }
   };
