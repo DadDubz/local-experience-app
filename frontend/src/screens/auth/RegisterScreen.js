@@ -19,34 +19,34 @@ const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigation = useNavigation();
 
-  const handleRegister = async () => {
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match");
-      return;
-    }
+const handleRegister = async () => {
+  if (password !== confirmPassword) {
+    Alert.alert("Error", "Passwords do not match");
+    return;
+  }
 
-    try {
-      const response = await axios.post(
-        "http://your-api-url/api/auth/register",
-        {
-          name,
-          email,
-          password,
-        },
-      );
-
-      if (response.data.success) {
-        Alert.alert("Success", "Registration successful! Please login.", [
-          { text: "OK", onPress: () => navigation.navigate("Login") },
-        ]);
+  try {
+    const response = await axios.post(
+      `${apiConfig.baseURL}/auth/register`,
+      {
+        name,
+        email,
+        password,
       }
-    } catch (error) {
-      Alert.alert(
-        "Registration Failed",
-        error.response?.data?.message || "An error occurred",
-      );
+    );
+
+    if (response.data.success) {
+      Alert.alert("Success", "Registration successful! Please login.", [
+        { text: "OK", onPress: () => navigation.navigate("Login") },
+      ]);
     }
-  };
+  } catch (error) {
+    Alert.alert(
+      "Registration Failed",
+      error.response?.data?.message || "An error occurred",
+    );
+  }
+};
 
   return (
     <SafeAreaView style={styles.container}>

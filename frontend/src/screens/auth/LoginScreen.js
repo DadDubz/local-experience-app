@@ -11,6 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import apiConfig from "../../config/api";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -19,10 +20,13 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://your-api-url/api/auth/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${apiConfig.baseURL}/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
 
       if (response.data.token) {
         await AsyncStorage.setItem("userToken", response.data.token);

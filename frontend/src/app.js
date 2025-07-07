@@ -6,7 +6,10 @@ import AuthNavigator from "./navigation/AuthNavigator";
 
 const Stack = createStackNavigator();
 const protectedRoutes = require('./routes/protectedRoutes');
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const api = axios.create({
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+});
+
 
 
 const App = () => {
