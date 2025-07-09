@@ -1,6 +1,8 @@
-// Error handling middleware class
+// src/middleware/errorhandler.js
+
+const { logger } = require("./logger");
+
 class ErrorHandler {
-  // Custom error types
   static errorTypes = {
     VALIDATION_ERROR: "ValidationError",
     RESOURCE_NOT_FOUND: "ResourceNotFound",
@@ -13,171 +15,173 @@ class ErrorHandler {
     RATE_LIMIT_ERROR: "RateLimitError",
   };
 
-  // Main error handling middleware
+  /**
+   * Main error handler
+   */
   static handleError(err, req, res, next) {
-    const error = {
-      status: err.status || 500,
-      message: err.message || "Internal Server Error",
-      timestamp: new Date().toISOString(),
-      path: req.path,
-      method: req.method,
+    const errorType = err.type || "UnhandledError";
+    let status = err.status || 500;
+    let message = err.message || "Something went wrong.";
+    let userGuidance = "Please try again later or contact support.";
+
+    // Custom messages and guidance
+    switch (errorType) {
+      case ErrorHandler.errorTypes.VALIDATION_ERROR:
+        status = 400;
+        userGuidance = "Please check your input and try again.";
+        break;
+
+      case ErrorHandler.errorTypes.RESOURCE_NOT_FOUND:
+        status = 404;
+        userGuidance = "The resource you’re looking for could not be found.";
+        break;
+
+      case ErrorHandler.errorTypes.AUTHORIZATION_ERROR:
+        status = 401;
+        userGuidance = "You are not authorized. Please log in and try again.";
+        break;
+
+      case ErrorHandler.errorTypes.API_ERROR:
+        status = 503;
+        userGuidance = "Our external services are currently unavailable. Try again shortly.";
+        break;
+
+      case ErrorHandler.errorTypes.DATABASE_ERROR:
+        status = 503;
+        userGuidance = "We’re experiencing server issues. Please try again later.";
+        break;
+
+      case ErrorHandler.errorTypes.NETWORK_ERROR:
+        status = 504;
+        userGuidance = "Network issue detected. Please check your connection and try again.";
+        break;
+
+      case ErrorHandler.errorTypes.FILE_UPLOAD_ERROR:
+        status = 422;
+        userGuidance = "There was a problem uploading your file. Please check the format and size.";
+        break;
+
+      case ErrorHandler.errorTypes.RATE_LIMIT_ERROR:
+        status = 429;
+        userGuidance = "You’re sending too many requests. Please wait and try again.";
+        break;
+
+      default:
+        status = status;
+        userGuidance = "An unexpected error occurred. Please try again.";
+        break;
+    }
+
+    const errorResponse = {
+      success: false,
+      error: {
+        type: errorType,
+        message,
+        guidance: userGuidance,
+        status,
+        timestamp: new Date().toISOString(),
+        path: req?.path || "unknown",
+        method: req?.method || "unknown",
+        ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+      },
     };
 
-    // Add stack trace in development environment
-    if (process.env.NODE_ENV === "development") {
-      error.stack = err.stack;
-    }
-
-    // Log error for monitoring
-    this.logError(err, req);
-
-    // Handle specific error types
-    switch (err.type) {
-      case ErrorHandler.errorTypes.VALIDATION_ERROR:
-        error.status = 400;
-        break;
-      case ErrorHandler.errorTypes.RESOURCE_NOT_FOUND:
-        error.status = 404;
-        break;
-      case ErrorHandler.errorTypes.AUTHORIZATION_ERROR:
-        error.status = 401;
-        break;
-      case ErrorHandler.errorTypes.API_ERROR:
-        error.status = 503;
-        break;
-      case ErrorHandler.errorTypes.DATABASE_ERROR:
-        error.status = 503;
-        break;
-      case ErrorHandler.errorTypes.NETWORK_ERROR:
-        error.status = 504;
-        break;
-      case ErrorHandler.errorTypes.FILE_UPLOAD_ERROR:
-        error.status = 422;
-        break;
-      case ErrorHandler.errorTypes.RATE_LIMIT_ERROR:
-        error.status = 429;
-        break;
-    }
-
-    res.status(error.status).json(this.formatErrorResponse(error));
+    ErrorHandler.logError(err, req);
+    res.status(status).json(errorResponse);
   }
 
-  // Not Found error handler
   static handleNotFound(req, res, next) {
     const err = new Error("Resource not found");
     err.type = ErrorHandler.errorTypes.RESOURCE_NOT_FOUND;
+    err.status = 404;
     next(err);
   }
 
-  // Validation error handler
-  static handleValidationError(message) {
-    const err = new Error(message || "Validation failed");
+  static handleValidationError(message = "Validation failed") {
+    const err = new Error(message);
     err.type = ErrorHandler.errorTypes.VALIDATION_ERROR;
+    err.status = 400;
     return err;
   }
 
-  // Rate limiting error handler
   static handleRateLimit(req, res) {
     res.status(429).json({
-      status: 429,
-      message: "Too many requests, please try again later",
-      timestamp: new Date().toISOString(),
+      success: false,
+      error: {
+        type: ErrorHandler.errorTypes.RATE_LIMIT_ERROR,
+        message: "Too many requests",
+        guidance: "Please wait a moment and try again.",
+        status: 429,
+        timestamp: new Date().toISOString(),
+      },
     });
   }
 
-  // API error handler
-  static handleAPIError(message, originalError = null) {
-    const err = new Error(message || "External API error");
+  static handleAPIError(message = "External API error", originalError = null) {
+    const err = new Error(message);
     err.type = ErrorHandler.errorTypes.API_ERROR;
     err.originalError = originalError;
+    err.status = 503;
     return err;
   }
 
-  // Database error handler
-  static handleDatabaseError(message, originalError = null) {
-    const err = new Error(message || "Database operation failed");
+  static handleDatabaseError(message = "Database operation failed", originalError = null) {
+    const err = new Error(message);
     err.type = ErrorHandler.errorTypes.DATABASE_ERROR;
     err.originalError = originalError;
+    err.status = 503;
     return err;
   }
 
-  // Network error handler
-  static handleNetworkError(message, originalError = null) {
-    const err = new Error(message || "Network operation failed");
+  static handleNetworkError(message = "Network issue", originalError = null) {
+    const err = new Error(message);
     err.type = ErrorHandler.errorTypes.NETWORK_ERROR;
     err.originalError = originalError;
+    err.status = 504;
     return err;
   }
 
-  // File upload error handler
-  static handleFileUploadError(message, originalError = null) {
-    const err = new Error(message || "File upload failed");
+  static handleFileUploadError(message = "File upload failed", originalError = null) {
+    const err = new Error(message);
     err.type = ErrorHandler.errorTypes.FILE_UPLOAD_ERROR;
     err.originalError = originalError;
+    err.status = 422;
     return err;
   }
 
-  // Format error response
-  static formatErrorResponse(error) {
-    return {
-      success: false,
-      error: {
-        type: error.type,
-        message: error.message,
-        status: error.status,
-        timestamp: new Date().toISOString(),
-        code: error.code || "UNKNOWN_ERROR",
-        details: error.details || null,
-        path: error.path,
-        method: error.method,
-        ...(process.env.NODE_ENV === "development" && { stack: error.stack }),
-      },
-    };
-  }
-
-  // Enhanced error logging
   static logError(error, req) {
-    const errorLog = {
+    const logData = {
       timestamp: new Date().toISOString(),
-      type: error.type,
-      message: error.message,
-      status: error.status,
-      path: req.path,
-      method: req.method,
-      ip: req.ip,
-      user: req.user ? req.user.id : "anonymous",
-      headers: req.headers,
-      query: req.query,
-      body: req.body,
-      stack: error.stack,
+      type: error?.type || "UnknownError",
+      message: error?.message || "No message",
+      status: error?.status || 500,
+      path: req?.path || "unknown",
+      method: req?.method || "unknown",
+      ip: req?.ip || "unknown",
+      user: req?.user?.id || "anonymous",
+      headers: req?.headers,
+      query: req?.query,
+      body: req?.body,
+      stack: error?.stack,
     };
 
-    // Log to console in development
     if (process.env.NODE_ENV === "development") {
-      console.error("[Error Log]", JSON.stringify(errorLog, null, 2));
+      console.error("[Error Log]", JSON.stringify(logData, null, 2));
     }
 
-    // Add any external logging service here
-    // Example: sendToLoggingService(errorLog);
+    if (logger && logger.error) {
+      logger.error(logData);
+    }
   }
 
-  // Recovery strategies
   static async handleRecovery(error, retryCount = 3) {
-    if (retryCount === 0) {
-      throw error;
-    }
+    if (retryCount <= 0) throw error;
 
     switch (error.type) {
       case ErrorHandler.errorTypes.DATABASE_ERROR:
-        // Wait and retry
+      case ErrorHandler.errorTypes.NETWORK_ERROR:
         await new Promise((resolve) => setTimeout(resolve, 1000));
         return this.handleRecovery(error, retryCount - 1);
-
-      case ErrorHandler.errorTypes.NETWORK_ERROR:
-        // Implement circuit breaker pattern
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        return this.handleRecovery(error, retryCount - 1);
-
       default:
         throw error;
     }
