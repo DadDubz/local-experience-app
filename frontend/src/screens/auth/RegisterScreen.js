@@ -1,4 +1,3 @@
-// src/screens/auth/RegisterScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -10,7 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import axios from "../../utils/api";
+import api from '../../utils/api';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -19,14 +18,9 @@ const RegisterScreen = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post("/auth/register", {
-        email,
-        password,
-      });
-
-      if (response.data.success) {
-        Alert.alert("Success", "Account created. Please log in.");
-        navigation.navigate("Login");
+      const res = await api.post("/auth/register", { email, password });
+      if (res.data.token) {
+        navigation.replace("Login");
       }
     } catch (error) {
       Alert.alert(

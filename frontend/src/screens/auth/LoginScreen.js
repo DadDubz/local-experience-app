@@ -11,16 +11,19 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "../../utils/api"; // centralized API instance
+import axios from "axios";
+const API = axios.create({
+  baseURL: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5000/api',
+});
+
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
-
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/auth/login", {
+      const response = await API.post("/auth/login", {
         email,
         password,
       });
@@ -35,7 +38,7 @@ const LoginScreen = () => {
         error.response?.data?.message || "An error occurred"
       );
     }
-  };
+  }
 
   return (
     <SafeAreaView style={styles.container}>
