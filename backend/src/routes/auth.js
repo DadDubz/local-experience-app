@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const AuthService = require("../services/authService");
 const { authMiddleware } = require("../middleware/authMiddleware"); // ✅ Destructured correctly
+const authController = require("../controllers/authController");
+
+router.post("/login", authController.loginUser);
 
 // Register new user
 router.post("/register", async (req, res) => {

@@ -13,6 +13,7 @@ const WelcomeScreen = () => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Login')}
+        accessibilityLabel="Login Button"
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -20,6 +21,7 @@ const WelcomeScreen = () => {
       <TouchableOpacity
         style={[styles.button, styles.registerButton]}
         onPress={() => navigation.navigate('Register')}
+        accessibilityLabel="Register Button"
       >
         <Text style={[styles.buttonText, { color: '#000' }]}>Register</Text>
       </TouchableOpacity>

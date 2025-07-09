@@ -17,6 +17,10 @@ const RegisterScreen = () => {
   const navigation = useNavigation();
 
   const handleRegister = async () => {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert("Validation Error", "Email and password are required.");
+      return;
+    }
     try {
       const res = await api.post("/auth/register", { email, password });
       if (res.data.token) {

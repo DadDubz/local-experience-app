@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 const API = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5000/api',
+  baseURL: process.env.EXPO_PUBLIC_API_URL || 'http://10.0.2.2:5000/api', // Use 10.0.2.2 for Android emulator, or your machine's IP for real devices
 });
 
 
