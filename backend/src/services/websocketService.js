@@ -1,6 +1,6 @@
 const WebSocket = require("ws");
 const jwt = require("jsonwebtoken");
-const errorHandler = require("../middleware/errorhandler"); // lowercase
+const errorHandler = require("../middleware/ErrorHandler"); // match casing
 
 class WebSocketService {
   constructor(server) {

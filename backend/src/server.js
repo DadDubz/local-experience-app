@@ -1,21 +1,23 @@
 // src/server.js
-require('./instrument');
-require("dotenv").config();
+import './instrument.js';
+import dotenv from "dotenv";
+dotenv.config();
 
-const express = require("express");
-const http = require("http");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
-const dotenv = require("dotenv");
-const path = require("path");
-const fileUpload = require("express-fileupload");
-const compression = require("compression");
-const morgan = require("morgan");
+import express from "express";
+import http from "http";
+import cors from "cors";
+import mongoose from "mongoose";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import path from "path";
+import fileUpload from "express-fileupload";
+import compression from "compression";
+import morgan from "morgan";
+import authRoutes from "./routes/authRoutes.js";
+// Removed duplicate app declaration and moved authRoutes usage below
 
 const WebSocketService = require("./services/websocketService");
-const ErrorHandler = require("./middleware/errorhandler");
+const ErrorHandler = require("./middleware/ErrorHandler");
 const { logger, morganMiddleware } = require("./middleware/logger");
 const securityMiddleware = require("./middleware/security");
 const { redis } = require("./middleware/cache"); // redis instance from ioredis
@@ -26,11 +28,14 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+const app = express();
+const server = http.createServer(app);
+
+// Use authRoutes after app is defined
+app.use("/api/auth", authRoutes);
 
 // Initialize WebSocket service
 new WebSocketService(server);
-
-// Middleware
 app.use(helmet());
 app.use(securityMiddleware.cors);
 app.use(securityMiddleware.customSecurity);
@@ -91,9 +96,9 @@ app.use("/api/reports", require("./routes/reports"));
 
 // Health & Docs
 app.get("/metrics", monitoringMiddleware.metricsEndpoint);
-app.get("/health", monitoringMiddleware.healthCheck);
-app.get("/api-docs", (req, res) =>
+app.get("/api-docs", (_, res) =>
   res.sendFile(path.join(__dirname, "../docs", "api-documentation.html"))
+);
 );
 
 // Error Handling
