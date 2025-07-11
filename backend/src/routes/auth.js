@@ -1,55 +1,33 @@
 const express = require("express");
+const { body } = require("express-validator");
 const router = express.Router();
-const AuthService = require("../services/authService");
-const { authMiddleware } = require("../middleware/authMiddleware"); // ✅ Destructured correctly
 const authController = require("../controllers/authController");
+const { authMiddleware } = require("../middleware/authMiddleware");
 
-router.post("/login", authController.loginUser);
+// 🧠 Register Route with Validation
+router.post(
+  "/register",
+  [
+    body("email").isEmail().withMessage("Please enter a valid email address"),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters"),
+    body("name").notEmpty().withMessage("Name is required"),
+  ],
+  authController.registerUser
+);
 
-// Register new user
-router.post("/register", async (req, res) => {
-  try {
-    const { email, password, name, preferences } = req.body;
-    const result = await AuthService.registerUser({
-      email,
-      password,
-      name,
-      preferences,
-    });
-    res.json(result);
-  } catch (error) {
-    res.status(400).json({
-      error: "Registration failed",
-      message: error.message,
-    });
-  }
-});
+// 🧠 Login Route with Validation
+router.post(
+  "/login",
+  [
+    body("email").notEmpty().withMessage("Email is required"),
+    body("password").notEmpty().withMessage("Password is required"),
+  ],
+  authController.loginUser
+);
 
-// Login user
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const result = await AuthService.loginUser(email, password);
-    res.json(result);
-  } catch (error) {
-    res.status(401).json({
-      error: "Login failed",
-      message: error.message,
-    });
-  }
-});
-
-// Get user licenses
-router.get("/licenses", authMiddleware, async (req, res) => {
-  try {
-    const licenses = await AuthService.getUserLicenses(req.user.id);
-    res.json(licenses);
-  } catch (error) {
-    res.status(400).json({
-      error: "Failed to fetch licenses",
-      message: error.message,
-    });
-  }
-});
+// 🧠 Get Licenses (Protected)
+router.get("/licenses", authMiddleware, authController.getUserLicenses);
 
 module.exports = router;
