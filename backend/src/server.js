@@ -28,8 +28,6 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-const app = express();
-const server = http.createServer(app);
 
 // Use authRoutes after app is defined
 app.use("/api/auth", authRoutes);
@@ -98,7 +96,6 @@ app.use("/api/reports", require("./routes/reports"));
 app.get("/metrics", monitoringMiddleware.metricsEndpoint);
 app.get("/api-docs", (_, res) =>
   res.sendFile(path.join(__dirname, "../docs", "api-documentation.html"))
-);
 );
 
 // Error Handling
