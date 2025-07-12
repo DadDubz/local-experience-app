@@ -1,11 +1,12 @@
-const WebSocket = require("ws");
-const jwt = require("jsonwebtoken");
-const errorHandler = require("../middleware/ErrorHandler"); // match casing
+// backend/src/services/WebSocketService.js
+import WebSocket from "ws";
+import jwt from "jsonwebtoken";
+import errorHandler from "../middleware/errorHandler.js"; // match filename casing
 
 class WebSocketService {
   constructor(server) {
     this.wss = new WebSocket.Server({ server });
-    this.clients = new Map(); // Store connected users
+    this.clients = new Map(); // userId => WebSocket instance
     this.initialize();
   }
 
@@ -18,13 +19,7 @@ class WebSocketService {
 
         ws.on("message", async (message) => {
           try {
-            let data;
-            try {
-              data = JSON.parse(message);
-            } catch (err) {
-              throw new Error("Invalid JSON format");
-            }
-
+            const data = JSON.parse(message);
             await this.handleMessage(userId, data);
           } catch (err) {
             this.sendError(ws, err);
@@ -65,17 +60,13 @@ class WebSocketService {
       case "location_update":
         await this.handleLocationUpdate(userId, data.payload);
         break;
-
       case "chat_message":
         await this.handleChatMessage(userId, data.payload);
         break;
-
       case "status_update":
         await this.handleStatusUpdate(userId, data.payload);
         break;
-
       default:
-        console.warn(`[WS] Unknown message type from ${userId}: ${data.type}`);
         throw new Error("Unknown message type");
     }
   }
@@ -126,16 +117,12 @@ class WebSocketService {
   broadcastToUsers(userIds, data) {
     userIds.forEach((id) => {
       const ws = this.clients.get(id);
-      if (ws) {
-        this.sendToClient(ws, data);
-      }
+      if (ws) this.sendToClient(ws, data);
     });
   }
 
   broadcast(data) {
-    this.clients.forEach((ws) => {
-      this.sendToClient(ws, data);
-    });
+    this.clients.forEach((ws) => this.sendToClient(ws, data));
   }
 
   sendError(ws, error) {
@@ -160,9 +147,9 @@ class WebSocketService {
   }
 
   async findNearbyUsers(location) {
-    // 🔧 Replace this with DB query or geolocation logic
+    // Replace with actual logic to find nearby users
     return [];
   }
 }
 
-module.exports = WebSocketService;
+export default WebSocketService;

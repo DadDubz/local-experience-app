@@ -1,64 +1,23 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+// src/middleware/authMiddleware.js
+import jwt from "jsonwebtoken";
+import ErrorHandler from "./errorHandler.js";
 
-const authMiddleware = async (req, res, next) => {
-  try {
-    // Get token from header
-    const token = req.header("Authorization")?.replace("Bearer ", "");
-
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "No authentication token, access denied",
-      });
-    }
-
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // Get user from database
-    const user = await User.findById(decoded.id).select("-password");
-
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "Token is valid but user does not exist",
-      });
-    }
-
-    // Check if user is active
-    if (user.status !== "active") {
-      return res.status(401).json({
-        success: false,
-        message: "User account is not active",
-      });
-    }
-
-    // Add user to request
-    req.user = user;
-    next();
-  } catch (error) {
-    res.status(401).json({
-      success: false,
-      message: "Token is invalid",
-    });
+export const authMiddleware = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return next(
+      ErrorHandler.handleAuthorizationError("Authorization token missing")
+    );
   }
-};
 
-// Middleware for checking role permissions
-const checkRole = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({
-        success: false,
-        message: "You do not have permission to perform this action",
-      });
-    }
+  const token = authHeader.split(" ")[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
     next();
-  };
-};
-
-module.exports = {
-  authMiddleware,
-  checkRole,
+  } catch (err) {
+    return next(
+      ErrorHandler.handleAuthorizationError("Invalid or expired token")
+    );
+  }
 };

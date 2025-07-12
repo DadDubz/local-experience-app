@@ -1,54 +1,46 @@
-const { validationResult } = require('express-validator');
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const ErrorHandler = require('../middleware/errorhandler');
+// src/controllers/authController.js
+import { validationResult } from "express-validator";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
+import ErrorHandler from "../middleware/errorHandler.js";
 
-exports.registerUser = async (req, res, next) => {
-  // Step 1: Validate input
+export const registerUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
       ErrorHandler.handleCustom(
         ErrorHandler.errorTypes.VALIDATION_ERROR,
-        errors.array().map(err => err.msg).join(', ')
+        errors.array().map(err => err.msg).join(", ")
       )
-          );
-    }
-    // If you want to send licenses in response, add something like:
-    // res.status(200).json({ success: true, licenses: user.licenses });
+    );
+  }
 
   const { email, password } = req.body;
 
   try {
-    // Step 2: Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return next(
         ErrorHandler.handleCustom(
           ErrorHandler.errorTypes.DUPLICATE_EMAIL,
-          'Email already in use',
+          "Email already in use",
           409
         )
       );
     }
 
-    // Step 3: Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
-
-    // Step 4: Save new user
     const newUser = new User({ email, password: hashedPassword });
     await newUser.save();
 
-    // Step 5: Generate JWT
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
+      expiresIn: "7d",
     });
 
-    // Step 6: Send response
     res.status(201).json({
       success: true,
-      message: 'User registered successfully',
+      message: "User registered successfully",
       token,
       user: { id: newUser._id, email: newUser.email },
     });
@@ -56,19 +48,19 @@ exports.registerUser = async (req, res, next) => {
     next(
       ErrorHandler.handleCustom(
         ErrorHandler.errorTypes.DATABASE_ERROR,
-        'User registration failed'
+        "User registration failed"
       )
     );
   }
 };
-exports.loginUser = async (req, res, next) => {
-  // Step 1: Validate input
+
+export const loginUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
       ErrorHandler.handleCustom(
         ErrorHandler.errorTypes.VALIDATION_ERROR,
-        errors.array().map(err => err.msg).join(', ')
+        errors.array().map(err => err.msg).join(", ")
       )
     );
   }
@@ -76,39 +68,35 @@ exports.loginUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    // Step 2: Find user by email
     const user = await User.findOne({ email });
     if (!user) {
       return next(
         ErrorHandler.handleCustom(
           ErrorHandler.errorTypes.AUTHENTICATION_ERROR,
-          'Invalid email or password',
+          "Invalid email or password",
           401
         )
       );
     }
 
-    // Step 3: Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return next(
         ErrorHandler.handleCustom(
           ErrorHandler.errorTypes.AUTHENTICATION_ERROR,
-          'Invalid email or password',
+          "Invalid email or password",
           401
         )
       );
     }
 
-    // Step 4: Generate JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '7d',
+      expiresIn: "7d",
     });
 
-    // Step 5: Send response
     res.status(200).json({
       success: true,
-      message: 'User logged in successfully',
+      message: "User logged in successfully",
       token,
       user: { id: user._id, email: user.email },
     });
@@ -116,24 +104,37 @@ exports.loginUser = async (req, res, next) => {
     next(
       ErrorHandler.handleCustom(
         ErrorHandler.errorTypes.DATABASE_ERROR,
-        'User login failed'
+        "User login failed"
       )
     );
   }
 };
-exports.getUserLicenses = async (req, res, next) => {
-  try {
-    // Step 1: Get user ID from request
-    const userId = req.user.id;
 
-    // Step 2: Find user and populate licenses
-    const user = await User.findById(userId).populate('licenses');
+export const getUserLicenses = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId).populate("licenses");
+
     if (!user) {
       return next(
         ErrorHandler.handleCustom(
           ErrorHandler.errorTypes.NOT_FOUND,
-          'User not found',
+          "User not found",
           404
-          )
-        );
-      }
+        )
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      licenses: user.licenses,
+    });
+  } catch (error) {
+    next(
+      ErrorHandler.handleCustom(
+        ErrorHandler.errorTypes.DATABASE_ERROR,
+        "Failed to fetch user licenses"
+      )
+    );
+  }
+};

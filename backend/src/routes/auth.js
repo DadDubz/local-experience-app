@@ -1,33 +1,24 @@
-const express = require("express");
-const { body } = require("express-validator");
+// backend/src/routes/authRoutes.js
+
+import express from "express";
+import authController from "../controllers/authController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
+import ErrorHandler from "../middleware/errorHandler.js";
+
 const router = express.Router();
-const authController = require("../controllers/authController");
-const { authMiddleware } = require("../middleware/authMiddleware");
 
-// 🧠 Register Route with Validation
-router.post(
-  "/register",
-  [
-    body("email").isEmail().withMessage("Please enter a valid email address"),
-    body("password")
-      .isLength({ min: 6 })
-      .withMessage("Password must be at least 6 characters"),
-    body("name").notEmpty().withMessage("Name is required"),
-  ],
-  authController.registerUser
-);
+// Register a new user
+router.post("/register", authController.registerUser);
 
-// 🧠 Login Route with Validation
-router.post(
-  "/login",
-  [
-    body("email").notEmpty().withMessage("Email is required"),
-    body("password").notEmpty().withMessage("Password is required"),
-  ],
-  authController.loginUser
-);
+// Login
+router.post("/login", authController.loginUser);
 
-// 🧠 Get Licenses (Protected)
-router.get("/licenses", authMiddleware, authController.getUserLicenses);
+// Get licenses (protected route)
+router.get("/licenses", authMiddleware, authController.getLicenses);
 
-module.exports = router;
+// Fallback for unmatched auth routes
+router.all("*", (req, res) => {
+  ErrorHandler.handleNotFound(req, res);
+});
+
+export default router;
