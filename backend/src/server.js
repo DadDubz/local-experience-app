@@ -27,23 +27,23 @@ import WebSocketService from "./services/websocketService.js";
 import ErrorHandler from "./middleware/errorHandler.js";
 import { logger, morganMiddleware } from "./middleware/logger.js";
 import securityMiddleware from "./middleware/security.js";
-import { redis } from "./middleware/cache.js";
 import monitoringMiddleware from "./middleware/monitor.js";
+import { redis } from "./middleware/cache.js";
+
+// Redis connection check
+redis.ping()
+  .then((res) => {
+    if (res === 'PONG') console.log("✅ Redis connected and ready");
+  })
+  .catch((err) => {
+    console.error("❌ Redis connection failed:", err);
+  });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
-
-app.use("/api/auth", authRoutes);
-app.use("/api/lands", landsRoutes);
-app.use("/api/guides", guidesRoutes);
-app.use("/api/shops", shopsRoutes);
-app.use("/api/weather", weatherRoutes);
-app.use("/api/reports", reportsRoutes);
-
-new WebSocketService(server);
 
 app.use(helmet());
 app.use(securityMiddleware.cors);
@@ -72,13 +72,13 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use(monitoringMiddleware.responseTime);
 app.use(monitoringMiddleware.trackRequests);
 
-redis.ping()
-  .then((res) => {
-    if (res === 'PONG') console.log("\u2705 Redis connected and ready");
-  })
-  .catch((err) => {
-    console.error("\u274C Redis connection failed:", err);
-  });
+app.use("/api/auth", authRoutes);
+app.use("/api/lands", landsRoutes);
+app.use("/api/guides", guidesRoutes);
+app.use("/api/shops", shopsRoutes);
+app.use("/api/weather", weatherRoutes);
+app.use("/api/reports", reportsRoutes);
+new WebSocketService(server);
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,

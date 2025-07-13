@@ -1,12 +1,12 @@
-// backend/src/services/WebSocketService.js
-import WebSocket from "ws";
-import jwt from "jsonwebtoken";
-import errorHandler from "../middleware/errorHandler.js"; // match filename casing
+// src/services/websocketService.js
+import { WebSocketServer } from 'ws';
+import jwt from 'jsonwebtoken';
+import errorHandler from '../middleware/errorHandler.js';
 
-class WebSocketService {
+export default class WebSocketService {
   constructor(server) {
-    this.wss = new WebSocket.Server({ server });
-    this.clients = new Map(); // userId => WebSocket instance
+    this.wss = new WebSocketServer({ server });
+    this.clients = new Map();
     this.initialize();
   }
 
@@ -19,7 +19,13 @@ class WebSocketService {
 
         ws.on("message", async (message) => {
           try {
-            const data = JSON.parse(message);
+            let data;
+            try {
+              data = JSON.parse(message);
+            } catch (err) {
+              throw new Error("Invalid JSON format");
+            }
+
             await this.handleMessage(userId, data);
           } catch (err) {
             this.sendError(ws, err);
@@ -109,7 +115,7 @@ class WebSocketService {
   }
 
   sendToClient(ws, data) {
-    if (ws.readyState === WebSocket.OPEN) {
+    if (ws.readyState === ws.OPEN) {
       ws.send(JSON.stringify(data));
     }
   }
@@ -117,12 +123,16 @@ class WebSocketService {
   broadcastToUsers(userIds, data) {
     userIds.forEach((id) => {
       const ws = this.clients.get(id);
-      if (ws) this.sendToClient(ws, data);
+      if (ws) {
+        this.sendToClient(ws, data);
+      }
     });
   }
 
   broadcast(data) {
-    this.clients.forEach((ws) => this.sendToClient(ws, data));
+    this.clients.forEach((ws) => {
+      this.sendToClient(ws, data);
+    });
   }
 
   sendError(ws, error) {
@@ -147,9 +157,6 @@ class WebSocketService {
   }
 
   async findNearbyUsers(location) {
-    // Replace with actual logic to find nearby users
-    return [];
+    return []; // placeholder
   }
 }
-
-export default WebSocketService;
