@@ -2,6 +2,7 @@
 import './instrument.js';
 import dotenv from "dotenv";
 dotenv.config();
+import { getRedisClient } from "./middleware/redisClient.js";
 
 import express from "express";
 import http from "http";
@@ -35,16 +36,7 @@ redis.ping()
   .then((res) => {
     if (res === 'PONG') console.log("✅ Redis connected and ready");
   })
-  .catch((err) => {
-    console.error("❌ Redis connection failed:", err);
-  });
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const app = express();
-const server = http.createServer(app);
-
+import { redis } from "./middleware/cache.js";
 app.use(helmet());
 app.use(securityMiddleware.cors);
 app.use(securityMiddleware.customSecurity);

@@ -1,12 +1,20 @@
-const Location = require("../models/Location"); // 
-const Review = require("../../models/Review");
-const Visit = require("../../models/Visit");
+const Location = require("../models/Location");
+const Review = require("../models/Review");
+const Visit = require("../models/Visit");
+const { getRedisClient } = require("../middleware/redisClient");
 
 class LocationService {
   static async getAllLocations(lat, lng, radius = 50, filters = {}) {
     try {
       if (!lat || !lng || isNaN(lat) || isNaN(lng)) {
         throw new Error("Invalid latitude or longitude");
+      }
+
+      const redis = await getRedisClient();
+      const cacheKey = `locations:${lat}:${lng}:${radius}:${JSON.stringify(filters)}`;
+      const cached = await redis.get(cacheKey);
+      if (cached) {
+        return JSON.parse(cached);
       }
 
       const query = {
@@ -16,7 +24,7 @@ class LocationService {
               type: "Point",
               coordinates: [parseFloat(lng), parseFloat(lat)],
             },
-            $maxDistance: radius * 1609.34, // miles to meters
+            $maxDistance: radius * 1609.34,
           },
         },
       };
@@ -28,16 +36,22 @@ class LocationService {
         .populate("reviews")
         .limit(50);
 
-      return {
+      const response = {
         success: true,
         count: locations.length,
         data: locations,
       };
+
+      await redis.set(cacheKey, JSON.stringify(response), { EX: 300 });
+
+      return response;
     } catch (error) {
       console.error("Error fetching locations:", error);
       throw error;
     }
   }
+
+  // Duplicate block removed to fix 'const' modifier error in JavaScript.
 
   static async findNearby(lat, lng, radius = 50) {
     return await this.getAllLocations(lat, lng, radius);
