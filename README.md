@@ -31,6 +31,8 @@ Edit
 cd backend
 npm install
 npm run dev
+```
+
 Server runs at http://localhost:5000
 
 Connects to MongoDB Atlas and Redis Cloud
@@ -39,15 +41,21 @@ Connects to MongoDB Atlas and Redis Cloud
 bash
 Copy
 Edit
+### 2. Start Frontend App
+
+```bash
 cd frontend
 npm install
 npx expo start
+```
+
 Opens Expo Go (scan QR to test on Android/iOS)
 
 Or press w to open Web version on http://localhost:8081
 
 🔧 Environment Variables
 Create a .env file at the root and backend:
+```bash
 
 bash
 Copy
@@ -67,6 +75,7 @@ STRIPE_SECRET_KEY=your_stripe_secret_key
 STRIPE_PUBLIC_KEY=your_stripe_public_key
 SENTRY_DSN=your_sentry_project_dsn
 🖼 Assets
+```
 App Icon, Splash Screen, Adaptive Icons → /frontend/src/assets/
 
 Web Favicon → /assets/favicon.jpeg
@@ -115,3 +124,4 @@ Edit
 
 
 
+Built with ❤️ for outdoor adventurers everywhere.

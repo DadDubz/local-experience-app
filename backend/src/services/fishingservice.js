@@ -22,7 +22,7 @@ class FishingService {
                             "Catfish"
                         ],
                         regulations: {
-                            licensRequired: true,
+                            licenseRequired: true,
                             catchLimit: {
                                 bass: 5,
                                 trout: 3,
@@ -60,7 +60,7 @@ class FishingService {
                             "Trout"
                         ],
                         regulations: {
-                            licensRequired: true,
+                            licenseRequired: true,
                             catchLimit: {
                                 salmon: 2,
                                 steelhead: 1,
@@ -137,7 +137,7 @@ class FishingService {
                     }
                 ],
                 regulations: {
-                    licensRequired: true,
+                    licenseRequired: true,
                     permits: ["General Fishing License", "Trout Stamp"],
                     catchLimits: {
                         bass: {
