@@ -15,7 +15,14 @@ Built with:
 
 ## 📂 Project Structure
 
-/frontend # React Native app (Expo) /backend # Express API server /assets # Global assets (favicon, splash screen, logos) /docs # Documentation and API references /nginx # Nginx configs (optional for production) /scripts # Deployment & build scripts /tests # Unit and integration tests /workflows # GitHub Actions (CI/CD workflows)
+/frontend # React Native app (Expo)
+/backend # Express API server
+/assets # Global assets (favicon, splash screen, logos)
+/docs # Documentation and API references
+/nginx # Nginx configs (optional for production)
+/scripts # Deployment & build scripts
+/tests # Unit and integration tests
+/workflows # GitHub Actions (CI/CD workflows)
 
 yaml
 Copy
@@ -31,51 +38,44 @@ Edit
 cd backend
 npm install
 npm run dev
-```
+```bash
 
-Server runs at http://localhost:5000
+Server runs at <http://localhost:5000>
+
+```bash
 
 Connects to MongoDB Atlas and Redis Cloud
-
-2. Start Frontend App
-bash
-Copy
-Edit
-### 2. Start Frontend App
 
 ```bash
 cd frontend
 npm install
 npx expo start
-```
 
 Opens Expo Go (scan QR to test on Android/iOS)
 
-Or press w to open Web version on http://localhost:8081
+Or press w to open Web version on [http://localhost:8081](http://localhost:8081)
 
 🔧 Environment Variables
-Create a .env file at the root and backend:
-```bash
 
-bash
+Connects to MongoDB Atlas and Redis Cloud
+Opens Expo Go (scan QR to test on Android/iOS)
+
+Or press w to open Web version on <http://localhost:8081>
+App Icon, Splash Screen, Adaptive Icons → /frontend/src/assets/
+
+Web Favicon → /assets/favicon.jpeg
 Copy
 Edit
-# Global
-PORT=5000
-MONGODB_URI=your_mongodb_atlas_connection_string
-REDIS_HOST=your_redis_host
-REDIS_PORT=your_redis_port
-REDIS_PASSWORD=your_redis_password
-JWT_SECRET=your_jwt_secret_key
-EMAIL_HOST=smtp.yourdomain.com
-EMAIL_PORT=587
-EMAIL_USER=your_email_user
-EMAIL_PASSWORD=your_email_password
-STRIPE_SECRET_KEY=your_stripe_secret_key
-STRIPE_PUBLIC_KEY=your_stripe_public_key
-SENTRY_DSN=your_sentry_project_dsn
-🖼 Assets
-```
+eas build --platform android
+eas build --platform ios
+Web Deployment:
+
+Opens Expo Go (scan QR to test on Android/iOS)
+
+Or press w to open Web version on <http://localhost:8081>
+
+          ```
+
 App Icon, Splash Screen, Adaptive Icons → /frontend/src/assets/
 
 Web Favicon → /assets/favicon.jpeg
@@ -83,23 +83,11 @@ Web Favicon → /assets/favicon.jpeg
 📈 Monitoring
 Crash Monitoring: Sentry integrated (frontend + backend)
 
-Caching/Performance: Redis used for public land and trail caching
+```
 
-🧪 Testing
-Run all unit/integration tests:
+App Icon, Splash Screen, Adaptive Icons → /frontend/src/assets/
 
-bash
-Copy
-Edit
-npm run test
-Test files are inside __tests__/
-
-🏗 Deployment
-Mobile Builds:
-
-Use EAS Build:
-
-bash
+Web Favicon → /assets/favicon.jpeg
 Copy
 Edit
 eas build --platform android
@@ -118,10 +106,5 @@ Copy
 Edit
 
 ---
-
-
-
-
-
 
 Built with ❤️ for outdoor adventurers everywhere.

@@ -1,3 +1,5 @@
+// === Updated RegisterScreen.js ===
+
 import React, { useState } from "react";
 import {
   View,
@@ -12,17 +14,18 @@ import { useNavigation } from "@react-navigation/native";
 import api from '../../utils/api';
 
 const RegisterScreen = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
   const handleRegister = async () => {
-    if (!email.trim() || !password.trim()) {
-      Alert.alert("Validation Error", "Email and password are required.");
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      Alert.alert("Validation Error", "All fields are required.");
       return;
     }
     try {
-      const res = await api.post("/auth/register", { email, password });
+      const res = await api.post("/auth/register", { name, email, password });
       if (res.data.token) {
         navigation.replace("Login");
       }
@@ -38,6 +41,13 @@ const RegisterScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.formContainer}>
         <Text style={styles.title}>Register</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          value={name}
+          onChangeText={setName}
+        />
 
         <TextInput
           style={styles.input}

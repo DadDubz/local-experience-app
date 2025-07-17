@@ -1,11 +1,25 @@
-import express from "express";
-import { registerUser, loginUser, getUserLicenses } from "../controllers/authController.js";
-import { authMiddleware } from "../middleware/authMiddleware.js";
+import express from 'express';
+import { check } from 'express-validator';
+import { registerUser, loginUser } from '../controllers/authController.js';
 
 const router = express.Router();
 
-router.post("/register", registerUser);
-router.post("/login", loginUser);
-router.get("/licenses", authMiddleware, getUserLicenses);
+router.post(
+  '/register',
+  [
+    check('email', 'Valid email is required').isEmail(),
+    check('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
+  ],
+  registerUser
+);
+
+router.post(
+  '/login',
+  [
+    check('email', 'Email is required').notEmpty(),
+    check('password', 'Password is required').notEmpty(),
+  ],
+  loginUser
+);
 
 export default router;
