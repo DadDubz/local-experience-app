@@ -21,24 +21,23 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
-  const handleLogin = async () => {
-    try {
-      const response = await API.post("/auth/login", {
-        email,
-        password,
-      });
 
-      if (response.data.token) {
-        await AsyncStorage.setItem("userToken", response.data.token);
-        navigation.replace("Main");
-      }
+  const handleLogin = async () => {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert("Validation Error", "Both fields are required.");
+      return;
+    }
+
+    try {
+      const res = await API.post("/auth/login", { email, password });
+      // handle success...
     } catch (error) {
       Alert.alert(
         "Login Failed",
         error.response?.data?.message || "An error occurred"
       );
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>

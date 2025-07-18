@@ -6,6 +6,7 @@ import User from "../models/User.js";
 import ErrorHandler from "../middleware/errorHandler.js";
 
 export const registerUser = async (req, res, next) => {
+  console.log("Register request body:", req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -34,6 +35,15 @@ export const registerUser = async (req, res, next) => {
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
+    if (!process.env.JWT_SECRET) {
+      return next(
+        ErrorHandler.handleCustom(
+          ErrorHandler.errorTypes.SERVER_ERROR,
+          "JWT secret is not defined",
+          500
+        )
+      );
+    }
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
@@ -90,6 +100,15 @@ export const loginUser = async (req, res, next) => {
       );
     }
 
+    if (!process.env.JWT_SECRET) {
+      return next(
+        ErrorHandler.handleCustom(
+          ErrorHandler.errorTypes.SERVER_ERROR,
+          "JWT secret is not defined",
+          500
+        )
+      );
+    }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
