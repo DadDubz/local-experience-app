@@ -16,23 +16,30 @@ const RegisterScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const navigation = useNavigation();
 
   const handleRegister = async () => {
+    setErrorMsg("");
     if (!name.trim() || !email.trim() || !password.trim()) {
-      Alert.alert("Validation Error", "Name, email and password are required.");
+      const msg = "Name, email and password are required.";
+      setErrorMsg(msg);
+      Alert.alert("Validation Error", msg);
       return;
     }
+
     try {
       const res = await api.post("/auth/register", { name, email, password });
       if (res.data.token) {
+        console.log("✅ Registration successful:", res.data);
         navigation.replace("Login");
       }
     } catch (error) {
-      Alert.alert(
-        "Registration Failed",
-        error.response?.data?.message || "An error occurred"
-      );
+      const backendMessage =
+        error.response?.data?.message || "An unexpected error occurred.";
+      setErrorMsg(backendMessage);
+      console.error("❌ Registration error:", error);
+      Alert.alert("Registration Failed", backendMessage);
     }
   };
 
@@ -40,6 +47,10 @@ const RegisterScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.formContainer}>
         <Text style={styles.title}>Register</Text>
+
+        {errorMsg ? (
+          <Text style={styles.errorText}>{errorMsg}</Text>
+        ) : null}
 
         <TextInput
           style={styles.input}
@@ -127,6 +138,11 @@ const styles = StyleSheet.create({
     color: "#3498db",
     textAlign: "center",
     fontSize: 14,
+  },
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    marginBottom: 10,
   },
 });
 

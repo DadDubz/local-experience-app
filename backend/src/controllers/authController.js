@@ -1,4 +1,4 @@
-// src/controllers/authController.js
+// === backend/src/controllers/authController.js ===
 import { validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -6,7 +6,9 @@ import User from "../models/User.js";
 import ErrorHandler from "../middleware/errorHandler.js";
 
 export const registerUser = async (req, res, next) => {
-  console.log("Register request body:", req.body);
+  console.log("✅ Register route hit");
+  console.log("Request body:", req.body);
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -22,6 +24,7 @@ export const registerUser = async (req, res, next) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+      console.warn("⚠️ Attempt to register with existing email:", email);
       return next(
         ErrorHandler.handleCustom(
           ErrorHandler.errorTypes.DUPLICATE_EMAIL,
@@ -44,6 +47,7 @@ export const registerUser = async (req, res, next) => {
         )
       );
     }
+
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
@@ -55,6 +59,7 @@ export const registerUser = async (req, res, next) => {
       user: { id: newUser._id, email: newUser.email },
     });
   } catch (error) {
+    console.error("❌ Registration error:", error.message);
     next(
       ErrorHandler.handleCustom(
         ErrorHandler.errorTypes.DATABASE_ERROR,
@@ -65,6 +70,9 @@ export const registerUser = async (req, res, next) => {
 };
 
 export const loginUser = async (req, res, next) => {
+  console.log("✅ Login route hit");
+  console.log("Credentials received:", { email: req.body.email });
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -80,6 +88,7 @@ export const loginUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
+      console.warn("⚠️ Login failed: email not found", email);
       return next(
         ErrorHandler.handleCustom(
           ErrorHandler.errorTypes.AUTHENTICATION_ERROR,
@@ -91,6 +100,7 @@ export const loginUser = async (req, res, next) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.warn("⚠️ Login failed: password mismatch for", email);
       return next(
         ErrorHandler.handleCustom(
           ErrorHandler.errorTypes.AUTHENTICATION_ERROR,
@@ -109,6 +119,7 @@ export const loginUser = async (req, res, next) => {
         )
       );
     }
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
@@ -120,39 +131,11 @@ export const loginUser = async (req, res, next) => {
       user: { id: user._id, email: user.email },
     });
   } catch (error) {
+    console.error("❌ Login error:", error.message);
     next(
       ErrorHandler.handleCustom(
         ErrorHandler.errorTypes.DATABASE_ERROR,
         "User login failed"
-      )
-    );
-  }
-};
-
-export const getUserLicenses = async (req, res, next) => {
-  try {
-    const userId = req.user.id;
-    const user = await User.findById(userId).populate("licenses");
-
-    if (!user) {
-      return next(
-        ErrorHandler.handleCustom(
-          ErrorHandler.errorTypes.NOT_FOUND,
-          "User not found",
-          404
-        )
-      );
-    }
-
-    res.status(200).json({
-      success: true,
-      licenses: user.licenses,
-    });
-  } catch (error) {
-    next(
-      ErrorHandler.handleCustom(
-        ErrorHandler.errorTypes.DATABASE_ERROR,
-        "Failed to fetch user licenses"
       )
     );
   }
