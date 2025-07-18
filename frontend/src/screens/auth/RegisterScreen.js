@@ -1,5 +1,4 @@
-// === Updated RegisterScreen.js ===
-
+// === frontend/src/screens/auth/RegisterScreen.js ===
 import React, { useState } from "react";
 import {
   View,
@@ -21,7 +20,7 @@ const RegisterScreen = () => {
 
   const handleRegister = async () => {
     if (!name.trim() || !email.trim() || !password.trim()) {
-      Alert.alert("Validation Error", "All fields are required.");
+      Alert.alert("Validation Error", "Name, email and password are required.");
       return;
     }
     try {

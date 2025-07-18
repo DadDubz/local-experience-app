@@ -16,9 +16,9 @@ export const registerUser = async (req, res, next) => {
     );
   }
 
-  const { email, password } = req.body;
-
   try {
+    const { name, email, password } = req.body;
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return next(
@@ -31,7 +31,7 @@ export const registerUser = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = new User({ email, password: hashedPassword });
+    const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {

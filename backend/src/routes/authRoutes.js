@@ -1,3 +1,4 @@
+// === backend/src/routes/authRoutes.js ===
 import express from 'express';
 import { check } from 'express-validator';
 import { registerUser, loginUser } from '../controllers/authController.js';
@@ -5,19 +6,20 @@ import { registerUser, loginUser } from '../controllers/authController.js';
 const router = express.Router();
 
 router.post(
-  '/register',
+  "/register",
   [
-    check('email', 'Valid email is required').isEmail(),
-    check('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
+    check("name", "Name is required").notEmpty(),
+    check("email", "Please include a valid email").isEmail(),
+    check("password", "Password must be 8+ characters").isLength({ min: 8 }),
   ],
   registerUser
 );
 
 router.post(
-  '/login',
+  "/login",
   [
-    check('email', 'Email is required').notEmpty(),
-    check('password', 'Password is required').notEmpty(),
+    check("email", "A valid email is required").isEmail(),
+    check("password", "Password is required").notEmpty()
   ],
   loginUser
 );
