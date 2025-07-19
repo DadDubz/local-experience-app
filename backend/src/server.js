@@ -15,9 +15,10 @@ import { dirname } from 'path';
 import fileUpload from 'express-fileupload';
 import compression from 'compression';
 import morgan from 'morgan';
-import connectDB from './src/config/db.js';
+import connectDB from './config/db.js'; // ✅
 connectDB();
-import { getRedisClient } from './src/middleware/redisClient.js';
+import { getRedisClient } from './middleware/redisClient.js'; // ✅ correct
+
 
 import authRoutes from './routes/authRoutes.js';
 import landsRoutes from './routes/lands.js';
@@ -31,7 +32,6 @@ import ErrorHandler from './middleware/errorHandler.js';
 import { logger, morganMiddleware } from './middleware/logger.js';
 import securityMiddleware from './middleware/security.js';
 import monitoringMiddleware from './middleware/monitor.js';
-import { getRedisClient } from './middleware/redisClient.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
