@@ -15,6 +15,9 @@ import { dirname } from 'path';
 import fileUpload from 'express-fileupload';
 import compression from 'compression';
 import morgan from 'morgan';
+import connectDB from './src/config/db.js';
+connectDB();
+import { getRedisClient } from './src/middleware/redisClient.js';
 
 import authRoutes from './routes/authRoutes.js';
 import landsRoutes from './routes/lands.js';
