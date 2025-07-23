@@ -21,7 +21,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@sentry/react-native": "~6.10.0",
     "@types/react-native": "^0.70.12",
-    "axios": "^1.8.4",
+    "axios": "^1.11.0",
     "deps": "^1.0.0",
     "expo": "^52.0.46",
     "expo-image-picker": "~16.0.6",
