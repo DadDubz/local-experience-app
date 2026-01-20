@@ -1,10 +1,13 @@
-const express = require("express");
+// backend/src/routes/shops.js
+
+import express from 'express';
+import BaitShopService from '../services/baitShopService.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
+
 const router = express.Router();
-const BaitShopService = require("../services/baitShopService");
-const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Get nearby shops
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const { lat, lng, radius } = req.query;
     const shops = await BaitShopService.getNearbyShops(
@@ -19,7 +22,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get shop details
-router.get("/:shopId", async (req, res) => {
+router.get('/:shopId', async (req, res) => {
   try {
     const details = await BaitShopService.getShopDetails(req.params.shopId);
     res.json(details);
@@ -29,7 +32,7 @@ router.get("/:shopId", async (req, res) => {
 });
 
 // Get shop inventory
-router.get("/:shopId/inventory", async (req, res) => {
+router.get('/:shopId/inventory', async (req, res) => {
   try {
     const inventory = await BaitShopService.getInventory(req.params.shopId);
     res.json(inventory);
@@ -38,11 +41,11 @@ router.get("/:shopId/inventory", async (req, res) => {
   }
 });
 
-// Reserve items
-router.post("/:shopId/reserve", authMiddleware, async (req, res) => {
+// Reserve items (requires authentication)
+router.post('/:shopId/reserve', authMiddleware, async (req, res) => {
   try {
     const { items } = req.body;
-    const reservation = await BaitShopService.reserveItems(
+    const reservation = await BaitShopService.reserveItems?.(
       req.params.shopId,
       items,
     );
@@ -53,9 +56,9 @@ router.post("/:shopId/reserve", authMiddleware, async (req, res) => {
 });
 
 // Get shop hours
-router.get("/:shopId/hours", async (req, res) => {
+router.get('/:shopId/hours', async (req, res) => {
   try {
-    const hours = await BaitShopService.getShopHours(req.params.shopId);
+    const hours = await BaitShopService.getShopHours?.(req.params.shopId);
     res.json(hours);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -63,13 +66,13 @@ router.get("/:shopId/hours", async (req, res) => {
 });
 
 // Get shop reviews
-router.get("/:shopId/reviews", async (req, res) => {
+router.get('/:shopId/reviews', async (req, res) => {
   try {
-    const reviews = await BaitShopService.getShopReviews(req.params.shopId);
+    const reviews = await BaitShopService.getShopReviews?.(req.params.shopId);
     res.json(reviews);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-module.exports = router;
+export default router;

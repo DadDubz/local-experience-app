@@ -1,5 +1,4 @@
 // src/server.js
-
 import './instrument.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -17,36 +16,34 @@ import fileUpload from 'express-fileupload';
 import compression from 'compression';
 import morgan from 'morgan';
 
-// Import ES modules
 import connectDB from './config/db.js';
 connectDB();
 import { getRedisClient } from './middleware/redisClient.js';
-import authRoutes from './routes/authRoutes.js';    // ESM default export
-import guidesRoutes from './routes/guides.js';      // ESM default export
+import authRoutes from './routes/authRoutes.js';
+import guidesRoutes from './routes/guides.js';
+import shopsRoutes from './routes/shops.js';       // now ESM
+import weatherRoutes from './routes/weather.js';   // now ESM
 import WebSocketService from './services/websocketService.js';
 import ErrorHandler from './middleware/errorHandler.js';
-import { logger, morganMiddleware } from './middleware/logger.js';
 
-// Use createRequire for CommonJS modules
+// Use createRequire to load CommonJS modules
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
-// CommonJS imports (these files use module.exports)
-const securityMiddleware           = require('./middleware/security.cjs');
-const monitoringMiddleware         = require('./middleware/monitor.cjs');
-const landsRoutes                  = require('./routes/lands.js');    // uses module.exports:contentReference[oaicite:0]{index=0}
-const shopsRoutes                  = require('./routes/shops.js');   // uses module.exports:contentReference[oaicite:1]{index=1}
-const weatherRoutes                = require('./routes/weather.js'); // uses module.exports:contentReference[oaicite:2]{index=2}
-const reportsRoutes                = require('./routes/reports.js'); // uses module.exports:contentReference[oaicite:3]{index=3}
+const { logger, morganMiddleware } = require('./middleware/logger.js');
+const securityMiddleware           = require('./middleware/security.js');
+const monitoringMiddleware         = require('./middleware/monitor.js');
+const landsRoutes                  = require('./routes/lands.js');   // CJS
+const reportsRoutes                = require('./routes/reports.js'); // CJS
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = dirname(__filename);
 
-// Initialize Express and HTTP Server
+// Initialize Express and HTTP server
 const app    = express();
 const server = http.createServer(app);
 
-// … rest of your server setup …
+// … rest of your middleware and route setup remains unchanged …
 
 // Redis connection
 const initRedis = async () => {

@@ -1,83 +1,66 @@
-const axios = require("axios");
+// backend/src/services/weatherAlertService.js
+
+import axios from 'axios'; // axios imported for future use
 
 class WeatherAlertService {
   static async getAlerts(lat, lng, radius = 50) {
     try {
-      // Mock weather alerts data
       return {
         alerts: [
           {
-            id: "wa1",
-            type: "WEATHER_ADVISORY",
-            severity: "moderate",
-            title: "Strong Wind Advisory",
-            description: "Wind speeds of 15-25 mph expected",
+            id: 'wa1',
+            type: 'WEATHER_ADVISORY',
+            severity: 'moderate',
+            title: 'Strong Wind Advisory',
+            description: 'Wind speeds of 15-25 mph expected',
             issuedAt: new Date().toISOString(),
             expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
             area: {
-              center: {
-                latitude: lat,
-                longitude: lng,
-              },
-              radius: radius,
-              affectedLocations: ["Lake Central", "North Bay"],
+              center: { latitude: lat, longitude: lng },
+              radius,
+              affectedLocations: ['Lake Central', 'North Bay'],
             },
-            recommendations: [
-              "Small craft advisory in effect",
-              "Secure loose equipment",
-              "Check local conditions before departure",
-            ],
-            impactedActivities: ["Boating", "Fishing"],
+            recommendations: ['Small craft advisory in effect', 'Secure loose equipment', 'Check local conditions before departure'],
+            impactedActivities: ['Boating', 'Fishing'],
           },
           {
-            id: "wa2",
-            type: "STORM_WARNING",
-            severity: "high",
-            title: "Thunderstorm Warning",
-            description: "Severe thunderstorms possible with lightning",
+            id: 'wa2',
+            type: 'STORM_WARNING',
+            severity: 'high',
+            title: 'Thunderstorm Warning',
+            description: 'Severe thunderstorms possible with lightning',
             issuedAt: new Date().toISOString(),
             expiresAt: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString(),
             area: {
-              center: {
-                latitude: lat,
-                longitude: lng,
-              },
+              center: { latitude: lat, longitude: lng },
               radius: 30,
-              affectedLocations: ["All Lake Areas", "Shoreline Regions"],
+              affectedLocations: ['All Lake Areas', 'Shoreline Regions'],
             },
-            recommendations: [
-              "Seek safe shelter immediately",
-              "Monitor local weather updates",
-              "Avoid open water",
-            ],
-            impactedActivities: ["All Water Activities", "Shore Fishing"],
+            recommendations: ['Seek safe shelter immediately', 'Monitor local weather updates', 'Avoid open water'],
+            impactedActivities: ['All Water Activities', 'Shore Fishing'],
           },
         ],
         waterConditions: {
           temperature: 68,
           waveHeight: 1.5,
           windSpeed: 12,
-          windDirection: "NW",
-          visibility: "Good",
-          currentStrength: "Moderate",
+          windDirection: 'NW',
+          visibility: 'Good',
+          currentStrength: 'Moderate',
           timestamp: new Date().toISOString(),
         },
         forecast: {
           today: {
-            conditions: "Partly Cloudy",
+            conditions: 'Partly Cloudy',
             highTemp: 75,
             lowTemp: 65,
             precipitation: 20,
-            windSpeed: {
-              morning: 10,
-              afternoon: 15,
-              evening: 8,
-            },
+            windSpeed: { morning: 10, afternoon: 15, evening: 8 },
           },
           nextDays: [
             {
               date: new Date(Date.now() + 86400000).toISOString(),
-              conditions: "Sunny",
+              conditions: 'Sunny',
               highTemp: 78,
               lowTemp: 62,
               precipitation: 0,
@@ -85,17 +68,13 @@ class WeatherAlertService {
           ],
         },
         safetyStatus: {
-          overallStatus: "CAUTION",
-          restrictions: ["Small Craft Advisory", "Lightning Risk"],
-          recommendations: [
-            "Check weather before departure",
-            "Carry safety equipment",
-            "Monitor weather radio",
-          ],
+          overallStatus: 'CAUTION',
+          restrictions: ['Small Craft Advisory', 'Lightning Risk'],
+          recommendations: ['Check weather before departure', 'Carry safety equipment', 'Monitor weather radio'],
         },
       };
     } catch (error) {
-      console.error("Error fetching weather alerts:", error);
+      console.error('Error fetching weather alerts:', error);
       throw error;
     }
   }
@@ -107,15 +86,15 @@ class WeatherAlertService {
         userId,
         preferences: {
           locations: preferences.locations || [],
-          alertTypes: preferences.alertTypes || ["ALL"],
-          notificationMethods: preferences.notificationMethods || ["EMAIL"],
-          threshold: preferences.threshold || "ALL",
+          alertTypes: preferences.alertTypes || ['ALL'],
+          notificationMethods: preferences.notificationMethods || ['EMAIL'],
+          threshold: preferences.threshold || 'ALL',
         },
-        status: "active",
+        status: 'active',
         created: new Date().toISOString(),
       };
     } catch (error) {
-      console.error("Error subscribing to alerts:", error);
+      console.error('Error subscribing to alerts:', error);
       throw error;
     }
   }
@@ -123,11 +102,7 @@ class WeatherAlertService {
   static async getMarineConditions(lat, lng) {
     try {
       return {
-        location: {
-          latitude: lat,
-          longitude: lng,
-          name: "Test Location",
-        },
+        location: { latitude: lat, longitude: lng, name: 'Test Location' },
         currentConditions: {
           waterTemp: 68,
           airTemp: 72,
@@ -135,32 +110,67 @@ class WeatherAlertService {
           pressure: 30.1,
           visibility: 10,
           windSpeed: 12,
-          windDirection: "NW",
+          windDirection: 'NW',
           waveHeight: 1.5,
           wavePeriod: 4,
-          waveDirection: "NE",
+          waveDirection: 'NE',
           timestamp: new Date().toISOString(),
         },
         tides: {
           next24Hours: [
-            {
-              type: "HIGH",
-              height: 5.2,
-              time: new Date().toISOString(),
-            },
-            {
-              type: "LOW",
-              height: 0.5,
-              time: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString(),
-            },
+            { type: 'HIGH', height: 5.2, time: new Date().toISOString() },
+            { type: 'LOW', height: 0.5, time: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString() },
           ],
         },
       };
     } catch (error) {
-      console.error("Error fetching marine conditions:", error);
+      console.error('Error fetching marine conditions:', error);
+      throw error;
+    }
+  }
+
+  static async getForecast(lat, lng, days = 7) {
+    try {
+      const forecast = [];
+      for (let i = 0; i < days; i++) {
+        forecast.push({
+          date: new Date(Date.now() + i * 86400000).toISOString(),
+          high: Math.floor(Math.random() * 20 + 65),
+          low: Math.floor(Math.random() * 15 + 45),
+          conditions: ['Sunny', 'Partly Cloudy', 'Cloudy', 'Rain'][Math.floor(Math.random() * 4)],
+          precipitation: Math.floor(Math.random() * 100),
+          windSpeed: Math.floor(Math.random() * 20),
+          humidity: Math.floor(Math.random() * 50 + 30),
+        });
+      }
+      return {
+        forecast,
+        metadata: {
+          location: { latitude: lat, longitude: lng },
+          duration: days,
+          units: { temperature: 'F', windSpeed: 'mph', precipitation: '%' },
+        },
+      };
+    } catch (error) {
+      console.error('Error fetching forecast:', error);
+      throw error;
+    }
+  }
+
+  static async getHistorical(lat, lng, date) {
+    try {
+      return {
+        date,
+        temperature: { high: 75, low: 55, average: 65 },
+        conditions: 'Sunny',
+        precipitation: 0,
+        location: { latitude: lat, longitude: lng },
+      };
+    } catch (error) {
+      console.error('Error fetching historical weather:', error);
       throw error;
     }
   }
 }
 
-module.exports = WeatherAlertService;
+export default WeatherAlertService;

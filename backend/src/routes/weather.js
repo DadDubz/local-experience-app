@@ -1,10 +1,13 @@
-const express = require("express");
+// backend/src/routes/weather.js
+
+import express from 'express';
+import WeatherAlertService from '../services/weatherAlertService.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
+
 const router = express.Router();
-const WeatherAlertService = require("../services/weatherAlertService");
-const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Get current weather alerts
-router.get("/alerts", async (req, res) => {
+router.get('/alerts', async (req, res) => {
   try {
     const { lat, lng, radius } = req.query;
     const alerts = await WeatherAlertService.getAlerts(
@@ -18,8 +21,8 @@ router.get("/alerts", async (req, res) => {
   }
 });
 
-// Subscribe to weather alerts
-router.post("/alerts/subscribe", authMiddleware, async (req, res) => {
+// Subscribe to weather alerts (requires authentication)
+router.post('/alerts/subscribe', authMiddleware, async (req, res) => {
   try {
     const subscription = await WeatherAlertService.subscribeToAlerts(
       req.user.id,
@@ -32,7 +35,7 @@ router.post("/alerts/subscribe", authMiddleware, async (req, res) => {
 });
 
 // Get marine conditions
-router.get("/marine", async (req, res) => {
+router.get('/marine', async (req, res) => {
   try {
     const { lat, lng } = req.query;
     const conditions = await WeatherAlertService.getMarineConditions(
@@ -46,7 +49,7 @@ router.get("/marine", async (req, res) => {
 });
 
 // Get forecast
-router.get("/forecast", async (req, res) => {
+router.get('/forecast', async (req, res) => {
   try {
     const { lat, lng, days } = req.query;
     const forecast = await WeatherAlertService.getForecast(
@@ -61,7 +64,7 @@ router.get("/forecast", async (req, res) => {
 });
 
 // Get historical weather
-router.get("/historical", async (req, res) => {
+router.get('/historical', async (req, res) => {
   try {
     const { lat, lng, date } = req.query;
     const historical = await WeatherAlertService.getHistorical(
@@ -75,4 +78,4 @@ router.get("/historical", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
