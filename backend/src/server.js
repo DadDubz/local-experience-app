@@ -1,4 +1,5 @@
-// src/server.js
+// backend/src/server.js
+
 import './instrument.js';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -16,25 +17,28 @@ import fileUpload from 'express-fileupload';
 import compression from 'compression';
 import morgan from 'morgan';
 
+// Import ES modules
 import connectDB from './config/db.js';
 connectDB();
 import { getRedisClient } from './middleware/redisClient.js';
 import authRoutes from './routes/authRoutes.js';
 import guidesRoutes from './routes/guides.js';
-import shopsRoutes from './routes/shops.js';       // now ESM
-import weatherRoutes from './routes/weather.js';   // now ESM
+import shopsRoutes from './routes/shops.js';
+import weatherRoutes from './routes/weather.js';
+import landsRoutes from './routes/lands.js';     // <-- import ES module instead of require
+import reportsRoutes from './routes/reports.js'; // ES module
 import WebSocketService from './services/websocketService.js';
 import ErrorHandler from './middleware/errorHandler.js';
 
-// Use createRequire to load CommonJS modules
+// Import your new ES‑module middleware
+import securityMiddleware from './middleware/security.js';
+import monitoringMiddleware from './middleware/monitor.js';
+
+// Use createRequire only for leftover CommonJS modules (logger.js)
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 
 const { logger, morganMiddleware } = require('./middleware/logger.js');
-const securityMiddleware           = require('./middleware/security.js');
-const monitoringMiddleware         = require('./middleware/monitor.js');
-const landsRoutes                  = require('./routes/lands.js');   // CJS
-const reportsRoutes                = require('./routes/reports.js'); // CJS
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = dirname(__filename);
@@ -42,8 +46,6 @@ const __dirname  = dirname(__filename);
 // Initialize Express and HTTP server
 const app    = express();
 const server = http.createServer(app);
-
-// … rest of your middleware and route setup remains unchanged …
 
 // Redis connection
 const initRedis = async () => {
@@ -61,23 +63,27 @@ initRedis();
 app.use(helmet());
 app.use(securityMiddleware.cors);
 app.use(securityMiddleware.customSecurity);
-app.use(rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max:     100,
-  message: "Too many requests from this IP, please try again later.",
-}));
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max:     100,
+    message: 'Too many requests from this IP, please try again later.',
+  }),
+);
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(compression());
 app.use(morgan('dev'));
 app.use(morganMiddleware);
-app.use(fileUpload({
-  useTempFiles: true,
-  tempFileDir:  '/tmp/',
-  limits:       { fileSize: 50 * 1024 * 1024 },
-  abortOnLimit: true,
-}));
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir:  '/tmp/',
+    limits:       { fileSize: 50 * 1024 * 1024 },
+    abortOnLimit: true,
+  }),
+);
 
 // Static
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -88,27 +94,28 @@ app.use(monitoringMiddleware.trackRequests);
 
 // Routes
 app.use('/api/auth',    authRoutes);
-app.use('/api/lands',   landsRoutes);
+app.use('/api/lands',   landsRoutes);   // now imported as ES module
 app.use('/api/guides',  guidesRoutes);
 app.use('/api/shops',   shopsRoutes);
 app.use('/api/weather', weatherRoutes);
-app.use('/api/reports', reportsRoutes);
+app.use('/api/reports', reportsRoutes); // ES module
 
 // WebSocket
 new WebSocketService(server);
 
 // MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser:        true,
-  useUnifiedTopology:     true,
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS:        45000,
-})
-.then(() => console.log('✅ Connected to MongoDB'))
-.catch((err) => console.error('❌ MongoDB connection error:', err));
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser:            true,
+    useUnifiedTopology:         true,
+    serverSelectionTimeoutMS:   5000,
+    socketTimeoutMS:            45000,
+  })
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-mongoose.connection.on('error',       err => logger.error('MongoDB error:', err));
-mongoose.connection.on('disconnected',     () => logger.warn('MongoDB disconnected'));
+mongoose.connection.on('error',        (err) => logger.error('MongoDB error:', err));
+mongoose.connection.on('disconnected', () => logger.warn('MongoDB disconnected'));
 
 // Monitoring Routes
 app.get('/metrics',   monitoringMiddleware.metricsEndpoint);
@@ -121,14 +128,16 @@ app.use(ErrorHandler.handleNotFound);
 app.use(ErrorHandler.handleError);
 
 // Server Events
-process.on('unhandledRejection', err => logger.error('Unhandled Rejection:', err));
-process.on('uncaughtException',  err => {
+process.on('unhandledRejection', (err) => logger.error('Unhandled Rejection:', err));
+process.on('uncaughtException',  (err) => {
   logger.error('Uncaught Exception:', err);
   server.close(() => process.exit(1));
 });
 process.on('SIGTERM', () => {
   logger.info('SIGTERM received');
-  server.close(() => mongoose.connection.close(false, () => process.exit(0)));
+  server.close(() =>
+    mongoose.connection.close(false, () => process.exit(0)),
+  );
 });
 
 // Start Server

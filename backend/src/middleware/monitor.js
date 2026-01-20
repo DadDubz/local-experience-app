@@ -1,45 +1,45 @@
-const promClient = require("prom-client");
-const responseTime = require("response-time");
+// backend/src/middleware/monitor.js
+
+import promClient from 'prom-client';
+import responseTime from 'response-time';
 
 // Initialize metrics
-const collectDefaultMetrics = promClient.collectDefaultMetrics;
-collectDefaultMetrics({ timeout: 5000 });
+promClient.collectDefaultMetrics({ timeout: 5000 });
 
-// Custom metrics
-const httpRequestDurationMicroseconds = new promClient.Histogram({
-  name: "http_request_duration_seconds",
-  help: "Duration of HTTP requests in seconds",
-  labelNames: ["method", "route", "status_code"],
-  buckets: [0.1, 0.5, 1, 2, 5],
+const httpRequestDurationSeconds = new promClient.Histogram({
+  name:       'http_request_duration_seconds',
+  help:       'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route', 'status_code'],
+  buckets:    [0.1, 0.5, 1, 2, 5],
 });
 
-const httpRequestsTotalCounter = new promClient.Counter({
-  name: "http_requests_total",
-  help: "Total number of HTTP requests",
-  labelNames: ["method", "route", "status_code"],
+const httpRequestsTotal = new promClient.Counter({
+  name:       'http_requests_total',
+  help:       'Total number of HTTP requests',
+  labelNames: ['method', 'route', 'status_code'],
 });
 
-const errorsTotalCounter = new promClient.Counter({
-  name: "errors_total",
-  help: "Total number of errors",
-  labelNames: ["type"],
+const errorsTotal = new promClient.Counter({
+  name:       'errors_total',
+  help:       'Total number of errors',
+  labelNames: ['type'],
 });
 
 const monitoringMiddleware = {
   // Track response time
   responseTime: responseTime((req, res, time) => {
     if (req.route) {
-      httpRequestDurationMicroseconds
+      httpRequestDurationSeconds
         .labels(req.method, req.route.path, res.statusCode)
-        .observe(time / 1000); // Convert to seconds
+        .observe(time / 1000); // convert to seconds
     }
   }),
 
   // Track requests
   trackRequests: (req, res, next) => {
-    res.on("finish", () => {
+    res.on('finish', () => {
       if (req.route) {
-        httpRequestsTotalCounter
+        httpRequestsTotal
           .labels(req.method, req.route.path, res.statusCode)
           .inc();
       }
@@ -49,14 +49,14 @@ const monitoringMiddleware = {
 
   // Error tracking
   trackErrors: (error, req, res, next) => {
-    errorsTotalCounter.labels(error.name || "unknown").inc();
+    errorsTotal.labels(error.name || 'unknown').inc();
     next(error);
   },
 
   // Metrics endpoint
   metricsEndpoint: async (req, res) => {
     try {
-      res.set("Content-Type", promClient.register.contentType);
+      res.set('Content-Type', promClient.register.contentType);
       const metrics = await promClient.register.metrics();
       res.send(metrics);
     } catch (error) {
@@ -67,12 +67,12 @@ const monitoringMiddleware = {
   // Health check endpoint
   healthCheck: (req, res) => {
     res.json({
-      status: "healthy",
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      memory: process.memoryUsage(),
+      status:     'healthy',
+      timestamp:  new Date().toISOString(),
+      uptime:     process.uptime(),
+      memory:     process.memoryUsage(),
     });
   },
 };
 
-module.exports = monitoringMiddleware;
+export default monitoringMiddleware;

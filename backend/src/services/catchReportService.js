@@ -1,13 +1,15 @@
+// backend/src/services/catchReportService.js
+
 class CatchReportService {
   static reports = []; // In-memory storage for demo
 
   static async submitReport(reportData) {
     try {
       const report = {
-        id: `report_${Date.now()}`,
+        id:        `report_${Date.now()}`,
         timestamp: new Date().toISOString(),
         ...reportData,
-        status: "submitted",
+        status:    'submitted',
       };
 
       // Validate report data
@@ -17,19 +19,19 @@ class CatchReportService {
       this.reports.push(report);
 
       return {
-        success: true,
+        success:  true,
         reportId: report.id,
-        message: "Catch report submitted successfully",
+        message:  'Catch report submitted successfully',
         report,
       };
     } catch (error) {
-      console.error("Error submitting catch report:", error);
+      console.error('Error submitting catch report:', error);
       throw error;
     }
   }
 
   static validateReport(report) {
-    const requiredFields = ["species", "location", "length", "weight"];
+    const requiredFields = ['species', 'location', 'length', 'weight'];
     for (const field of requiredFields) {
       if (!report[field]) {
         throw new Error(`Missing required field: ${field}`);
@@ -38,17 +40,17 @@ class CatchReportService {
 
     // Validate measurements
     if (isNaN(report.length) || report.length <= 0) {
-      throw new Error("Invalid length measurement");
+      throw new Error('Invalid length measurement');
     }
     if (isNaN(report.weight) || report.weight <= 0) {
-      throw new Error("Invalid weight measurement");
+      throw new Error('Invalid weight measurement');
     }
   }
 
   static async getReport(reportId) {
     const report = this.reports.find((r) => r.id === reportId);
     if (!report) {
-      throw new Error("Report not found");
+      throw new Error('Report not found');
     }
     return report;
   }
@@ -74,10 +76,10 @@ class CatchReportService {
     );
 
     return {
-      totalCatches: locationReports.length,
+      totalCatches:  locationReports.length,
       speciesCounts: this.countSpecies(locationReports),
-      averageSizes: this.calculateAverageSizes(locationReports),
-      bestTimes: this.analyzeBestTimes(locationReports),
+      averageSizes:  this.calculateAverageSizes(locationReports),
+      bestTimes:     this.analyzeBestTimes(locationReports),
     };
   }
 
@@ -115,7 +117,9 @@ class CatchReportService {
 
   static calculateAverage(numbers) {
     return numbers.length > 0
-      ? (numbers.reduce((sum, num) => sum + num, 0) / numbers.length).toFixed(2)
+      ? (
+          numbers.reduce((sum, num) => sum + num, 0) / numbers.length
+        ).toFixed(2)
       : 0;
   }
 
@@ -123,7 +127,7 @@ class CatchReportService {
     const catches = reports.map((report) => {
       const date = new Date(report.timestamp);
       return {
-        hour: date.getHours(),
+        hour:    date.getHours(),
         success: true, // Could be based on size/weight thresholds
       };
     });
@@ -135,7 +139,7 @@ class CatchReportService {
         return {
           hour,
           success: hourCatches.filter((c) => c.success).length,
-          total: hourCatches.length,
+          total:   hourCatches.length,
         };
       });
 
@@ -144,10 +148,10 @@ class CatchReportService {
       .sort((a, b) => b.success / b.total - a.success / a.total)
       .slice(0, 3)
       .map((h) => ({
-        hour: h.hour,
-        successRate: ((h.success / h.total) * 100).toFixed(1) + "%",
+        hour:        h.hour,
+        successRate: ((h.success / h.total) * 100).toFixed(1) + '%',
       }));
   }
 }
 
-module.exports = CatchReportService;
+export default CatchReportService;

@@ -1,10 +1,13 @@
-const express = require("express");
+// backend/src/routes/reports.js
+
+import express from 'express';
+import CatchReportService from '../services/catchReportService.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
+
 const router = express.Router();
-const CatchReportService = require("../services/catchReportService");
-const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Submit a catch report
-router.post("/", authMiddleware, async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   try {
     const report = await CatchReportService.submitReport({
       userId: req.user.id,
@@ -17,7 +20,7 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 // Get user's reports
-router.get("/my-reports", authMiddleware, async (req, res) => {
+router.get('/my-reports', authMiddleware, async (req, res) => {
   try {
     const reports = await CatchReportService.getUserReports(req.user.id);
     res.json(reports);
@@ -27,7 +30,7 @@ router.get("/my-reports", authMiddleware, async (req, res) => {
 });
 
 // Get reports for a location
-router.get("/location/:locationId", async (req, res) => {
+router.get('/location/:locationId', async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
     const reports = await CatchReportService.getLocationReports(
@@ -42,7 +45,7 @@ router.get("/location/:locationId", async (req, res) => {
 });
 
 // Get location stats
-router.get("/stats/:locationId", async (req, res) => {
+router.get('/stats/:locationId', async (req, res) => {
   try {
     const stats = await CatchReportService.getLocationStats(
       req.params.locationId,
@@ -54,7 +57,7 @@ router.get("/stats/:locationId", async (req, res) => {
 });
 
 // Upload report photos
-router.post("/:reportId/photos", authMiddleware, async (req, res) => {
+router.post('/:reportId/photos', authMiddleware, async (req, res) => {
   try {
     const photos = await CatchReportService.uploadPhotos(
       req.params.reportId,
@@ -66,4 +69,4 @@ router.post("/:reportId/photos", authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
