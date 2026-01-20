@@ -19,7 +19,6 @@ import connectDB from './config/db.js'; // ✅
 connectDB();
 import { getRedisClient } from './middleware/redisClient.js'; // ✅ correct
 
-
 import authRoutes from './routes/authRoutes.js';
 import landsRoutes from './routes/lands.js';
 import guidesRoutes from './routes/guides.js';
@@ -29,14 +28,20 @@ import reportsRoutes from './routes/reports.js';
 
 import WebSocketService from './services/websocketService.js';
 import ErrorHandler from './middleware/errorHandler.js';
-import { logger, morganMiddleware } from './middleware/logger.js';
 import securityMiddleware from './middleware/security.js';
-import monitoringMiddleware from './middleware/monitor.js';
+import { createRequire } from 'module';
+
+// Require the monitoring middleware (CommonJS module)
+const monitoringMiddleware = require('./middleware/monitor.js');
+const require = createRequire(import.meta.url);
+const { logger, morganMiddleware } = require('./middleware/logger.js');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Initialize Express and HTTP Server
+// (rest of your server setup code remains unchanged)
+
 const app = express();
 const server = http.createServer(app);
 

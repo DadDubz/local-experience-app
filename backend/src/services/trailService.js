@@ -92,4 +92,4 @@ class TrailService {
   }
 }
 
-module.exports = TrailService;
+export default TrailService;

@@ -138,4 +138,4 @@ class WeatherService {
     }
 }
 
-module.exports = WeatherService;
+export default WeatherService;

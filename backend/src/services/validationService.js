@@ -1,4 +1,6 @@
-class ValidationService {
+// src/services/validationService.js
+
+export default class ValidationService {
   static filterByActivities(results, activityList) {
     return results.filter((location) => {
       return activityList.some(
@@ -6,7 +8,7 @@ class ValidationService {
           location.activities &&
           location.activities
             .map((a) => a.toLowerCase())
-            .includes(activity.toLowerCase()),
+            .includes(activity.toLowerCase())
       );
     });
   }
@@ -18,7 +20,7 @@ class ValidationService {
           location.amenities &&
           location.amenities
             .map((a) => a.toLowerCase())
-            .includes(amenity.toLowerCase()),
+            .includes(amenity.toLowerCase())
       );
     });
   }
@@ -70,5 +72,3 @@ class ValidationService {
     return str.replace(/[^a-zA-Z0-9\s,-]/g, "").trim();
   }
 }
-
-module.exports = ValidationService;

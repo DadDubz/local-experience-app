@@ -52,4 +52,4 @@ const PublicLandsService = {
   },
 };
 
-module.exports = PublicLandsService;
+export default PublicLandsService;

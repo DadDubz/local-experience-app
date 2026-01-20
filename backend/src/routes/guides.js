@@ -1,7 +1,9 @@
-const express = require("express");
+// backend/src/routes/guides.js
+import express from 'express';
+import GuideService from '../services/guideService.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
+
 const router = express.Router();
-const GuideService = require("../services/guideService");
-const { authMiddleware } = require("../middleware/authMiddleware");
 
 // Get available guides
 router.get("/", async (req, res) => {
@@ -49,4 +51,4 @@ router.get("/:guideId/reviews", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

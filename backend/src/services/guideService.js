@@ -1,9 +1,9 @@
-const axios = require("axios");
+// backend/src/services/guideService.js
+// No need for axios right now since it's all mock data
 
 class GuideService {
   static async getAvailableGuides(lat, lng, date, radius = 50) {
     try {
-      // Mock guide data
       return {
         guides: [
           {
@@ -143,7 +143,6 @@ class GuideService {
 
   static async bookGuide(guideId, bookingDetails) {
     try {
-      // Mock booking confirmation
       return {
         bookingId: `booking_${Date.now()}`,
         guide: {
@@ -213,4 +212,4 @@ class GuideService {
   }
 }
 
-module.exports = GuideService;
+export default GuideService;
