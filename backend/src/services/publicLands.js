@@ -1,12 +1,12 @@
 // backend/src/services/publicLands.js
 
 import { safeGet } from '../utils/secureAxios.js';
-import { isWithinRadius } from '../utils/geoUtils.js';
 
-// base URL example
+// Example base URL for the public lands API
 const BASE_URL = 'https://api.publiclandsdata.com';
 
 const PublicLandsService = {
+  // Fetch national, state, and local lands concurrently
   async getAllPublicLands(lat, lng, radius = 50) {
     const [national, state, local] = await Promise.all([
       this.getNationalParks(lat, lng, radius),
