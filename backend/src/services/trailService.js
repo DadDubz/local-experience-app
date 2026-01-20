@@ -1,9 +1,11 @@
-const axios = require("axios");
+// backend/src/services/trailService.js
+
+import axios from 'axios';
 
 class TrailService {
+  // Fetch trails within a given radius (mock implementation)
   static async getTrails(lat, lng, radius = 50) {
     try {
-      // Mock trail data for testing
       return {
         trails: [
           {
@@ -13,10 +15,7 @@ class TrailService {
             length: "5.4",
             elevation: "1200",
             description: "Beautiful mountain trail with scenic views",
-            coordinates: {
-              latitude: lat,
-              longitude: lng,
-            },
+            coordinates: { latitude: lat, longitude: lng },
             features: ["Waterfall", "Wildlife", "Forest"],
             activities: ["Hiking", "Bird Watching", "Photography"],
           },
@@ -27,21 +26,15 @@ class TrailService {
             length: "2.8",
             elevation: "200",
             description: "Easy loop around the lake",
-            coordinates: {
-              latitude: lat,
-              longitude: lng,
-            },
+            coordinates: { latitude: lat, longitude: lng },
             features: ["Lake", "Wildlife", "Fishing Access"],
             activities: ["Walking", "Fishing", "Photography"],
           },
         ],
         metadata: {
           count: 2,
-          radius: radius,
-          searchLocation: {
-            lat,
-            lng,
-          },
+          radius,
+          searchLocation: { lat, lng },
         },
       };
     } catch (error) {
@@ -50,9 +43,9 @@ class TrailService {
     }
   }
 
+  // Fetch details for a single trail (mock implementation)
   static async getTrailDetails(trailId) {
     try {
-      // Mock trail details
       return {
         id: trailId,
         name: "Scenic Mountain Trail",

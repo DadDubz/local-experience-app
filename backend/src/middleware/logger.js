@@ -1,21 +1,22 @@
-const winston = require("winston");
-const morgan = require("morgan");
+// backend/src/middleware/logger.js
+import winston from 'winston';
+import morgan from 'morgan';
 
 // Create Winston logger
 const logger = winston.createLogger({
-  level: "info",
+  level: 'info',
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.json(),
   ),
   transports: [
-    new winston.transports.File({ filename: "logs/error.log", level: "error" }),
-    new winston.transports.File({ filename: "logs/combined.log" }),
+    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/combined.log' }),
   ],
 });
 
 // Add console transport in development
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
       format: winston.format.simple(),
@@ -24,7 +25,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Create Morgan middleware
-const morganMiddleware = morgan("combined", {
+const morganMiddleware = morgan('combined', {
   stream: {
     write: (message) => logger.info(message.trim()),
   },
@@ -36,13 +37,10 @@ const requestLogger = (req, res, next) => {
     method: req.method,
     url: req.url,
     ip: req.ip,
-    userAgent: req.get("user-agent"),
+    userAgent: req.get('user-agent'),
   });
   next();
 };
 
-module.exports = {
-  logger,
-  morganMiddleware,
-  requestLogger,
-};
+export { logger, morganMiddleware, requestLogger };
+export default { logger, morganMiddleware, requestLogger };
