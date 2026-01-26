@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 // Update the import path below to the actual relative path of AuthContext
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 import type { StackNavigationProp } from '@react-navigation/stack';
 
