@@ -7,11 +7,13 @@ export async function getRedisClient() {
   if (client) return client;
 
   client = createClient({
-    username: 'default',
+    // Read the username from the environment, fallback to 'default'
+    username: process.env.REDIS_USERNAME || 'default',
     password: process.env.REDIS_PASSWORD,
     socket: {
       host: process.env.REDIS_HOST,
       port: Number(process.env.REDIS_PORT),
+      // Enable TLS when REDIS_TLS is set to "true"
       tls: process.env.REDIS_TLS === 'true' ? {} : undefined,
     },
   });
