@@ -1,19 +1,18 @@
-// src/config/db.js
+// backend/src/config/db.js
 import mongoose from 'mongoose';
 
-const connectDB = async () => {
+export default async function connectDB() {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) throw new Error('MONGODB_URI is missing in environment variables');
+
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000,
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
     });
-    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
+    console.log('✅ Connected to MongoDB');
   } catch (err) {
-    console.error(`❌ MongoDB connection failed: ${err.message}`);
+    console.error('❌ MongoDB connection failed:', err.message);
     process.exit(1);
   }
-};
-
-export default connectDB;
+}
