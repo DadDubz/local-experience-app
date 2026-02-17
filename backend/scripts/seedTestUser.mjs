@@ -42,7 +42,7 @@ async function run() {
 
     console.log('Credentials for login:');
     console.log(`  email: ${TEST_USER_EMAIL}`);
-    console.log(`  password: ${TEST_USER_PASSWORD}`);
+    console.log('  password: (hidden, see TEST_USER_PASSWORD environment variable)');
   } catch (err) {
     console.error('❌ Failed to seed test user:', err?.message || err);
     process.exitCode = 1;
