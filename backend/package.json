@@ -7,9 +7,11 @@
     "dev": "nodemon src/server.js",
     "test": "jest",
     "test:integration": "jest --testPathPattern=integration",
-    "preinstall": "npx npm-force-resolutions"
+    "preinstall": "npx npm-force-resolutions",
+    "seed:test-user": "node scripts/seedTestUser.mjs"
   },
   "dependencies": {
+    "@sentry/node": "^8.55.0",
     "axios": "^1.8.4",
     "bcryptjs": "^2.4.3",
     "compression": "^1.8.0",

@@ -24,87 +24,57 @@ Built with:
 /tests # Unit and integration tests
 /workflows # GitHub Actions (CI/CD workflows)
 
-yaml
-Copy
-Edit
-
 ---
 
 ## 🚀 Getting Started
 
-### 1. Start Backend Server
+### 1) Backend
 
 ```bash
 cd backend
 npm install
 npm run dev
-```bash
-
-Server runs at <http://localhost:5000>
-
-```bash
-
-Connects to MongoDB Atlas and Redis Cloud
-
-```bash
-cd frontend
-npm install
-npx expo start
-
-Opens Expo Go (scan QR to test on Android/iOS)
-
-Or press w to open Web version on [http://localhost:8081](http://localhost:8081)
-
-🔧 Environment Variables
-
-Connects to MongoDB Atlas and Redis Cloud
-Opens Expo Go (scan QR to test on Android/iOS)
-
-Or press w to open Web version on <http://localhost:8081>
-App Icon, Splash Screen, Adaptive Icons → /frontend/src/assets/
-
-Web Favicon → /assets/favicon.jpeg
-Copy
-Edit
-eas build --platform android
-eas build --platform ios
-Web Deployment:
-
-Opens Expo Go (scan QR to test on Android/iOS)
-
-Or press w to open Web version on <http://localhost:8081>
-
-          ```
-
-App Icon, Splash Screen, Adaptive Icons → /frontend/src/assets/
-
-Web Favicon → /assets/favicon.jpeg
-
-📈 Monitoring
-Crash Monitoring: Sentry integrated (frontend + backend)
-
 ```
 
-App Icon, Splash Screen, Adaptive Icons → /frontend/src/assets/
+Backend runs on `http://localhost:5000`.
 
-Web Favicon → /assets/favicon.jpeg
-Copy
-Edit
-eas build --platform android
-eas build --platform ios
-Web Deployment:
+### 2) Frontend
 
-Deploy Expo Web to Vercel, Netlify, or your hosting provider.
+```bash
+npm install
+npx expo start
+```
 
-📄 License
-MIT License © Jagr Hofstedt
-
-Built with ❤️ for outdoor adventurers everywhere.
-
-yaml
-Copy
-Edit
+- Press `w` to open web (`http://localhost:8081`)
+- Or scan QR in Expo Go for iOS/Android
 
 ---
+
+## 🔐 Create a Test Profile (recommended)
+
+Use the provided seed command to create/update a reusable login account:
+
+```bash
+cd backend
+npm run seed:test-user
+```
+
+Optional environment overrides:
+
+- `TEST_USER_EMAIL` (default: `test@localexperience.app`)
+- `TEST_USER_PASSWORD` (default: `TestPass123!`)
+- `TEST_USER_NAME` (default: `Test Explorer`)
+
+You can also tap **Use test profile** on the login screen to autofill the default credentials.
+
+---
+
+## 📈 Monitoring
+
+- Crash Monitoring: Sentry integrated (frontend + backend)
+
+## 📄 License
+
+MIT License © Jagr Hofstedt
 
 Built with ❤️ for outdoor adventurers everywhere.
