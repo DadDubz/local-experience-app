@@ -1,7 +1,7 @@
 // backend/src/routes/lands.js
 import express from 'express';
 import TrailService from '../services/trailService.js';
-import FishingService from '../services/fishingService.js';
+import FishingService from '../services/fishingservice.js';
 import PublicLandsService from '../services/publicLands.js';
 import WeatherService from '../services/weatherService.js';
 import ValidationService from '../services/validationService.js';
