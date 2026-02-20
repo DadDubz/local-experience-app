@@ -2,13 +2,14 @@
 import mongoose from 'mongoose';
 
 export default async function connectDB() {
-  const uri = process.env.MONGODB_URI;
-  if (!uri) throw new Error('MONGODB_URI is missing in environment variables');
+  const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
 
-  // Optional but recommended: fail fast if Mongo is unreachable
+  if (!uri) {
+    throw new Error('Mongo URI is missing. Set MONGODB_URI (or MONGO_URI) in your environment variables.');
+  }
+
   mongoose.set('bufferCommands', false);
 
-  // Prevent attaching listeners multiple times during hot reloads
   if (!mongoose.connection.__hasListeners) {
     mongoose.connection.on('connected', () => {
       console.log('✅ MongoDB connected (mongoose)');
@@ -31,7 +32,6 @@ export default async function connectDB() {
       socketTimeoutMS: 45000,
     });
 
-    // keep this too — it’s a nice clear “startup succeeded” message
     console.log('✅ Connected to MongoDB');
   } catch (err) {
     console.error('❌ MongoDB connection failed:', err?.message || err);
